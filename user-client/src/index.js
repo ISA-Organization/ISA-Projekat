@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { Route, Link, HashRouter as Router, Routes } from 'react-router-dom';
 import { Navbar, Nav, Container} from 'react-bootstrap';
 import Home from './components/Home';
+import SignIn from './components/signin/SignIn';
+import SignUp from './components/signin/SignUp';
 
 class App extends React.Component{
 
@@ -15,14 +17,16 @@ class App extends React.Component{
             CSB
             </Navbar.Brand>
             <Nav className="mr-auto">
-                <Nav.Link as={Link} to="/login">
-                    Log in
+                <Nav.Link as={Link} to="/signin">
+                    Sign in
                 </Nav.Link>
             </Nav>
             </Navbar>
             <Container style={{paddingTop:"10px"}}>
               <Routes>
                 <Route path="/" element={<Home/>}/>
+                <Route path="/signin" element={<SignIn/>}/>
+                <Route path="/signup" element={<SignUp/>}/>
               </Routes>
             </Container>
           </Router>
