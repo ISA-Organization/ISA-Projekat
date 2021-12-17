@@ -8,7 +8,9 @@ class SignIn extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { username: "", password: "" };
+    let types =[ "Client", "House owner", "Boat owner", "Instructor"]
+
+    this.state = { username: "", password: "", registrationType: types };
   }
 
  
@@ -42,7 +44,17 @@ class SignIn extends React.Component {
                     <Form.Control type="text" name="city" placeholder="Enter city" onChange = {(e) => this.onInputChange(e)}/>
                 </Form.Group>
                 <br></br>
-                <Button variant="success">Sign up</Button>
+                <Form.Label htmlFor="type">Registration type</Form.Label>
+                    <Form.Control as="select">
+                        <option></option>
+                        {
+                            this.state.registrationType.map((p) => {
+                                return (
+                                    <option>{p}</option>
+                                )
+                            })
+                        }
+                    </Form.Control><br/>
             </Form> 
         </Col>
            
@@ -70,7 +82,9 @@ class SignIn extends React.Component {
             <Form.Label>Confirm password</Form.Label>
             <Form.Control type="password" name="password" placeholder="Enter password" onChange = {(e) => this.onInputChange(e)}/>
             </Form.Group>
-            
+            <br></br>
+            <br></br>
+            <Button variant="success">Sign up</Button>
           </Form>
         </Col>
       </Row>
