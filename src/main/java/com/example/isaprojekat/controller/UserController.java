@@ -93,7 +93,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserDTO>> get(){
         List<User> users = userService.findAll();
-        return new ResponseEntity<>(toUserDTO.convert(users.getContent()), HttpStatus.OK);
+        return new ResponseEntity<>(toUserDTO.convert(users), HttpStatus.OK);
     }
 
 //    @RequestMapping(value="/{id}", method = RequestMethod.PUT, params = "promenaLozinke")

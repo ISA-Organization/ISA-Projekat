@@ -32,7 +32,6 @@ public class JpaUserService implements UserService {
 
     @Override
     public User save(User user) {
-        user.setType(UserType.CLIENT);
         return userRepository.save(user);
     }
 

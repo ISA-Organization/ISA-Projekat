@@ -82,16 +82,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static class WebConfig implements WebMvcConfigurer {
         @Override
         public void addCorsMappings(CorsRegistry registry) {
-			/*registry.addMapping("/api/filmovi")
-					.allowedOrigins("http://localhost:3000")
-					.allowedMethods("OPTIONS", "HEAD", "GET", "PUT", "POST", "DELETE", "PATCH")
-					.allowCredentials(true)
-					.maxAge(3600);*/
-
             registry.addMapping("/**")
                     .allowedOrigins("*")
                     .allowedMethods("OPTIONS", "HEAD", "GET", "PUT", "POST", "DELETE", "PATCH")
-                    .allowCredentials(true)
+                    .allowCredentials(false)
                     .exposedHeaders("Total-Pages")
                     .maxAge(3600);
         }

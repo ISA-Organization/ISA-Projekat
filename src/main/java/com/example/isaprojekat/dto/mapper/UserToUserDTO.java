@@ -20,6 +20,7 @@ public class UserToUserDTO{
         dto.setAddress(user.getAddress());
         dto.setCity(user.getCity());
         dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setType(user.getType().toString());
 
         return dto;
     }

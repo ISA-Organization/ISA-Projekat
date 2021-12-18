@@ -2,6 +2,7 @@ package com.example.isaprojekat.dto.mapper;
 
 import com.example.isaprojekat.dto.UserDTO;
 import com.example.isaprojekat.model.User;
+import com.example.isaprojekat.model.UserType;
 import com.example.isaprojekat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +30,7 @@ public class UserDTOToUser {
         user.setName(dto.getName());
         user.setSurname(dto.getSurname());
         user.setPhoneNumber(dto.getPhoneNumber());
+        user.setType(UserType.valueOf(dto.getType()));
 
         return user;
     }
