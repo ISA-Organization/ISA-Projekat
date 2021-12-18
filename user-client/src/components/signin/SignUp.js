@@ -1,8 +1,8 @@
 import React from "react";
 import { Form, Button, Row, Col} from "react-bootstrap";
 import '../../index.css';
+import Axios from "../../utils/Axios";
 import {withNavigation} from '../../utils/routeconf.js'
-
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -10,13 +10,45 @@ class SignIn extends React.Component {
 
     let types =[ "Client", "House owner", "Boat owner", "Instructor"]
 
-    this.state = { username: "", password: "", registrationType: types };
+    let user ={
+      email: "",
+      name: "",
+      surname: "",
+      address: "",
+      city: "",
+      phoneNumber: "",
+      type: "",
+      password: "",
+      confirmPassword: ""
+    }
+
+    this.state = { username: "", password: "", registrationType: types, user: user };
   }
 
- 
-  goToSignUp(){
-    this.props.navigate('/signup')
+  signUp(){
+
+    Axios.post('/users', this.state.user)
+      .then(res=>{
+        alert("Registration successful!")
+          this.props.navigate('/signin')
+          window.location.reload()
+      })
+      .catch(err=>{
+        alert("Registration failed")
+        console.log(err)
+      })
   }
+
+  onInputChange(e){
+    const name = e.target.name
+    const value = e.target.value
+
+    let u = this.state.user
+
+    u[name] = value
+    this.setState({user: u})
+  }
+
   render() {
     return (
       <Row className="justify-content-center">
@@ -26,12 +58,12 @@ class SignIn extends React.Component {
                     <h2>Sign up</h2>
                     <br></br>
                     <Form.Label>First name</Form.Label>
-                    <Form.Control type="text" name="firstName" placeholder="Enter first name" onChange = {(e) => this.onInputChange(e)}/>
+                    <Form.Control type="text" name="name" placeholder="Enter first name" onChange = {(e) => this.onInputChange(e)}/>
                 </Form.Group>
                 <br></br>
                 <Form.Group>
                     <Form.Label>Last name</Form.Label>
-                    <Form.Control type="text" name="lastName" placeholder="Enter last name" onChange = {(e) => this.onInputChange(e)}/>
+                    <Form.Control type="text" name="surname" placeholder="Enter last name" onChange = {(e) => this.onInputChange(e)}/>
                 </Form.Group>
                 <br></br>
                 <Form.Group>
@@ -45,12 +77,12 @@ class SignIn extends React.Component {
                 </Form.Group>
                 <br></br>
                 <Form.Label htmlFor="type">Registration type</Form.Label>
-                    <Form.Control as="select">
+                    <Form.Control as="select" name="type" onChange={(e)=>this.onInputChange(e)}>
                         <option></option>
                         {
                             this.state.registrationType.map((p) => {
                                 return (
-                                    <option>{p}</option>
+                                    <option key = {Math.random()} value={p.toUpperCase().replace(/\s/g, '_')}>{p}</option>
                                 )
                             })
                         }
@@ -65,7 +97,7 @@ class SignIn extends React.Component {
                 <br></br>
                 <br></br>
                 <Form.Label>Telephone number</Form.Label>
-                <Form.Control type="text" name="telNumber" placeholder="Enter telephone number" onChange = {(e) => this.onInputChange(e)}/>
+                <Form.Control type="text" name="phoneNumber" placeholder="Enter telephone number" onChange = {(e) => this.onInputChange(e)}/>
             </Form.Group>
             <br></br>
             <Form.Group>
@@ -80,11 +112,11 @@ class SignIn extends React.Component {
             <br></br>
             <Form.Group>
             <Form.Label>Confirm password</Form.Label>
-            <Form.Control type="password" name="password" placeholder="Enter password" onChange = {(e) => this.onInputChange(e)}/>
+            <Form.Control type="password" name="confirmPassword" placeholder="Enter password" onChange = {(e) => this.onInputChange(e)}/>
             </Form.Group>
             <br></br>
             <br></br>
-            <Button variant="success">Sign up</Button>
+            <Button variant="success" onClick={() => this.signUp()}>Sign up</Button>
           </Form>
         </Col>
       </Row>
