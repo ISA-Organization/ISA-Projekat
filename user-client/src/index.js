@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Link, HashRouter as Router, Routes } from 'react-router-dom';
-import { Navbar, Nav, Container} from 'react-bootstrap';
+import { Navbar, Nav, Container, Button} from 'react-bootstrap';
 import Home from './components/Home';
 import SignIn from './components/signin/SignIn';
 import SignUp from './components/signin/SignUp';
+import { logout } from './services/auth';
 
 class App extends React.Component{
 
   render(){
+    const jwt = window.localStorage['jwt'];
+
       return(
         <div>
           <Router>
@@ -17,10 +20,14 @@ class App extends React.Component{
             CSB
             </Navbar.Brand>
             <Nav className="mr-auto">
-                <Nav.Link as={Link} to="/signin">
-                    Sign in
+                <Nav.Link as={Link} to="/nesto">
+                    Nesto
                 </Nav.Link>
             </Nav>
+            {window.localStorage['jwt'] ? 
+                    <Button onClick = {()=>logout()}>Sign out</Button> :
+                    <Nav.Link as={Link} to="/signin">Sign in</Nav.Link>
+                }
             </Navbar>
             <Container style={{paddingTop:"10px"}}>
               <Routes>
@@ -32,6 +39,7 @@ class App extends React.Component{
           </Router>
         </div>
       )
+      
   }
 }
 

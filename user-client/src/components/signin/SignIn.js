@@ -2,19 +2,31 @@ import React from "react";
 import { Form, Button, Row, Col} from "react-bootstrap";
 import '../../index.css';
 import {withNavigation} from '../../utils/routeconf.js'
-
+import {login} from '../../services/auth';
 
 class SignIn extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { username: "", password: "" };
+    this.state = { email: "", password: "" };
   }
 
  
   goToSignUp(){
     this.props.navigate('/signup')
   }
+
+  onInputChange(event) {
+    let control = event.target;
+
+    let name = control.name;
+    let value = control.value;
+
+    let change = {};
+    change[name] = value;
+    this.setState(change);
+  }
+
   render() {
     return (
       <Row className="justify-content-center">
@@ -31,7 +43,7 @@ class SignIn extends React.Component {
             <Form.Control type="password" name="password" placeholder="Enter password" onChange = {(e) => this.onInputChange(e)}/>
             </Form.Group>
             <br></br>
-            <Button variant="success">Sign in</Button>
+            <Button variant="success" onClick={() => {login(this.state.email, this.state.password)}}>Sign in</Button>
             <p>Don't have an account?<Button variant="link" onClick={() => this.goToSignUp()}>Signup</Button></p>
           </Form>
         </Col>
