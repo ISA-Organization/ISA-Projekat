@@ -23,7 +23,7 @@ class App extends React.Component{
             </Navbar.Brand>
             <Nav className="mr-auto">
               {
-                role == 'BOAT_OWNER' ?
+                role == 'HOUSE_OWNER' ?
                 [<Nav.Link as={Link} to="/houses">
                 Houses
                 </Nav.Link>]

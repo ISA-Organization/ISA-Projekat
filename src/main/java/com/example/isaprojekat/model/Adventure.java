@@ -10,7 +10,7 @@ public class Adventure {
     private Instructor instructor;
     //images
     private Integer maxPeople;
-    private List<Reservation> possibleReservations = new ArrayList<>();
+    private List<QuickReservation> possibleReservations = new ArrayList<>();
     private String rules;
     private String fishingEquipment;
     private Double price;

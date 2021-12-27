@@ -16,4 +16,7 @@ public interface HouseService {
 
     House delete(Long id);
 
+    House update(House house);
+
+    List<House> find(String name, String address, Double price);
 }

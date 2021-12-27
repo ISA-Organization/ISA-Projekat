@@ -9,6 +9,7 @@ import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.service.HouseService;
 import com.example.isaprojekat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -76,29 +77,22 @@ public class HouseController {
     }
 
 //    //@PreAuthorize("hasAnyRole('KORISNIK', 'ADMIN')")
-//    @GetMapping
-//    public ResponseEntity<List<HouseDTO>> getAll(
-//            @RequestParam(required = false) String naziv,
-//            @RequestParam(required = false) String mestoOdrzavanja,
-//            @RequestParam(required = false) String datumPocetka,
-//            @RequestParam(required = false) String datumZavrsetka,
-//            @RequestParam(required = false) Long formatId,
-//            @RequestParam(required = false) String formatNaziv,
-//            @RequestParam(value = "pageNo", defaultValue = "0") int pageNo){
-//
-//        Page<Takmicenje> page;
-//
-//        if(mestoOdrzavanja != null || formatId != null) {
-//            page = service.find(mestoOdrzavanja, formatId, pageNo);
-//        }
-//        else {
-//            page = service.findAll(pageNo);
-//        }
-//
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Total-Pages", Integer.toString(page.getTotalPages()));
-//
-//        return new ResponseEntity<>(toDTO.convert(page.getContent()), headers, HttpStatus.OK);
-//    }
+    @GetMapping
+    public ResponseEntity<List<HouseDTO>> getAll(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) Double price,
+            @RequestParam(required = false) Long ownerId){
+
+        List<House> houses;
+
+        if(name != null || ownerId != null || address != null || price != null) {
+            houses = houseService.find(name, address, price);
+        }
+        else {
+            houses = houseService.findAll();
+        }
+
+        return new ResponseEntity<>(toHouseDTO.convert(houses), HttpStatus.OK);
+    }
 }

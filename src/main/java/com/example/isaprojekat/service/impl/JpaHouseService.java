@@ -38,4 +38,28 @@ public class JpaHouseService implements HouseService {
         }
         return null;
     }
+
+    @Override
+    public House update(House house) {
+        return repository.save(house);
+    }
+
+    @Override
+    public List<House> find(String name, String address, Double price) {
+        if(price == null){
+            price = Double.MAX_VALUE;
+        }
+
+        if(name != null && address == null){
+            return repository.findByNameContainingAndPriceLessThanEqual(name, price);
+        }
+        else if(name != null && address != null){
+            return repository.findByNameAndAddressContainingAndPriceLessThanEqual(name, address, price);
+        }
+        else if (name ==null && address != null){
+            return repository.findByAddressContainingAndPriceLessThanEqual(address, price);
+        }
+
+        return repository.findByPriceLessThanEqual(price);
+    }
 }
