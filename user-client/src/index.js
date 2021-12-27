@@ -5,12 +5,14 @@ import { Navbar, Nav, Container, Button} from 'react-bootstrap';
 import Home from './components/Home';
 import SignIn from './components/signin/SignIn';
 import SignUp from './components/signin/SignUp';
+import Houses from './components/house/Houses';
 import { logout } from './services/auth';
 
 class App extends React.Component{
 
   render(){
     const jwt = window.localStorage['jwt'];
+    const role = window.localStorage['role'];
 
       return(
         <div>
@@ -20,13 +22,18 @@ class App extends React.Component{
             CSB
             </Navbar.Brand>
             <Nav className="mr-auto">
-                <Nav.Link as={Link} to="/nesto">
-                    Nesto
-                </Nav.Link>
+              {
+                role == 'BOAT_OWNER' ?
+                [<Nav.Link as={Link} to="/houses">
+                Houses
+                </Nav.Link>]
+                : null
+              }
+                
             </Nav>
             {window.localStorage['jwt'] ? 
-                    <Button onClick = {()=>logout()}>Sign out</Button> :
-                    <Nav.Link as={Link} to="/signin">Sign in</Nav.Link>
+                    <Nav.Link onClick = {()=>logout()} style={{color: "purple"}}>Sign out</Nav.Link> :
+                    <Nav.Link as={Link} to="/signin" style={{color: "purple"}}>Sign in</Nav.Link>
                 }
             </Navbar>
             <Container style={{paddingTop:"10px"}}>
@@ -34,6 +41,7 @@ class App extends React.Component{
                 <Route path="/" element={<Home/>}/>
                 <Route path="/signin" element={<SignIn/>}/>
                 <Route path="/signup" element={<SignUp/>}/>
+                <Route path="/houses" element={<Houses/>}/>
               </Routes>
             </Container>
           </Router>
