@@ -16,7 +16,7 @@ public class Boat {
     private String description;
     //boat images
     private Integer maxPeople;
-    private List<Reservation> possibleReservations = new ArrayList<>();
+    private List<QuickReservation> possibleReservations = new ArrayList<>();
     private String boatingRules;
     private String fishingEquipment;
     private Double price;

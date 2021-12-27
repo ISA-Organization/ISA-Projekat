@@ -1,51 +1,20 @@
-package com.example.isaprojekat.model;
+package com.example.isaprojekat.dto;
 
-import javax.persistence.*;
-import java.util.*;
-@Entity
-public class House {
+import javax.persistence.Column;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class HouseDTO {
+
     private Long id;
-    @Column
     private String name;
-    @Column
     private String address;
-    @Column
     private String description;
-    //house images
-    @Column
     private Integer numberOfRooms;
-    @Column
     private Integer numberOfBeds;
-    //
-    @Column
     private String houseRules;
-    @Column
     private Double price;
-    @Column
     private String additionalContent;
-    @ManyToOne
-    private User owner;
-    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
-    private List<QuickReservation> quickReservations = new ArrayList<>(); //slobodni termini
-
-    public House(){
-
-    }
-
-    public House(Long id, String name, String address, String description, Integer numberOfRooms, Integer numberOfBeds, String houseRules, Double price, String additionalContent) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.description = description;
-        this.numberOfRooms = numberOfRooms;
-        this.numberOfBeds = numberOfBeds;
-        this.houseRules = houseRules;
-        this.price = price;
-        this.additionalContent = additionalContent;
-    }
+    private Long ownerId;
+    private String ownerName;
 
     public Long getId() {
         return id;
@@ -119,19 +88,19 @@ public class House {
         this.additionalContent = additionalContent;
     }
 
-    public User getOwner() {
-        return owner;
+    public Long getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
-    public List<QuickReservation> getQuickReservations() {
-        return quickReservations;
+    public String getOwnerName() {
+        return ownerName;
     }
 
-    public void setQuickReservations(List<QuickReservation> quickReservations) {
-        this.quickReservations = quickReservations;
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }

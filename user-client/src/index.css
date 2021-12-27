@@ -53,10 +53,10 @@ body, html {
   }
 
 .bg {
-  background-image: url("./images/homePage.jpg");
+  /* background-image: url("./images/homePage.jpg");
   height: 100vh;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; */
 
   }

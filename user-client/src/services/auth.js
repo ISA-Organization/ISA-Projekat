@@ -15,7 +15,10 @@ export const login = async function(email, password){
     }catch(error){
         console.log(error);
     }
+    
     window.location.assign("/");
+    
+    
 }
 
 export const logout = function(){
