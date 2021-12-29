@@ -7,6 +7,8 @@ import SignIn from './components/signin/SignIn';
 import SignUp from './components/signin/SignUp';
 import Houses from './components/house/Houses';
 import { logout } from './services/auth';
+import EditHouse from './components/house/EditHouse';
+import AddHouse from './components/house/AddHouse';
 
 class App extends React.Component{
 
@@ -42,6 +44,8 @@ class App extends React.Component{
                 <Route path="/signin" element={<SignIn/>}/>
                 <Route path="/signup" element={<SignUp/>}/>
                 <Route path="/houses" element={<Houses/>}/>
+                <Route path="/houses/add" element={<AddHouse/>}/>
+                <Route path="/houses/:id" element={<EditHouse/>}/>
               </Routes>
             </Container>
           </Router>
