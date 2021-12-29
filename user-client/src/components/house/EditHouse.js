@@ -80,7 +80,7 @@ class EditHouse extends React.Component{
 
     render(){
         return(
-            <Row>
+            <Row className="justify-content-center">
                 <Col xs="12" sm="10" md="8" >
                 
                         <h1 style={{color: "black"}}>House profile</h1>

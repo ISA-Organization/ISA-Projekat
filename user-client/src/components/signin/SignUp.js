@@ -54,8 +54,8 @@ class SignIn extends React.Component {
       <Row className="justify-content-center">
         <Col md={4}>
             <Form>
+                <h2 className="display-4">Sign up</h2>
                 <Form.Group>
-                    <h2>Sign up</h2>
                     <br></br>
                     <Form.Label>First name</Form.Label>
                     <Form.Control type="text" name="name" placeholder="Enter first name" onChange = {(e) => this.onInputChange(e)}/>
@@ -76,6 +76,21 @@ class SignIn extends React.Component {
                     <Form.Control type="text" name="city" placeholder="Enter city" onChange = {(e) => this.onInputChange(e)}/>
                 </Form.Group>
                 <br></br>
+                <Form.Label>Telephone number</Form.Label>
+                <div className="form-inline">
+                  <Form.Control type="text" name="phoneNumber" placeholder="Enter telephone number" onChange = {(e) => this.onInputChange(e)}/>  
+                  <Button variant="success" onClick={() => this.signUp()} style={{marginLeft: "10%"}}>Sign up</Button>
+                </div>
+            </Form> 
+        </Col>
+           
+        <Col md={4}>        
+          <Form>
+            <Form.Group>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
                 <Form.Label htmlFor="type">Registration type</Form.Label>
                     <Form.Control as="select" name="type" onChange={(e)=>this.onInputChange(e)}>
                         <option></option>
@@ -86,18 +101,7 @@ class SignIn extends React.Component {
                                 )
                             })
                         }
-                    </Form.Control><br/>
-            </Form> 
-        </Col>
-           
-        <Col md={4}>        
-          <Form>
-            <Form.Group>
-                <br></br>
-                <br></br>
-                <br></br>
-                <Form.Label>Telephone number</Form.Label>
-                <Form.Control type="text" name="phoneNumber" placeholder="Enter telephone number" onChange = {(e) => this.onInputChange(e)}/>
+                    </Form.Control>
             </Form.Group>
             <br></br>
             <Form.Group>
@@ -114,9 +118,6 @@ class SignIn extends React.Component {
             <Form.Label>Confirm password</Form.Label>
             <Form.Control type="password" name="confirmPassword" placeholder="Enter password" onChange = {(e) => this.onInputChange(e)}/>
             </Form.Group>
-            <br></br>
-            <br></br>
-            <Button variant="success" onClick={() => this.signUp()}>Sign up</Button>
           </Form>
         </Col>
       </Row>

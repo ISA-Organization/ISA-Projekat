@@ -31,6 +31,13 @@ class App extends React.Component{
                 </Nav.Link>]
                 : null
               }
+              {
+                role == 'HOUSE_OWNER' ?
+                [<Nav.Link as={Link} to="/reservations">
+                Reservations
+                </Nav.Link>]
+                : null
+              }
                 
             </Nav>
             {window.localStorage['jwt'] ? 
