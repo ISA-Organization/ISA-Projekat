@@ -30,21 +30,26 @@ class SignIn extends React.Component {
   render() {
     return (
       <Row className="justify-content-center">
-        <Col md={4}>      
+        <Col md={6}>      
           <Form>
-           <h2>Sign in</h2>  
-            <Form.Group>
-              <Form.Label>Email</Form.Label>
+           <h2 className="display-4" style={{marginLeft: "15%"}}>Sign in</h2>  
+           <br></br>
+            <div className="form-inline" style={{marginBottom: "5%"}}>
+              <Form.Label style={{marginRight: "5%", width: "70px"}}>Email</Form.Label>
               <Form.Control type="text" name="email" placeholder="Enter email" onChange = {(e) => this.onInputChange(e)}/>
-            </Form.Group>
-            <Form.Group>
+            </div>
+
+            <div className="form-inline">
+              <Form.Label style={{marginRight: "5%", width: "70px", textAlign: "left"}}>Password</Form.Label>
+              <Form.Control type="password" name="password" placeholder="Enter password" onChange = {(e) => this.onInputChange(e)}/>
+            </div>
+            
             <br></br>
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" name="password" placeholder="Enter password" onChange = {(e) => this.onInputChange(e)}/>
-            </Form.Group>
-            <br></br>
-            <Button variant="success" onClick={() => {login(this.state.email, this.state.password)}}>Sign in</Button>
-            <p>Don't have an account?<Button variant="link" onClick={() => this.goToSignUp()}>Signup</Button></p>
+            <Button variant="success" onClick={() => {login(this.state.email, this.state.password)}} style={{marginLeft: "45%", marginBottom: "3%"}}>Sign in</Button>
+            <div className="form-inline">
+              <Form.Label style={{marginLeft: "10%"}}>Don't have an account?</Form.Label>
+              <Button variant="link" onClick={() => this.goToSignUp()}>Signup</Button>
+            </div>
           </Form>
         </Col>
       </Row>

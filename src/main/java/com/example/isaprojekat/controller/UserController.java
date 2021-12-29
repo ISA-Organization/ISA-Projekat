@@ -97,29 +97,6 @@ public class UserController {
         return new ResponseEntity<>(toUserDTO.convert(users), HttpStatus.OK);
     }
 
-//    @RequestMapping(value="/{id}", method = RequestMethod.PUT, params = "promenaLozinke")
-//    public ResponseEntity<Void> changePassword(@PathVariable Long id, @RequestBody KorisnikPromenaLozinkeDto dto){
-//        // ova metoda se "okida" kada se primi PUT /korisnici?promenaLozinke
-//        // pogrešno bi bilo mapirati na npr. PUT /korisnici/lozinke, pošto "lozinka" nije punopravan REST resurs!
-//
-//        if(!dto.getLozinka().equals(dto.getPonovljenaLozinka())) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//
-//        boolean rezultat;
-//        try {
-//            rezultat = korisnikService.changePassword(id, dto);
-//        } catch (EntityNotFoundException e) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//        if(rezultat) {
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        }else {
-//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//        }
-//    }
-
     @PreAuthorize("permitAll()")
     @RequestMapping(path = "/auth", method = RequestMethod.POST)
     public ResponseEntity authenticateUser(@RequestBody UserAuthenticationDTO dto) {
