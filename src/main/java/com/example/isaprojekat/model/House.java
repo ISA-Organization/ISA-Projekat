@@ -3,6 +3,7 @@ package com.example.isaprojekat.model;
 import javax.persistence.*;
 import java.util.*;
 @Entity
+@Table(name = "houses")
 public class House {
 
     @Id
@@ -24,18 +25,25 @@ public class House {
     private String houseRules;
     @Column
     private Double price;
-    @Column
-    private String additionalContent;
+    @ManyToMany
+    @JoinTable(
+            name = "house_content",
+            joinColumns = @JoinColumn(name = "house_id"),
+            inverseJoinColumns = @JoinColumn(name = "content_id"))
+    private List<AdditionalContent> houseContent;
     @ManyToOne
     private User owner;
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
     private List<QuickReservation> quickReservations = new ArrayList<>(); //slobodni termini
 
+    @Column
+    private String additionalContent;
+
     public House(){
 
     }
 
-    public House(Long id, String name, String address, String description, Integer numberOfRooms, Integer numberOfBeds, String houseRules, Double price, String additionalContent) {
+    public House(Long id, String name, String address, String description, Integer numberOfRooms, Integer numberOfBeds, String houseRules, Double price) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -44,7 +52,6 @@ public class House {
         this.numberOfBeds = numberOfBeds;
         this.houseRules = houseRules;
         this.price = price;
-        this.additionalContent = additionalContent;
     }
 
     public Long getId() {
@@ -111,13 +118,6 @@ public class House {
         this.price = price;
     }
 
-    public String getAdditionalContent() {
-        return additionalContent;
-    }
-
-    public void setAdditionalContent(String additionalContent) {
-        this.additionalContent = additionalContent;
-    }
 
     public User getOwner() {
         return owner;
@@ -133,5 +133,21 @@ public class House {
 
     public void setQuickReservations(List<QuickReservation> quickReservations) {
         this.quickReservations = quickReservations;
+    }
+
+    public List<AdditionalContent> getHouseContent() {
+        return houseContent;
+    }
+
+    public void setHouseContent(List<AdditionalContent> houseContent) {
+        this.houseContent = houseContent;
+    }
+
+    public String getAdditionalContent() {
+        return additionalContent;
+    }
+
+    public void setAdditionalContent(String additionalContent) {
+        this.additionalContent = additionalContent;
     }
 }
