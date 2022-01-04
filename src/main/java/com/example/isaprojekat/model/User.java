@@ -29,9 +29,11 @@ public class User {
     private List<Client> clientList;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<HouseOwner> houseOwnerList;
+    @Column
+    private Boolean is_approved;
 
     public User(Long id, String name, String surname, String address, String city, String phoneNumber,
-                String email, String password, UserType type) {
+                String email, String password, UserType type, Boolean isApproved) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -41,6 +43,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.type = type;
+        this.is_approved = isApproved;
     }
 
     public User() {
@@ -83,6 +86,10 @@ public class User {
         return type;
     }
 
+    public Boolean getIs_approved() {
+        return is_approved;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -117,5 +124,9 @@ public class User {
 
     public void setType(UserType type) {
         this.type = type;
+    }
+
+    public void setIs_approved(Boolean isApproved) {
+        this.is_approved = isApproved;
     }
 }

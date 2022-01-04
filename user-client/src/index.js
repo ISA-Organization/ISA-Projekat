@@ -9,7 +9,7 @@ import Houses from './components/house/Houses';
 import { logout } from './services/auth';
 import EditHouse from './components/house/EditHouse';
 import AddHouse from './components/house/AddHouse';
-
+import UserList from './components/admin/UserList';
 class App extends React.Component{
 
   render(){
@@ -24,6 +24,13 @@ class App extends React.Component{
             CSB
             </Navbar.Brand>
             <Nav className="mr-auto">
+              {
+                role == 'ADMIN' ?
+                [<Nav.Link as={Link} to="/users">
+                  Users
+                  </Nav.Link>]
+                  : null
+              }
               {
                 role == 'HOUSE_OWNER' ?
                 [<Nav.Link as={Link} to="/houses">
@@ -50,6 +57,7 @@ class App extends React.Component{
                 <Route path="/" element={<Home/>}/>
                 <Route path="/signin" element={<SignIn/>}/>
                 <Route path="/signup" element={<SignUp/>}/>
+                <Route path="/users" element={<UserList/>}/>
                 <Route path="/houses" element={<Houses/>}/>
                 <Route path="/houses/add" element={<AddHouse/>}/>
                 <Route path="/houses/:id" element={<EditHouse/>}/>

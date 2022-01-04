@@ -6,6 +6,7 @@ import com.example.isaprojekat.dto.UserRegistrationDTO;
 import com.example.isaprojekat.dto.mapper.UserDTOToUser;
 import com.example.isaprojekat.dto.mapper.UserToUserDTO;
 import com.example.isaprojekat.model.User;
+import com.example.isaprojekat.model.UserType;
 import com.example.isaprojekat.security.TokenUtils;
 import com.example.isaprojekat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,9 +74,11 @@ public class UserController {
         if(!id.equals(dto.getId())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         User user = toUser.convert(dto);
-
+        if(user.getType().equals(UserType.HOUSE_OWNER) || user.getType().equals(UserType.BOAT_OWNER) || user.getType().equals(UserType.INSTRUCTOR)){
+            //sendEmail(user.getEmail());
+        }
+        user.setIs_approved(true);
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)),HttpStatus.OK);
     }
 

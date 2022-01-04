@@ -25,6 +25,10 @@ public class UserDTO {
 
     private String type;
 
+
+
+    private Boolean isApproved;
+
     public Long getId() {
         return id;
     }
@@ -88,4 +92,8 @@ public class UserDTO {
     public void setType(String type) {
         this.type = type;
     }
+
+    public Boolean getApproved() { return isApproved; }
+
+    public void setApproved(Boolean approved) {  isApproved = approved;}
 }
