@@ -34,8 +34,10 @@ INSERT INTO additional_content (id, name, price) VALUES (3, 'parking', 15);
 
 INSERT INTO clients (id, user_id) VALUES (1, 2);
 
-INSERT INTO quick_reservation (id, start, end, max_people, price, booked, house_id, client_id) VALUES (1, '2022-01-22 11:00:00', '2022-01-25 11:00:00', 3, 100, false, 1, null);
-INSERT INTO quick_reservation (id, start, end, max_people, price, booked, house_id, client_id) VALUES (2, '2022-01-30 11:00:00', '2022-02-03 11:00:00', 2, 110, true, 1, 1);
+INSERT INTO house_owners(id, user_id) VALUES(1, 5);
+
+INSERT INTO quick_house_reservation (id, start, end, max_people, price, booked, house_id, client_id, house_owner_id) VALUES (1, '2022-01-22 11:00:00', '2022-01-25 11:00:00', 3, 100, false, 1, null, 1);
+INSERT INTO quick_house_reservation (id, start, end, max_people, price, booked, house_id, client_id, house_owner_id) VALUES (2, '2022-01-30 11:00:00', '2022-02-03 11:00:00', 2, 110, true, 1, 1, 1);
 
 
 INSERT INTO reservation_content (content_id, reservation_id) VALUES (1, 1);

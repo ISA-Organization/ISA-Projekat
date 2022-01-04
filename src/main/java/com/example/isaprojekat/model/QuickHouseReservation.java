@@ -6,7 +6,7 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
-public class QuickReservation {
+public class QuickHouseReservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +35,9 @@ public class QuickReservation {
 
     @ManyToOne
     private Client client;
+
+    @ManyToOne
+    private HouseOwner houseOwner;
 
     public Long getId() {
         return id;
@@ -106,5 +109,13 @@ public class QuickReservation {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public HouseOwner getHouseOwner() {
+        return houseOwner;
+    }
+
+    public void setHouseOwner(HouseOwner houseOwner) {
+        this.houseOwner = houseOwner;
     }
 }

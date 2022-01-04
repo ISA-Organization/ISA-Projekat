@@ -1,7 +1,6 @@
 package com.example.isaprojekat.model;
 
 import javax.persistence.*;
-import java.lang.ref.PhantomReference;
 import java.util.List;
 @Entity
 @Table(name = "clients")
@@ -13,7 +12,7 @@ public class Client{
     @ManyToOne
     private User user;
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    private List<QuickReservation> quickReservations;
+    private List<QuickHouseReservation> quickHouseReservations;
 //    private Double points;
 //    private String benefits;
 //    private Integer numberOfPenalties;
@@ -39,11 +38,11 @@ public class Client{
         this.user = user;
     }
 
-    public List<QuickReservation> getQuickReservations() {
-        return quickReservations;
+    public List<QuickHouseReservation> getQuickReservations() {
+        return quickHouseReservations;
     }
 
-    public void setQuickReservations(List<QuickReservation> quickReservations) {
-        this.quickReservations = quickReservations;
+    public void setQuickReservations(List<QuickHouseReservation> quickHouseReservations) {
+        this.quickHouseReservations = quickHouseReservations;
     }
 }

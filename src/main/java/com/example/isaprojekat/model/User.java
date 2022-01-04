@@ -27,6 +27,8 @@ public class User {
     private UserType type;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Client> clientList;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<HouseOwner> houseOwnerList;
 
     public User(Long id, String name, String surname, String address, String city, String phoneNumber,
                 String email, String password, UserType type) {
