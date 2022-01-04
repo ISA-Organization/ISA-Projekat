@@ -34,10 +34,13 @@ public class House {
     @ManyToOne
     private User owner;
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
-    private List<QuickReservation> quickReservations = new ArrayList<>(); //slobodni termini
+    private List<QuickReservation> quickReservations = new ArrayList<>();
 
     @Column
     private String additionalContent;
+
+    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
+    private List<UnavailablePeriod> unavailablePeriods = new ArrayList<>();
 
     public House(){
 
@@ -149,5 +152,13 @@ public class House {
 
     public void setAdditionalContent(String additionalContent) {
         this.additionalContent = additionalContent;
+    }
+
+    public List<UnavailablePeriod> getUnavailablePeriods() {
+        return unavailablePeriods;
+    }
+
+    public void setUnavailablePeriods(List<UnavailablePeriod> unavailablePeriods) {
+        this.unavailablePeriods = unavailablePeriods;
     }
 }

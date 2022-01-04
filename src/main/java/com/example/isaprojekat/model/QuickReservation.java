@@ -33,8 +33,8 @@ public class QuickReservation {
     @ManyToOne
     private House house;
 
-//    @ManyToOne
-//    private User user;
+    @ManyToOne
+    private Client client;
 
     public Long getId() {
         return id;
@@ -98,5 +98,13 @@ public class QuickReservation {
 
     public void setHouse(House house) {
         this.house = house;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }
