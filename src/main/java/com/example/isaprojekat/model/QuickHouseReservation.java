@@ -6,7 +6,7 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
-public class QuickReservation {
+public class QuickHouseReservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,11 +16,13 @@ public class QuickReservation {
     @Column
     private LocalDateTime end;
     @Column
-    private LocalDateTime saleLastDay;
-    @Column
     private Integer maxPeople;
-    @Column
-    private String additionalContent;
+    @ManyToMany
+    @JoinTable(
+            name = "reservation_content",
+            joinColumns = @JoinColumn(name = "reservation_id"),
+            inverseJoinColumns = @JoinColumn(name = "content_id"))
+    private List<AdditionalContent> content;
     @Column
     private Double price;
     //private String place; //kad instruktor zakazuje avanturu
@@ -30,6 +32,12 @@ public class QuickReservation {
 
     @ManyToOne
     private House house;
+
+    @ManyToOne
+    private Client client;
+
+    @ManyToOne
+    private HouseOwner houseOwner;
 
     public Long getId() {
         return id;
@@ -55,28 +63,12 @@ public class QuickReservation {
         this.end = end;
     }
 
-    public LocalDateTime getSaleLastDay() {
-        return saleLastDay;
-    }
-
-    public void setSaleLastDay(LocalDateTime saleLastDay) {
-        this.saleLastDay = saleLastDay;
-    }
-
     public Integer getMaxPeople() {
         return maxPeople;
     }
 
     public void setMaxPeople(Integer maxPeople) {
         this.maxPeople = maxPeople;
-    }
-
-    public String getAdditionalContent() {
-        return additionalContent;
-    }
-
-    public void setAdditionalContent(String additionalContent) {
-        this.additionalContent = additionalContent;
     }
 
     public Double getPrice() {
@@ -93,5 +85,37 @@ public class QuickReservation {
 
     public void setBooked(Boolean booked) {
         this.booked = booked;
+    }
+
+    public List<AdditionalContent> getContent() {
+        return content;
+    }
+
+    public void setContent(List<AdditionalContent> content) {
+        this.content = content;
+    }
+
+    public House getHouse() {
+        return house;
+    }
+
+    public void setHouse(House house) {
+        this.house = house;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public HouseOwner getHouseOwner() {
+        return houseOwner;
+    }
+
+    public void setHouseOwner(HouseOwner houseOwner) {
+        this.houseOwner = houseOwner;
     }
 }

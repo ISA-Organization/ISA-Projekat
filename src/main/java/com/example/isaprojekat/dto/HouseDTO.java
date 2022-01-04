@@ -1,6 +1,7 @@
 package com.example.isaprojekat.dto;
 
 import javax.persistence.Column;
+import java.util.List;
 
 public class HouseDTO {
 
