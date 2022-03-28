@@ -1,20 +1,94 @@
 import React from "react";
 import '../../index.css';
 import Axios from "../../utils/Axios";
-import {Button, Card, CardGroup} from 'react-bootstrap';
+import {Button, Card, CardGroup, Modal} from 'react-bootstrap';
 
-import {withParams, withNavigation} from '../../utils/routeconf'
+import {withParams, withNavigation} from '../../utils/routeconf';
+import { useEffect, useState } from "react";
+import ListItem from "./ListItem";
+// function PopUpToggle(){
+    
+//     const [show, setShow] = useState(false);
+//     const handleClose = () => setShow(false);
+//     const handleShow = () => setShow(true);
 
+//     return (
+//         <>
+//         <Modal show={show} onHide={handleClose}>
+//         <Modal.Header closeButton>
+//             <Modal.Title>Reason for declining</Modal.Title>
+//         </Modal.Header>
+//         <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+//         <Modal.Footer>
+//           <Button variant="secondary" onClick={handleClose}>
+//             Close
+//           </Button>
+//           <Button variant="primary" onClick={handleClose}>
+//             Save Changes
+//           </Button>
+//         </Modal.Footer>
+//         </Modal></>
+//     )
+// }
+
+
+// const UserList = () => {
+//     const [users, setUsers] = useState([])
+//     const [modal, setModal] = useState(false)
+
+//     useEffect(() =>{
+//         let config = { params:{}}
+
+//         Axios.get('/users', config)
+//             .then(res => {
+//                 console.log(res)
+//                 setUsers(res.data)
+//             })
+//             .catch( err =>{
+//                  console.log(err)
+//             })
+//     }, [])
+
+    
+
+//     return( 
+//         <div className="container py-5">
+//         <div className="row text-center text-white mb-5">
+//             <div className="col-lg-7 mx-auto">
+//                 <h1 className="display-4" style={{ color: 'black' }}>
+//                     Accounts waiting for conformation
+//                 </h1>
+//             </div>
+//         </div>
+//         <div className="row">
+//             <CardGroup>
+//                 {users &&
+//                     users.map((user) => (
+//                         <ListItem
+//                             key={user.id}
+//                             u={user}
+//                             setModal={setModal}
+//                             modal={modal}
+//                         />
+//                     ))}
+//             </CardGroup>
+//         </div>
+//     </div>
+//     )
+// }
 
 class UserList extends React.Component{
     
+ 
+
     constructor(props){
         super(props)
         this.state = {
-            users: []
+            users: [],
+            declined: false
         }
     }
-
+  
     componentDidMount(){
         this.getUsers()
     }
@@ -32,7 +106,6 @@ class UserList extends React.Component{
             })
     }
     approveAccount(id, u){
-        let config = {params:{}}
         console.log(id) 
         console.log(u) 
         Axios.put('/users/' + id, u)
@@ -45,7 +118,8 @@ class UserList extends React.Component{
             console.log(err)
         })
     }
-    
+    togglePopUpButton(){
+    }
     renderUsers(){
         return this.state.users.map((u) => {
             return(
@@ -58,7 +132,15 @@ class UserList extends React.Component{
                                     Grad: {u.city}, Ulica: {u.address}, Broj Telefona: {u.phoneNumber}, 
                                     Email: {u.email}
                                 </Card.Text>
-                            {u.approved === false ? <Button variant="primary"  onClick={()=> this.approveAccount(u.id, u)}>Approve</Button>: null}
+                            {u.approved === false ?
+                            <div>
+                            <Button variant="primary" class="mr-5" onClick={()=> this.approveAccount(u.id, u)}>Approve</Button>
+                            <Button variant="danger" onClick={()=> this.togglePopUpButton()}>Decline</Button>
+                            </div>
+                            : null
+                             } 
+
+                           
                         </Card.Body>
                     </Card>
                 </li> 
@@ -83,4 +165,6 @@ class UserList extends React.Component{
         )
     }
 }
+
+
 export default withNavigation(withParams(UserList));

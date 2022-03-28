@@ -10,6 +10,7 @@ import { logout } from './services/auth';
 import EditHouse from './components/house/EditHouse';
 import AddHouse from './components/house/AddHouse';
 import UserList from './components/admin/UserList';
+import ProfilePage from './components/ProfilePage';
 class App extends React.Component{
 
   render(){
@@ -25,21 +26,21 @@ class App extends React.Component{
             </Navbar.Brand>
             <Nav className="mr-auto">
               {
-                role == 'ADMIN' ?
+                role === 'ADMIN' ?
                 [<Nav.Link as={Link} to="/users">
                   Users
                   </Nav.Link>]
                   : null
               }
               {
-                role == 'HOUSE_OWNER' ?
+                role === 'HOUSE_OWNER' ?
                 [<Nav.Link as={Link} to="/houses">
                 Houses
                 </Nav.Link>]
                 : null
               }
               {
-                role == 'HOUSE_OWNER' ?
+                role === 'HOUSE_OWNER' ?
                 [<Nav.Link as={Link} to="/reservations">
                 Reservations
                 </Nav.Link>]
@@ -48,7 +49,12 @@ class App extends React.Component{
                 
             </Nav>
             {window.localStorage['jwt'] ? 
-                    <Nav.Link onClick = {()=>logout()} style={{color: "purple"}}>Sign out</Nav.Link> :
+              <Nav.Link as={Link} style={{color: "purple"}} to="/profile">Go to your profile</Nav.Link>
+              :null
+            }
+            {window.localStorage['jwt'] ? 
+                    <Nav.Link onClick = {()=>logout()} style={{color: "purple"}}>Sign out</Nav.Link>
+                    :
                     <Nav.Link as={Link} to="/signin" style={{color: "purple"}}>Sign in</Nav.Link>
                 }
             </Navbar>
@@ -61,6 +67,7 @@ class App extends React.Component{
                 <Route path="/houses" element={<Houses/>}/>
                 <Route path="/houses/add" element={<AddHouse/>}/>
                 <Route path="/houses/:id" element={<EditHouse/>}/>
+                <Route path="/profile" element={<ProfilePage/>}/>
               </Routes>
             </Container>
           </Router>
