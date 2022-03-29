@@ -1,21 +1,21 @@
 
-INSERT INTO users (id, name, surname, address, city, phone_number, email, password, type)
+INSERT INTO users (id, name, surname, address, city, phone_number, email, password, type, is_approved)
               VALUES (1,'Nikola','Kojic', 'Loncarska 8', 'Novi Sad', '063563965','nikola@gmail.com',
-                      '$2a$10$oD0Cq/HgF.l/u5yUH3KdUuSl77Npw16xZuGHYbp10u9kO2onfEzC.','ADMIN');
-INSERT INTO users (id, name, surname, address, city, phone_number, email, password, type)
+                      '$2a$10$oD0Cq/HgF.l/u5yUH3KdUuSl77Npw16xZuGHYbp10u9kO2onfEzC.','ADMIN', true);
+INSERT INTO users (id, name, surname, address, city, phone_number, email, password, type, is_approved)
 VALUES (2,'Tamara','Simic', 'Narodnog fronta 4', 'Novi Sad', '065856963','tamara@gmail.com',
-        '$2a$10$sNthvdW72VgeILPubJHBwOrU2ZS02gG3useXcoar6GYNXECR7kO/u','CLIENT');
-INSERT INTO users (id, name, surname, address, city, phone_number, email, password, type)
+        '$2a$10$sNthvdW72VgeILPubJHBwOrU2ZS02gG3useXcoar6GYNXECR7kO/u','CLIENT', false);
+INSERT INTO users (id, name, surname, address, city, phone_number, email, password, type, is_approved)
 VALUES (3,'Petar','Babic', 'Milovana Glisica 8', 'Novi Sad', '062356985','petar@gmail.com',
-        '$2a$10$EpkjTnNV7ZqHrng4vOCzreDjg6otsEukyo2wNf7NIHVXHUua1RdJi','BOAT_OWNER');
+        '$2a$10$EpkjTnNV7ZqHrng4vOCzreDjg6otsEukyo2wNf7NIHVXHUua1RdJi','BOAT_OWNER', false);
 
-INSERT INTO users (id, name, surname, address, city, phone_number, email, password, type)
+INSERT INTO users (id, name, surname, address, city, phone_number, email, password, type, is_approved)
 VALUES (4,'Mina','Mazic', 'Uspenska 2', 'Novi Sad', '061452985','mina@maildrop.cc',
-        '$2a$10$5.U37Aej4DRMW34OOEa4Ue0bn22e4../SXGOoScD03asBeFNTPSoi','INSTRUCTOR');
+        '$2a$10$5.U37Aej4DRMW34OOEa4Ue0bn22e4../SXGOoScD03asBeFNTPSoi','INSTRUCTOR', false);
 
-INSERT INTO users (id, name, surname, address, city, phone_number, email, password, type)
+INSERT INTO users (id, name, surname, address, city, phone_number, email, password, type, is_approved)
 VALUES (5,'Ivan','Radic', 'Ilije Bircanina 6', 'Novi Sad', '065896741','ivan@maildrop.cc',
-        '$2a$10$wb7Y7laMk38mI.uteywP6utx6Hw6OeYYhCePjASPWHVU/BtRisKoy','HOUSE_OWNER');
+        '$2a$10$wb7Y7laMk38mI.uteywP6utx6Hw6OeYYhCePjASPWHVU/BtRisKoy','HOUSE_OWNER', true);
 
 INSERT INTO houses (id, name, address, number_of_rooms, number_of_beds,price,description, house_rules, additional_content, owner_id)
 VALUES (1, "Vila Grand", "Dunavska 3", "5", "2", 150,

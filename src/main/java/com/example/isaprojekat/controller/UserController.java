@@ -6,8 +6,10 @@ import com.example.isaprojekat.dto.UserRegistrationDTO;
 import com.example.isaprojekat.dto.mapper.UserDTOToUser;
 import com.example.isaprojekat.dto.mapper.UserToUserDTO;
 import com.example.isaprojekat.model.User;
+import com.example.isaprojekat.model.UserType;
 import com.example.isaprojekat.security.TokenUtils;
 import com.example.isaprojekat.service.UserService;
+import com.example.isaprojekat.service.impl.JpaEmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,6 +36,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JpaEmailSender emailSender;
 
     @Autowired
     private UserDTOToUser toUser;
@@ -73,9 +78,12 @@ public class UserController {
         if(!id.equals(dto.getId())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         User user = toUser.convert(dto);
-
+        if(user.getType().equals(UserType.HOUSE_OWNER) || user.getType().equals(UserType.BOAT_OWNER) || user.getType().equals(UserType.INSTRUCTOR)){
+            System.out.println("SALJEM EMAIL");
+            emailSender.sendSimpleMessage("isaprojekat3@gmail.com", "Registracija", "Uspesno ste registrovani");
+        }
+        user.setIs_approved(true);
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)),HttpStatus.OK);
     }
 
