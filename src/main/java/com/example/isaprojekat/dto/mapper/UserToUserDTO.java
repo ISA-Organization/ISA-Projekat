@@ -15,7 +15,7 @@ public class UserToUserDTO{
 
         dto.setId(user.getId());
         dto.setEmail(user.getEmail());
-        dto.setName(user.getName());
+        dto.setName(user.getFirstName());
         dto.setSurname(user.getSurname());
         dto.setAddress(user.getAddress());
         dto.setCity(user.getCity());

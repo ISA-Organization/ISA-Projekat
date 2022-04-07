@@ -27,10 +27,10 @@ public class UserDTOToUser {
         user.setEmail(dto.getEmail());
         user.setAddress(dto.getAddress());
         user.setCity(dto.getCity());
-        user.setName(dto.getName());
+        user.setFirstName(dto.getName());
         user.setSurname(dto.getSurname());
-        user.setPhoneNumber(dto.getPhoneNumber());
         user.setType(UserType.valueOf(dto.getType()));
+        user.setPhoneNumber(dto.getPhoneNumber());
         user.setIs_approved(dto.getApproved());
         return user;
     }

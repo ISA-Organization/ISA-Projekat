@@ -1,48 +1,30 @@
 package com.example.isaprojekat.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 @Entity
 @Table(name = "clients")
-public class Client{
+@Getter
+@Setter
+public class Client extends  User{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToOne
-    private User user;
+
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<QuickHouseReservation> quickHouseReservations;
-//    private Double points;
-//    private String benefits;
-//    private Integer numberOfPenalties;
 
+    public Client(Long id, String name, String surname, String address, String city, String phoneNumber,
+                  String email, String password, Boolean isApproved) {
+        super(id, name, surname, address, city, phoneNumber, email, password, isApproved, UserType.CLIENT);
+        this.quickHouseReservations = new ArrayList<QuickHouseReservation>();
+    }
 
     public Client(){
+    super();
 
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<QuickHouseReservation> getQuickReservations() {
-        return quickHouseReservations;
-    }
-
-    public void setQuickReservations(List<QuickHouseReservation> quickHouseReservations) {
-        this.quickHouseReservations = quickHouseReservations;
-    }
 }
