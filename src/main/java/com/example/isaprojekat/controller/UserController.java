@@ -6,8 +6,10 @@ import com.example.isaprojekat.dto.UserRegistrationDTO;
 import com.example.isaprojekat.dto.mapper.UserDTOToUser;
 import com.example.isaprojekat.dto.mapper.UserToUserDTO;
 import com.example.isaprojekat.model.User;
+import com.example.isaprojekat.model.UserType;
 import com.example.isaprojekat.security.TokenUtils;
 import com.example.isaprojekat.service.UserService;
+import com.example.isaprojekat.service.impl.JpaEmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -51,6 +53,9 @@ public class UserController {
     private TokenUtils tokenUtils;
 
     @Autowired
+    private JpaEmailSender emailSender;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PostMapping
@@ -76,6 +81,41 @@ public class UserController {
         return new ResponseEntity<>(id,HttpStatus.OK);
     }
 
+    @PutMapping(value = "approve/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> approveUser(@PathVariable Long id, @Valid @RequestBody UserDTO dto){
+        if(!id.equals(dto.getId())){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        User user = toUser.convert(dto);
+
+        if(user.getType().equals(UserType.HOUSE_OWNER) ||
+           user.getType().equals(UserType.BOAT_OWNER)  ||
+           user.getType().equals(UserType.INSTRUCTOR)) {
+
+            emailSender.sendSimpleMessage(user.getEmail(), "Registracija", "Uspesno ste registrovani");
+        }
+        user.setIs_approved(true);
+        return new ResponseEntity<>(toUserDTO.convert(userService.save(user)),HttpStatus.OK);
+    }
+
+    @PutMapping(value = "decline/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> approveUser(@PathVariable Long id, @Valid @RequestBody String declineReason){
+        if(!userService.findOne(id).isPresent()){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        User user = userService.findOne(id).get();
+
+        if(user.getType().equals(UserType.HOUSE_OWNER) ||
+                user.getType().equals(UserType.BOAT_OWNER)  ||
+                user.getType().equals(UserType.INSTRUCTOR)) {
+
+            emailSender.sendSimpleMessage(user.getEmail(), "Registracija odbijena", declineReason);
+        }
+        user.setIs_approved(false);
+        return new ResponseEntity<>(toUserDTO.convert(userService.save(user)),HttpStatus.OK);
+    }
+
+
     @PutMapping(value= "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO dto){
 
@@ -99,6 +139,9 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
+
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> get(){
