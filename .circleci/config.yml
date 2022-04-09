@@ -8,7 +8,8 @@ jobs:
       - checkout
       - run:
           name: Analyze on SonarCloud
-          command: mvn verify sonar:sonar -Dsonar.projectKey=ISA-Organization_ISA-Projekat
+
+          command: mvn verify sonar:sonar -Dsonar.projectKey=ISA-Organization_ISA-Projekat -DskipTests
 
 workflows:
   main:
