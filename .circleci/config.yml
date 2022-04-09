@@ -1,4 +1,6 @@
 version: 2.1
+orbs: 
+  commitlint: conventional-changelog/commitlint@1.0.0
 
 jobs:
   build:
@@ -7,6 +9,9 @@ jobs:
     steps:
       - checkout
       - run:
+         name: Build
+         command: mvn -B -DskipTests clean package
+      - run:
           name: Analyze on SonarCloud
 
           command: mvn verify sonar:sonar -Dsonar.projectKey=ISA-Organization_ISA-Projekat -DskipTests
@@ -14,5 +19,6 @@ jobs:
 workflows:
   main:
     jobs:
+      - commitlint/lint
       - build:
           context: SonarCloud
