@@ -24,7 +24,7 @@ public class HouseToHouseDTO {
         dto.setNumberOfRooms(h.getNumberOfRooms());
         dto.setNumberOfBeds(h.getNumberOfBeds());
         dto.setOwnerId(h.getOwner().getId());
-        dto.setOwnerName(h.getOwner().getName());
+        dto.setOwnerName(h.getOwner().getFirstName());
 
         return dto;
     }
