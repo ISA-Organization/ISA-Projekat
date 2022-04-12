@@ -1,6 +1,6 @@
 package com.example.isaprojekat.service.impl;
 
-import com.example.isaprojekat.model.QuickHouseReservation;
+import com.example.isaprojekat.model.HouseReservation;
 import com.example.isaprojekat.repository.QuickHouseReservationRepository;
 import com.example.isaprojekat.service.QuickHouseResService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +15,22 @@ public class JpaQuickHouseResService implements QuickHouseResService {
     private QuickHouseReservationRepository repository;
 
     @Override
-    public Optional<QuickHouseReservation> findAllByOwner(Long ownerId) {
+    public Optional<HouseReservation> findAllByOwner(Long ownerId) {
         return repository.findByHouseOwnerId(ownerId);
     }
 
     @Override
-    public List<QuickHouseReservation> findAll() {
+    public List<HouseReservation> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public QuickHouseReservation save(QuickHouseReservation h) {
+    public HouseReservation save(HouseReservation h) {
         return repository.save(h);
     }
 
     @Override
-    public QuickHouseReservation update(QuickHouseReservation h) {
+    public HouseReservation update(HouseReservation h) {
         return repository.save(h);
     }
 }

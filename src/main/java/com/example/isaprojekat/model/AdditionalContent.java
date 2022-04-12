@@ -14,7 +14,7 @@ public class AdditionalContent {
     @Column
     private Double price;
     @ManyToMany(mappedBy = "content")
-    private List<QuickHouseReservation> reservations;
+    private List<HouseReservation> reservations;
     @ManyToMany(mappedBy = "houseContent")
     private List<House> houses;
 
@@ -50,11 +50,11 @@ public class AdditionalContent {
         this.id = id;
     }
 
-    public List<QuickHouseReservation> getReservations() {
+    public List<HouseReservation> getReservations() {
         return reservations;
     }
 
-    public void setReservations(List<QuickHouseReservation> reservations) {
+    public void setReservations(List<HouseReservation> reservations) {
         this.reservations = reservations;
     }
 }

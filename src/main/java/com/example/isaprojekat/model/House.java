@@ -34,7 +34,7 @@ public class House {
     @ManyToOne
     private User owner;
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
-    private List<QuickHouseReservation> quickHouseReservations = new ArrayList<>();
+    private List<HouseReservation> quickHouseReservations = new ArrayList<>();
 
     @Column
     private String additionalContent;
@@ -130,11 +130,11 @@ public class House {
         this.owner = owner;
     }
 
-    public List<QuickHouseReservation> getQuickReservations() {
+    public List<HouseReservation> getQuickReservations() {
         return quickHouseReservations;
     }
 
-    public void setQuickReservations(List<QuickHouseReservation> quickHouseReservations) {
+    public void setQuickReservations(List<HouseReservation> quickHouseReservations) {
         this.quickHouseReservations = quickHouseReservations;
     }
 
