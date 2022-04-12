@@ -1,17 +1,16 @@
 package com.example.isaprojekat.service;
 
-import com.example.isaprojekat.model.House;
-import com.example.isaprojekat.model.QuickHouseReservation;
+import com.example.isaprojekat.model.HouseReservation;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface QuickHouseResService {
-    Optional<QuickHouseReservation> findAllByOwner(Long ownerId);
+    Optional<HouseReservation> findAllByOwner(Long ownerId);
 
-    List<QuickHouseReservation> findAll();
+    List<HouseReservation> findAll();
 
-    QuickHouseReservation save(QuickHouseReservation h);
+    HouseReservation save(HouseReservation h);
 
-    QuickHouseReservation update(QuickHouseReservation h);
+    HouseReservation update(HouseReservation h);
 }

@@ -6,7 +6,8 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
-public class QuickHouseReservation {
+@Table(name = "house_reservations")
+public class HouseReservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,19 +26,19 @@ public class QuickHouseReservation {
     private List<AdditionalContent> content;
     @Column
     private Double price;
-    //private String place; //kad instruktor zakazuje avanturu
-    //private List<SpecialOffer> offerList = new ArrayList<>();
+
     @Column
-    private Boolean booked;
+    private Boolean cancelled;
 
     @ManyToOne
     private House house;
 
     @ManyToOne
-    private Client client;
+    private HouseOwner houseOwner;
+
 
     @ManyToOne
-    private HouseOwner houseOwner;
+    private Client client;
 
     public Long getId() {
         return id;
@@ -79,12 +80,12 @@ public class QuickHouseReservation {
         this.price = price;
     }
 
-    public Boolean getBooked() {
-        return booked;
+    public Boolean getCancelled() {
+        return cancelled;
     }
 
-    public void setBooked(Boolean booked) {
-        this.booked = booked;
+    public void setCancelled(Boolean cancelled) {
+        this.cancelled = cancelled;
     }
 
     public List<AdditionalContent> getContent() {
@@ -111,11 +112,4 @@ public class QuickHouseReservation {
         this.client = client;
     }
 
-    public HouseOwner getHouseOwner() {
-        return houseOwner;
-    }
-
-    public void setHouseOwner(HouseOwner houseOwner) {
-        this.houseOwner = houseOwner;
-    }
 }
