@@ -11,6 +11,7 @@ import EditHouse from './components/house/EditHouse';
 import AddHouse from './components/house/AddHouse';
 import UserList from './components/admin/UserList';
 import ProfilePage from './components/ProfilePage';
+import ClientComplaint from './components/client/ClientComplaint';
 class App extends React.Component{
 
   render(){
@@ -46,6 +47,62 @@ class App extends React.Component{
                 </Nav.Link>]
                 : null
               }
+                            {
+                role === 'CLIENT' ?
+                [<Nav.Link as={Link} to="/client-houses">
+                Houses
+                </Nav.Link>]
+                : null
+              }
+              {
+                role === 'CLIENT' ?
+                [<Nav.Link as={Link} to="/client-boats">
+                Boats
+                </Nav.Link>]
+                : null
+              }
+              {
+                role === 'CLIENT' ?
+                [<Nav.Link as={Link} to="/client-instructors">
+                Instructors
+                </Nav.Link>]
+                : null
+              }
+              {
+                role === 'CLIENT' ?
+                [<Nav.Link as={Link} to="/client-history">
+                History
+                </Nav.Link>]
+                : null
+              }
+              {
+                role === 'CLIENT' ?
+                [<Nav.Link as={Link} to="/client-reservations">
+                Reservations
+                </Nav.Link>]
+                : null
+              }
+              {
+                role === 'CLIENT' ?
+                [<Nav.Link as={Link} to="/client-penalties">
+                Penalties
+                </Nav.Link>]
+                : null
+              }
+              {
+                role === 'CLIENT' ?
+                [<Nav.Link as={Link} to="/client-subscriptions">
+                Subscriptions
+                </Nav.Link>]
+                : null
+              }
+              {
+                role === 'CLIENT' ?
+                [<Nav.Link as={Link} to="/client-complaints">
+                Complaints
+                </Nav.Link>]
+                : null
+              }
                 
             </Nav>
             {window.localStorage['jwt'] ? 
@@ -68,6 +125,7 @@ class App extends React.Component{
                 <Route path="/houses/add" element={<AddHouse/>}/>
                 <Route path="/houses/:id" element={<EditHouse/>}/>
                 <Route path="/profile" element={<ProfilePage/>}/>
+                <Route path="/client-complaint" element={<ClientComplaint/>}/>
               </Routes>
             </Container>
           </Router>
