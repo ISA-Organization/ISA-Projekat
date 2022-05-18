@@ -1,18 +1,18 @@
 package com.example.isaprojekat.service;
 
 import com.example.isaprojekat.model.AdditionalContent;
-import com.example.isaprojekat.model.Admin;
+import com.example.isaprojekat.model.BoatOwner;
 import com.example.isaprojekat.model.User;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface AdminService {
-    Optional<Admin> findOne(Long id);
+public interface BoatOwnerService {
+    Optional<BoatOwner> findOne(Long id);
 
-    List<Admin> findAll();
+    List<BoatOwner> findAll();
 
-    Admin save(Admin admin);
+    BoatOwner save(BoatOwner boatOwner);
 
     Boolean delete(Long id);
 }

@@ -1,9 +1,20 @@
 package com.example.isaprojekat.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AdditionalContent {
 
     @Id
@@ -13,48 +24,13 @@ public class AdditionalContent {
     private String name;
     @Column
     private Double price;
-    @ManyToMany(mappedBy = "content")
-    private List<HouseReservation> reservations;
-    @ManyToMany(mappedBy = "houseContent")
-    private List<House> houses;
+    @ManyToMany(mappedBy = "additionalContents", fetch = FetchType.EAGER)
+    private Set<Reservation> reservations = new HashSet<>();
+    @ManyToMany(mappedBy = "additionalContents", fetch = FetchType.EAGER)
+    private Set<QuickActionReservation> quickActionReservations = new HashSet<>();
 
-    public AdditionalContent(){
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "rentingEntity_id")
+    private RentingEntity rentingEntity;
 
-    }
-    public AdditionalContent(String name, Double price) {
-        this.name = name;
-        this.price = price;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<HouseReservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<HouseReservation> reservations) {
-        this.reservations = reservations;
-    }
 }

@@ -71,6 +71,9 @@ public class UserController {
 
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)), HttpStatus.CREATED);
     }
+
+
+
     @DeleteMapping(value="/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id){
         var isRemoved = userService.delete(id);
@@ -128,9 +131,11 @@ public class UserController {
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)),HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> get(@PathVariable Long id){
-        Optional<User> user = userService.findOne(id);
+    @GetMapping(value="/profile")
+    public ResponseEntity<UserDTO> getLoggedInUser(){
+        var loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println(loggedInUser);
+        Optional<User> user = userService.findbyEmail(loggedInUser);
 
         if(user.isPresent()) {
             return new ResponseEntity<>(toUserDTO.convert(user.get()), HttpStatus.OK);

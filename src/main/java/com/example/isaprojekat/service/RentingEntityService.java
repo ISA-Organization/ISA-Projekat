@@ -1,18 +1,18 @@
 package com.example.isaprojekat.service;
 
 import com.example.isaprojekat.model.AdditionalContent;
-import com.example.isaprojekat.model.Admin;
+import com.example.isaprojekat.model.RentingEntity;
 import com.example.isaprojekat.model.User;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface AdminService {
-    Optional<Admin> findOne(Long id);
+public interface RentingEntityService {
+    Optional<RentingEntity> findOne(Long id);
 
-    List<Admin> findAll();
+    List<RentingEntity> findAll();
 
-    Admin save(Admin admin);
+    RentingEntity save(RentingEntity rentingEntity);
 
     Boolean delete(Long id);
 }
