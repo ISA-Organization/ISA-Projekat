@@ -85,7 +85,7 @@ class UserList extends React.Component{
         super(props)
         this.state = {
             users: [],
-            declined: false
+            declined: false,
         }
     }
   

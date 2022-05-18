@@ -5,18 +5,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="boatOwners")
 @Getter
 @Setter
 public class BoatOwner extends  User{
-    public BoatOwner(Long id, String firstname, String surname, String address, String city, String phoneNumber,
-                     String email, String password, Boolean isApproved) {
-        super(id, firstname, surname, address, city, phoneNumber, email, password, isApproved, UserType.BOAT_OWNER);
-    }
 
-    public BoatOwner() {
-        super();
-    }
+    @OneToMany(mappedBy = "boatOwner" , fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Boat> boats = new HashSet<>();
+
+
 }

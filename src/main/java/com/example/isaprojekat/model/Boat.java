@@ -1,25 +1,28 @@
 package com.example.isaprojekat.model;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Boat {
+@Entity
+public class Boat extends RentingEntity {
 
-    private String name;
+
     private String type;
     private Double length;
     private String engineNumber;
     private Double enginePower;
     private Double maxSpeed;
     private NavigationEquipment navigation;
-    private String address;
-    private String description;
-    //boat images
-    private Integer maxPeople;
-    private List<HouseReservation> possibleReservations = new ArrayList<>();
-    private String boatingRules;
+
+
     private String fishingEquipment;
-    private Double price;
     private String cancellationPolicy;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "boat_owner_id")
+    public BoatOwner boatOwner;
 }

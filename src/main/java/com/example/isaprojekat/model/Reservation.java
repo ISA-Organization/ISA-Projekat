@@ -6,31 +6,43 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(name = "reservations")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdditionalContent {
+public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private String name;
+    private LocalDate startDate;
     @Column
-    private Double price;
-    @ManyToMany(mappedBy = "additionalContents", fetch = FetchType.EAGER)
-    private Set<Reservation> reservations = new HashSet<>();
-    @ManyToMany(mappedBy = "additionalContents", fetch = FetchType.EAGER)
-    private Set<QuickActionReservation> quickActionReservations = new HashSet<>();
+    private LocalDate endDate;
+    @Column
+    private int numberOfPeople;
+    @Column
+    private double price;
+    @Column
+    private int numberOfDays;
+    @Column
+    private boolean cancelled;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "rentingEntity_id")
+    @JoinColumn(name = "renting_entity_id")
     private RentingEntity rentingEntity;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "client_id")
+    private Client client;
+
 
 }

@@ -131,11 +131,11 @@ public class UserController {
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)),HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> get(@PathVariable Long id){
+    @GetMapping(value="/profile")
+    public ResponseEntity<UserDTO> getLoggedInUser(){
         var loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println(loggedInUser);
-        Optional<User> user = userService.findOne(id);
+        Optional<User> user = userService.findbyEmail(loggedInUser);
 
         if(user.isPresent()) {
             return new ResponseEntity<>(toUserDTO.convert(user.get()), HttpStatus.OK);
