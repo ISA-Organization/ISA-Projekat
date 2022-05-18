@@ -65,14 +65,8 @@ public class AdventureController {
         }
 
         Adventure adventure = adventureService.findOne(dto.getId()).get();
-        adventure.setRules(dto.getRules());
-        adventure.setPrice(dto.getPrice());
-        adventure.setAddress(dto.getAddress());
         adventure.setCancellationPolicy(dto.getCancellationPolicy());
-        adventure.setName(dto.getName());
-        adventure.setMaxPeople(dto.getMaxPeople());
         adventure.setFishingEquipment(dto.getFishingEquipment());
-        adventure.setDescription(dto.getDescription());
         adventure.setInstructor(dto.getInstructor());
         return new ResponseEntity<>(modelMapper.map(adventureService.save(adventure), AdventureDTO.class), HttpStatus.OK);
     }

@@ -1,6 +1,7 @@
 package com.example.isaprojekat.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.CascadeType;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Table(name = "clients")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Client extends  User{
 
 
@@ -21,5 +23,8 @@ public class Client extends  User{
     private Set<Reservation> reservations = new HashSet<>();
 
 
-
+    public Client(Long id, String firstName, String surname, String address, String city, String phoneNumber, String email, String password, Boolean is_approved) {
+        super(id, firstName, surname, address, city, phoneNumber, email, password, is_approved, UserType.CLIENT);
+        this.reservations = new HashSet<>();
+    }
 }

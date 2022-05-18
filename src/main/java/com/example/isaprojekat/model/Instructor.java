@@ -15,7 +15,6 @@ import java.util.Set;
 @Table(name="instructors")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Instructor extends User{
 
@@ -23,4 +22,8 @@ public class Instructor extends User{
     @OneToMany(mappedBy = "instructor",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Adventure> adventures = new HashSet<>();
 
+    public Instructor(Long id, String firstName, String surname, String address, String city, String phoneNumber, String email, String password, Boolean is_approved, UserType type) {
+       super(id, firstName, surname, address, city, phoneNumber, email, password, is_approved, UserType.INSTRUCTOR);
+       this.adventures = new HashSet<>();
+    }
 }

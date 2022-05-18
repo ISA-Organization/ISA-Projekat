@@ -15,15 +15,17 @@ import java.util.Set;
 @Table(name = "houseOwners")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 
 public class HouseOwner extends User {
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<House> houseList;
-    @OneToMany(mappedBy = "houseOwner", cascade = CascadeType.ALL)
-    private Set<Reservation> reservations = new HashSet<>();
 
 
+
+    public HouseOwner(Long id, String firstName, String surname, String address, String city, String phoneNumber, String email, String password, Boolean is_approved) {
+        super(id, firstName, surname, address, city, phoneNumber, email, password, is_approved, UserType.INSTRUCTOR);
+        this.houseList = new ArrayList<>();
+    }
 }

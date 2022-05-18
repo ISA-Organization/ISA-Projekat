@@ -90,7 +90,7 @@ public class JpaUserService implements UserService {
         switch (u.getType()) {
             case INSTRUCTOR:
                 Instructor instructor = new Instructor(u.getId(), u.getFirstName(), u.getSurname(), u.getAddress(),  u.getCity(),
-                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIs_approved(),  u.getType(), "debil");
+                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIs_approved(),  u.getType());
                  return instructorRepository.save(instructor);
             case ADMIN:
                 Admin admin = new Admin(u.getId(), u.getFirstName(), u.getSurname(), u.getAddress(),  u.getCity(),

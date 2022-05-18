@@ -44,5 +44,11 @@ public class Reservation {
     @JoinColumn(name = "client_id")
     private Client client;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(
+                name= "reservation_additional_content",
+                joinColumns = {@JoinColumn(name = "reservation_id")},
+                inverseJoinColumns = {@JoinColumn(name = "addtional_content_id")})
+    private Set<AdditionalContent> additionalContents = new HashSet<>();
 
 }

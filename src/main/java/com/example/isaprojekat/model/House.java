@@ -8,10 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.*;
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+
+
 public class House {
 
     @Id
