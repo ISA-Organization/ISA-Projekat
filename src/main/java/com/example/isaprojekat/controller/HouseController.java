@@ -1,22 +1,24 @@
 package com.example.isaprojekat.controller;
 
+import com.example.isaprojekat.dto.AdventureDTO;
 import com.example.isaprojekat.dto.HouseDTO;
-import com.example.isaprojekat.dto.mapper.HouseDTOToHouse;
-import com.example.isaprojekat.dto.mapper.HouseToHouseDTO;
 import com.example.isaprojekat.dto.mapper.UserDTOToUser;
 import com.example.isaprojekat.dto.mapper.UserToUserDTO;
 import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.service.HouseService;
 import com.example.isaprojekat.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/houses", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -25,18 +27,20 @@ public class HouseController {
     @Autowired
     private HouseService houseService;
 
+//    @Autowired
+//    private HouseDTOToHouse toHouse;
+//
+//    @Autowired
+//    private HouseToHouseDTO toHouseDTO;
     @Autowired
-    private HouseDTOToHouse toHouse;
-
-    @Autowired
-    private HouseToHouseDTO toHouseDTO;
+    private ModelMapper mapper;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HouseDTO> create(@Valid @RequestBody HouseDTO dto){
-        House h = toHouse.convert(dto);
+        House h = mapper.map(dto, House.class);
         House saved = houseService.save(h);
 
-        return new ResponseEntity<>(toHouseDTO.convert(saved), HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.map(saved, HouseDTO.class), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -46,10 +50,10 @@ public class HouseController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        House h = toHouse.convert(dto);
+        House h = mapper.map(dto, House.class);
         House saved = houseService.update(h);
 
-        return new ResponseEntity<>(toHouseDTO.convert(saved),HttpStatus.OK);
+        return new ResponseEntity<>(mapper.map(saved, HouseDTO.class),HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -57,7 +61,7 @@ public class HouseController {
         House deleted = houseService.delete(id);
 
         if(deleted != null) {
-            return new ResponseEntity<>(toHouseDTO.convert(deleted), HttpStatus.OK);
+            return new ResponseEntity<>(mapper.map(deleted, HouseDTO.class), HttpStatus.OK);
 
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -70,7 +74,7 @@ public class HouseController {
         House h = houseService.findOne(id).get();
 
         if(h != null) {
-            return new ResponseEntity<>(toHouseDTO.convert(h), HttpStatus.OK);
+            return new ResponseEntity<>(mapper.map(h, HouseDTO.class), HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -93,6 +97,10 @@ public class HouseController {
             houses = houseService.findAll();
         }
 
-        return new ResponseEntity<>(toHouseDTO.convert(houses), HttpStatus.OK);
+        List<HouseDTO> houseDTOS = houses.
+                stream()
+                .map(house -> mapper.map(house, HouseDTO.class))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(houseDTOS, HttpStatus.OK);
     }
 }

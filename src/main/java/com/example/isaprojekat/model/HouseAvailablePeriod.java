@@ -23,4 +23,5 @@ public class HouseAvailablePeriod {
     private boolean isSpecialOffer;
     @ManyToOne
     private House house;
+
 }

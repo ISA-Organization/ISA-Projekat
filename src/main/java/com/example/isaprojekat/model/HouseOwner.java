@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class HouseOwner extends User {
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "houseOwner", cascade = CascadeType.ALL)
     private List<House> houseList;
 
 
