@@ -23,7 +23,7 @@ public class BoatOwner extends  User{
 
 
     public BoatOwner(Long id, String firstName, String surname, String address, String city, String phoneNumber, String email, String password, Boolean is_approved) {
-        super(id, firstName, surname, address, city, phoneNumber, email, password, is_approved, UserType.INSTRUCTOR);
+        super(id, firstName, surname, address, city, phoneNumber, email, password, is_approved, UserType.BOAT_OWNER);
         this.boats = new HashSet<>();
     }
 }

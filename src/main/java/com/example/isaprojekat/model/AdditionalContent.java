@@ -26,8 +26,8 @@ public class AdditionalContent {
     private Double price;
     @ManyToMany(mappedBy = "additionalContents", fetch = FetchType.EAGER)
     private Set<Reservation> reservations = new HashSet<>();
-    @ManyToMany(mappedBy = "additionalContents", fetch = FetchType.EAGER)
-    private Set<QuickActionReservation> quickActionReservations = new HashSet<>();
+//    @ManyToMany(mappedBy = "additionalContents", fetch = FetchType.EAGER)
+//    private Set<QuickActionReservation> quickActionReservations = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rentingEntity_id")

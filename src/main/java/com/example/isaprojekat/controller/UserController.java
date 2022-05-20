@@ -68,7 +68,6 @@ public class UserController {
         User user = toUser.convert(dto);
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
         user.setPassword(encodedPassword);
-
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)), HttpStatus.CREATED);
     }
 
@@ -97,7 +96,7 @@ public class UserController {
 
             emailSender.sendSimpleMessage(user.getEmail(), "Registracija", "Uspesno ste registrovani");
         }
-        user.setIs_approved(true);
+        user.setIsApproved(true);
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)),HttpStatus.OK);
     }
 
@@ -114,7 +113,7 @@ public class UserController {
 
             emailSender.sendSimpleMessage(user.getEmail(), "Registracija odbijena", declineReason);
         }
-        user.setIs_approved(false);
+        user.setIsApproved(false);
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)),HttpStatus.OK);
     }
 

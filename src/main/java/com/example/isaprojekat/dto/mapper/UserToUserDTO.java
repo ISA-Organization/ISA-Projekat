@@ -21,7 +21,7 @@ public class UserToUserDTO{
         dto.setCity(user.getCity());
         dto.setPhoneNumber(user.getPhoneNumber());
         dto.setType(user.getType().toString());
-        dto.setApproved(user.getIs_approved());
+        dto.setApproved(user.getIsApproved());
         return dto;
     }
 

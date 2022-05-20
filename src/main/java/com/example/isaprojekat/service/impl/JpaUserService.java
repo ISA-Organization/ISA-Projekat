@@ -90,23 +90,23 @@ public class JpaUserService implements UserService {
         switch (u.getType()) {
             case INSTRUCTOR:
                 Instructor instructor = new Instructor(u.getId(), u.getFirstName(), u.getSurname(), u.getAddress(),  u.getCity(),
-                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIs_approved(),  u.getType());
+                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIsApproved(),  u.getType());
                  return instructorRepository.save(instructor);
             case ADMIN:
                 Admin admin = new Admin(u.getId(), u.getFirstName(), u.getSurname(), u.getAddress(),  u.getCity(),
-                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIs_approved());
+                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIsApproved());
                 return adminRepository.save(admin);
             case CLIENT:
                 Client client = new Client(u.getId(), u.getFirstName(), u.getSurname(), u.getAddress(),  u.getCity(),
-                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIs_approved());
+                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIsApproved());
                 return clientRepository.save(client);
             case BOAT_OWNER:
                 BoatOwner boatOwner = new BoatOwner(u.getId(), u.getFirstName(), u.getSurname(), u.getAddress(),  u.getCity(),
-                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIs_approved());
+                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIsApproved());
                 return boatOwnerRepository.save(boatOwner);
             case HOUSE_OWNER:
                 HouseOwner houseOwner = new HouseOwner(u.getId(), u.getFirstName(), u.getSurname(), u.getAddress(),  u.getCity(),
-                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIs_approved());
+                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIsApproved());
                 return houseOwnerRepository.save(houseOwner);
             default: return null;
         }
