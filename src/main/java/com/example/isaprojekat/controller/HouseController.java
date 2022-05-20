@@ -1,11 +1,10 @@
 package com.example.isaprojekat.controller;
 
 import com.example.isaprojekat.dto.HouseDTO;
-import com.example.isaprojekat.dto.mapper.HouseDTOToHouse;
-import com.example.isaprojekat.dto.mapper.HouseToHouseDTO;
+import com.example.isaprojekat.dto.mapper.DTOToHouse;
+import com.example.isaprojekat.dto.mapper.HouseToDTO;
 import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.service.HouseService;
-import com.example.isaprojekat.service.RentingEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,10 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/houses", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,13 +23,10 @@ public class HouseController {
     private HouseService houseService;
 
     @Autowired
-    private RentingEntityService rentingEntityService;
+    private DTOToHouse toHouse;
 
     @Autowired
-    private HouseDTOToHouse toHouse;
-
-    @Autowired
-    private HouseToHouseDTO toHouseDTO;
+    private HouseToDTO toHouseDTO;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HouseDTO> create(@Valid @RequestBody HouseDTO dto){

@@ -5,14 +5,12 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "house_available_periods")
-public class HouseAvailablePeriod {
+@Table(name = "available_periods")
+public class AvailablePeriod {
 
     @Id
     @GeneratedValue(
@@ -24,5 +22,5 @@ public class HouseAvailablePeriod {
     private double specialPrice;
     private boolean isSpecialOffer;
     @ManyToOne
-    private House house;
+    private RentingEntity rentingEntity;
 }

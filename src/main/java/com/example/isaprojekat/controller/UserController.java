@@ -3,8 +3,8 @@ package com.example.isaprojekat.controller;
 import com.example.isaprojekat.dto.UserAuthenticationDTO;
 import com.example.isaprojekat.dto.UserDTO;
 import com.example.isaprojekat.dto.UserRegistrationDTO;
-import com.example.isaprojekat.dto.mapper.UserDTOToUser;
-import com.example.isaprojekat.dto.mapper.UserToUserDTO;
+import com.example.isaprojekat.dto.mapper.DTOToUser;
+import com.example.isaprojekat.dto.mapper.UserToDTO;
 import com.example.isaprojekat.model.User;
 import com.example.isaprojekat.model.UserType;
 import com.example.isaprojekat.security.TokenUtils;
@@ -38,10 +38,10 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private UserDTOToUser toUser;
+    private DTOToUser toUser;
 
     @Autowired
-    private UserToUserDTO toUserDTO;
+    private UserToDTO toUserDTO;
 
     @Autowired
     private AuthenticationManager authenticationManager;

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HouseDTOToHouse {
+public class DTOToHouse {
     @Autowired
     private HouseService houseService;
     @Autowired
