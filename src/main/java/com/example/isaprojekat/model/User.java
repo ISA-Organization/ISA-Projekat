@@ -30,7 +30,7 @@ public class User {
     @Column( nullable = false)
     private String password;
     @Column
-    private Boolean is_approved;
+    private Boolean isApproved;
     @Enumerated(EnumType.STRING)
     private UserType type;
 
@@ -44,13 +44,11 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
-        this.is_approved = isApproved;
+        this.isApproved = isApproved;
         this.type = userType;
     }
 
     public User() {
 
     }
-
-
 }

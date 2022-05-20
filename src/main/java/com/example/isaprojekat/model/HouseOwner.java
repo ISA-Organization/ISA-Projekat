@@ -25,7 +25,7 @@ public class HouseOwner extends User {
 
 
     public HouseOwner(Long id, String firstName, String surname, String address, String city, String phoneNumber, String email, String password, Boolean is_approved) {
-        super(id, firstName, surname, address, city, phoneNumber, email, password, is_approved, UserType.INSTRUCTOR);
+        super(id, firstName, surname, address, city, phoneNumber, email, password, is_approved, UserType.HOUSE_OWNER);
         this.houseList = new ArrayList<>();
     }
 }

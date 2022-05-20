@@ -27,7 +27,7 @@ public class UserDTO {
 
 
 
-    private Boolean isApproved;
+    private Boolean isApproved; //"approved" for testing
 
     public Long getId() {
         return id;
@@ -93,7 +93,11 @@ public class UserDTO {
         this.type = type;
     }
 
-    public Boolean getApproved() { return isApproved; }
+    public Boolean getApproved() {
+        return isApproved;
+    }
 
-    public void setApproved(Boolean approved) {  isApproved = approved;}
+    public void setApproved(Boolean approved) {
+        isApproved = approved;
+    }
 }

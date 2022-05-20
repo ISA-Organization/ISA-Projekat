@@ -21,6 +21,17 @@ public class House extends RentingEntity{
     @JoinColumn(name = "house_owner_id")
     public HouseOwner houseOwner;
 
+//    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private Set<HouseAvailablePeriod> availablePeriods = new HashSet<>();
+
 //    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
 //    private List<UnavailablePeriod> unavailablePeriods = new ArrayList<>();
+
+    public House(){}
+
+    public House(Integer numberOfRooms, Integer numberOfBeds, HouseOwner houseOwner) {
+        this.numberOfRooms = numberOfRooms;
+        this.numberOfBeds = numberOfBeds;
+        this.houseOwner = houseOwner;
+    }
 }
