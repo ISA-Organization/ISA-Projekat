@@ -1,6 +1,7 @@
 package com.example.isaprojekat.service.impl;
 
 import com.example.isaprojekat.model.Boat;
+import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.repository.BoatRepository;
 import com.example.isaprojekat.service.BoatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import java.util.Optional;
 public class JpaBoatService implements BoatService {
     @Autowired
     private BoatRepository boatRepository;
+
     @Override
     public Optional<Boat> findOne(Long id) {
         return boatRepository.findById(id);
@@ -28,8 +30,17 @@ public class JpaBoatService implements BoatService {
     }
 
     @Override
-    public Boolean delete(Long id) {
-        boatRepository.deleteById(id);
-        return true;
+    public Boat delete(Long id) {
+        Optional<Boat> l = boatRepository.findById(id);
+        if(l.isPresent()) {
+            boatRepository.deleteById(id);
+            return l.get();
+        }
+        return null;
+    }
+
+    @Override
+    public Boat update(Boat boat) {
+        return boatRepository.save(boat);
     }
 }
