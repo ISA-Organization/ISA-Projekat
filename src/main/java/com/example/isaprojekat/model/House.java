@@ -14,7 +14,9 @@ public class House extends RentingEntity{
 
 
     //TODO: add house images
+    @Column
     private Integer numberOfRooms;
+    @Column
     private Integer numberOfBeds;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -27,11 +29,18 @@ public class House extends RentingEntity{
 //    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
 //    private List<UnavailablePeriod> unavailablePeriods = new ArrayList<>();
 
-    public House(){}
 
-    public House(Integer numberOfRooms, Integer numberOfBeds, HouseOwner houseOwner) {
+    public House(Long id, String name, String description, String rentingRules, String address, double price,
+                 Integer numberOfRooms, Integer numberOfBeds, HouseOwner houseOwner) {
+        super( id,  name,  description,  rentingRules,  address, price, RentingEntityType.HOUSE);
         this.numberOfRooms = numberOfRooms;
         this.numberOfBeds = numberOfBeds;
         this.houseOwner = houseOwner;
     }
+
+    public House() {
+        super();
+    }
+
+
 }

@@ -18,12 +18,13 @@ public class HouseDTO {
 
     private Long id;
     private String name;
-    private String address;
     private String description;
-    private HouseOwner houseOwner;
+    private String rules;
+    private String address;
+    private Double price;
+    private String type;
     private Integer numberOfRooms;
     private Integer numberOfBeds;
-    private String rules;
-    private Double price;
+    private Long houseOwnerId;
 
 }

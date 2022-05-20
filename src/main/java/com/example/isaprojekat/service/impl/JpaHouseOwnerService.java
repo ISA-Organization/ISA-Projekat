@@ -4,10 +4,12 @@ import com.example.isaprojekat.model.HouseOwner;
 import com.example.isaprojekat.repository.HouseOwnerRepository;
 import com.example.isaprojekat.service.HouseOwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class JpaHouseOwnerService implements HouseOwnerService {
 
     @Autowired

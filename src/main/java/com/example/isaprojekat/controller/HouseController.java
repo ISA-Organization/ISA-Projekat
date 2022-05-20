@@ -1,23 +1,21 @@
 package com.example.isaprojekat.controller;
 
-import com.example.isaprojekat.dto.AdventureDTO;
 import com.example.isaprojekat.dto.HouseDTO;
-import com.example.isaprojekat.dto.mapper.UserDTOToUser;
-import com.example.isaprojekat.dto.mapper.UserToUserDTO;
+import com.example.isaprojekat.dto.mapper.HouseDTOToHouse;
+import com.example.isaprojekat.dto.mapper.HouseToHouseDTO;
 import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.service.HouseService;
-import com.example.isaprojekat.service.UserService;
-import org.modelmapper.ModelMapper;
+import com.example.isaprojekat.service.RentingEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,20 +25,24 @@ public class HouseController {
     @Autowired
     private HouseService houseService;
 
-//    @Autowired
-//    private HouseDTOToHouse toHouse;
-//
-//    @Autowired
-//    private HouseToHouseDTO toHouseDTO;
     @Autowired
-    private ModelMapper mapper;
+    private RentingEntityService rentingEntityService;
+
+    @Autowired
+    private HouseDTOToHouse toHouse;
+
+    @Autowired
+    private HouseToHouseDTO toHouseDTO;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HouseDTO> create(@Valid @RequestBody HouseDTO dto){
-        House h = mapper.map(dto, House.class);
-        House saved = houseService.save(h);
+        if(dto.getId() != null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-        return new ResponseEntity<>(mapper.map(saved, HouseDTO.class), HttpStatus.CREATED);
+        House saved = houseService.save(toHouse.convert(dto));
+
+        return new ResponseEntity<>(toHouseDTO.convert(saved), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -50,10 +52,10 @@ public class HouseController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        House h = mapper.map(dto, House.class);
+        House h = toHouse.convert(dto);
         House saved = houseService.update(h);
 
-        return new ResponseEntity<>(mapper.map(saved, HouseDTO.class),HttpStatus.OK);
+        return new ResponseEntity<>(toHouseDTO.convert(saved),HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -61,7 +63,7 @@ public class HouseController {
         House deleted = houseService.delete(id);
 
         if(deleted != null) {
-            return new ResponseEntity<>(mapper.map(deleted, HouseDTO.class), HttpStatus.OK);
+            return new ResponseEntity<>(toHouseDTO.convert(deleted), HttpStatus.NO_CONTENT);
 
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -71,10 +73,11 @@ public class HouseController {
     // @PreAuthorize("hasAnyRole('KORISNIK', 'ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<HouseDTO> getOne(@PathVariable Long id){
-        House h = houseService.findOne(id).get();
 
-        if(h != null) {
-            return new ResponseEntity<>(mapper.map(h, HouseDTO.class), HttpStatus.OK);
+        Optional<House> h = houseService.findOne(id);
+
+        if(h.isPresent()) {
+            return new ResponseEntity<>(toHouseDTO.convert(h.get()), HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -90,17 +93,15 @@ public class HouseController {
 
         List<House> houses;
 
-        if(name != null || ownerId != null || address != null || price != null) {
+        if(name != null || address != null || price != null) {
             houses = houseService.find(name, address, price);
         }
         else {
             houses = houseService.findAll();
         }
 
-        List<HouseDTO> houseDTOS = houses.
-                stream()
-                .map(house -> mapper.map(house, HouseDTO.class))
-                .collect(Collectors.toList());
+        List<HouseDTO> houseDTOS = toHouseDTO.convert(houses);
+
         return new ResponseEntity<>(houseDTOS, HttpStatus.OK);
     }
 }
