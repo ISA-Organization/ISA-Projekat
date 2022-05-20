@@ -4,10 +4,11 @@ import com.example.isaprojekat.model.Boat;
 import com.example.isaprojekat.repository.BoatRepository;
 import com.example.isaprojekat.service.BoatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class JpaBoatService implements BoatService {
     @Autowired
     private BoatRepository boatRepository;

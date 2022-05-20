@@ -25,8 +25,6 @@ public class RentingEntity {
     private String description;
     @Column
     private String rentingRules;
-//    @Column
-//    private int maxNumOfPeople;
     @Column
     private String address;
     @Column
@@ -43,6 +41,9 @@ public class RentingEntity {
     @OneToMany(mappedBy = "rentingEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<AdditionalContent> additionalContents = new HashSet<>();
 
+    @OneToMany(mappedBy = "rentingEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<AvailablePeriod> availablePeriods = new HashSet<>();
+
     public RentingEntity(){}
 
     public RentingEntity(Long id, String name, String description, String rentingRules, String address,
@@ -56,5 +57,6 @@ public class RentingEntity {
         this.rentingEntityType = rentingEntityType;
         this.reservations = new HashSet<>();
         this.additionalContents = new HashSet<>();
+        this.availablePeriods = new HashSet<>();
     }
 }

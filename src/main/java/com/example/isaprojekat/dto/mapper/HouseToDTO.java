@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class HouseToHouseDTO {
+public class HouseToDTO {
     public HouseDTO convert(House h) {
         HouseDTO dto = new HouseDTO();
 

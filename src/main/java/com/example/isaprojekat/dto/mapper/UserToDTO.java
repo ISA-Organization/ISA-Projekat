@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class UserToUserDTO{
+public class UserToDTO {
 
     public UserDTO convert(User user) {
         UserDTO dto = new UserDTO();
