@@ -18,4 +18,6 @@ public interface BoatService {
     Boolean delete(Long id);
 
     Boat update(Boat boat);
+
+    List<Boat> find(String name, String address, Double price);
 }

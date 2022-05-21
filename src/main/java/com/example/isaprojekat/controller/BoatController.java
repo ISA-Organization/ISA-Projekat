@@ -53,14 +53,7 @@ public class BoatController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id){
-//        Boat deleted = boatService.delete(id);
-//
-//        if(deleted != null) {
-//            return new ResponseEntity<>(toDTO.convert(deleted), HttpStatus.NO_CONTENT);
-//
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
+
         if(boatService.delete(id))
             return new ResponseEntity<>(true, HttpStatus.OK);
         return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
@@ -79,25 +72,24 @@ public class BoatController {
         }
     }
 
-    //    //@PreAuthorize("hasAnyRole('KORISNIK', 'ADMIN')")
-//    @GetMapping
-//    public ResponseEntity<List<HouseDTO>> getAll(
-//            @RequestParam(required = false) String name,
-//            @RequestParam(required = false) String address,
-//            @RequestParam(required = false) Double price,
-//            @RequestParam(required = false) Long ownerId){
-//
-//        List<House> houses;
-//
-//        if(name != null || address != null || price != null) {
-//            houses = houseService.find(name, address, price);
-//        }
-//        else {
-//            houses = houseService.findAll();
-//        }
-//
-//        List<HouseDTO> houseDTOS = toHouseDTO.convert(houses);
-//
-//        return new ResponseEntity<>(houseDTOS, HttpStatus.OK);
-//    }
+        //@PreAuthorize("hasAnyRole('KORISNIK', 'ADMIN')")
+    @GetMapping
+    public ResponseEntity<List<BoatDTO>> getAll(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) Double price){
+
+        List<Boat> boats;
+
+        if(name != null || address != null || price != null) {
+            boats = boatService.find(name, address, price);
+        }
+        else {
+            boats = boatService.findAll();
+        }
+
+        List<BoatDTO> boatDTOS = toDTO.convert(boats);
+
+        return new ResponseEntity<>(boatDTOS, HttpStatus.OK);
+    }
 }

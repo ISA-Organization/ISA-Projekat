@@ -43,4 +43,26 @@ public class JpaBoatService implements BoatService {
     public Boat update(Boat boat) {
         return boatRepository.save(boat);
     }
+
+    @Override
+    public List<Boat> find(String name, String address, Double price) {
+        if(price == null){
+            price = Double.MAX_VALUE;
+        }
+
+        if(name != null && address == null){
+            return boatRepository.findByNameContainingAndPriceLessThanEqual(name, price);
+        }
+        else if(name != null && address != null){
+            return boatRepository.findByNameAndAddressContainingAndPriceLessThanEqual(name, address, price);
+        }
+        else if (name ==null && address != null){
+            return boatRepository.findByAddressContainingAndPriceLessThanEqual(address, price);
+        }
+
+        return boatRepository.findByPriceLessThanEqual(price);
+
+    }
+
+
 }

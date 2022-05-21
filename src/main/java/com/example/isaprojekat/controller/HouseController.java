@@ -82,8 +82,7 @@ public class HouseController {
     public ResponseEntity<List<HouseDTO>> getAll(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String address,
-            @RequestParam(required = false) Double price,
-            @RequestParam(required = false) Long ownerId){
+            @RequestParam(required = false) Double price){
 
         List<House> houses;
 
