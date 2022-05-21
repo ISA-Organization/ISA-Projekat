@@ -15,7 +15,7 @@ public interface BoatService {
 
     Boat save(Boat boat);
 
-    Boat delete(Long id);
+    Boolean delete(Long id);
 
     Boat update(Boat boat);
 }

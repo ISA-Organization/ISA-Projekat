@@ -52,15 +52,18 @@ public class BoatController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BoatDTO> delete(@PathVariable Long id){
-        Boat deleted = boatService.delete(id);
-
-        if(deleted != null) {
-            return new ResponseEntity<>(toDTO.convert(deleted), HttpStatus.NO_CONTENT);
-
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Boolean> delete(@PathVariable Long id){
+//        Boat deleted = boatService.delete(id);
+//
+//        if(deleted != null) {
+//            return new ResponseEntity<>(toDTO.convert(deleted), HttpStatus.NO_CONTENT);
+//
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+        if(boatService.delete(id))
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
     }
 
     // @PreAuthorize("hasAnyRole('KORISNIK', 'ADMIN')")

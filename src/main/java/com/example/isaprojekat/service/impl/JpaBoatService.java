@@ -30,13 +30,13 @@ public class JpaBoatService implements BoatService {
     }
 
     @Override
-    public Boat delete(Long id) {
-        Optional<Boat> l = boatRepository.findById(id);
-        if(l.isPresent()) {
+    public Boolean delete(Long id) {
+        Optional<Boat> b = boatRepository.findById(id);
+        if(b.isPresent()) {
             boatRepository.deleteById(id);
-            return l.get();
+            return true;
         }
-        return null;
+        return false;
     }
 
     @Override
