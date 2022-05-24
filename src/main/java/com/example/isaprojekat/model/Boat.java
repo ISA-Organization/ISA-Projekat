@@ -1,25 +1,51 @@
 package com.example.isaprojekat.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Boat {
+@Entity
+@Getter
+@Setter
+public class Boat extends RentingEntity {
 
-    private String name;
     private String type;
     private Double length;
     private String engineNumber;
     private Double enginePower;
     private Double maxSpeed;
+    @Enumerated(EnumType.STRING)
     private NavigationEquipment navigation;
-    private String address;
-    private String description;
-    //boat images
-    private Integer maxPeople;
-    private List<HouseReservation> possibleReservations = new ArrayList<>();
-    private String boatingRules;
+    private Integer maxNumOfPeople;
     private String fishingEquipment;
-    private Double price;
     private String cancellationPolicy;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "boat_owner_id")
+    public BoatOwner boatOwner;
+
+    public Boat(){
+        super();
+    }
+
+    public Boat(Long id, String name, String description, String rentingRules, String address, double price,
+                RentingEntityType rentingEntityType, String type, Double length, String engineNumber,
+                Double enginePower, Double maxSpeed, NavigationEquipment navigation, Integer maxNumOfPeople,
+                String fishingEquipment, String cancellationPolicy, BoatOwner boatOwner) {
+
+        super(id, name, description, rentingRules, address, price, rentingEntityType);
+        this.type = type;
+        this.length = length;
+        this.engineNumber = engineNumber;
+        this.enginePower = enginePower;
+        this.maxSpeed = maxSpeed;
+        this.navigation = navigation;
+        this.maxNumOfPeople = maxNumOfPeople;
+        this.fishingEquipment = fishingEquipment;
+        this.cancellationPolicy = cancellationPolicy;
+        this.boatOwner = boatOwner;
+    }
 }

@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserDTOToUser {
+public class DTOToUser {
 
     @Autowired
     private UserService userService;
@@ -31,7 +31,7 @@ public class UserDTOToUser {
         user.setSurname(dto.getSurname());
         user.setType(UserType.valueOf(dto.getType()));
         user.setPhoneNumber(dto.getPhoneNumber());
-        user.setIs_approved(dto.getApproved());
+        user.setIsApproved(dto.getApproved());
         return user;
     }
 }

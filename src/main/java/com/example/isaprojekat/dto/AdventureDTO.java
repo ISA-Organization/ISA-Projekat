@@ -1,4 +1,6 @@
 package com.example.isaprojekat.dto;
+
+import com.example.isaprojekat.model.Instructor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -6,19 +8,17 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class HouseDTO {
-
+@NoArgsConstructor
+public class AdventureDTO {
     private Long id;
     private String name;
-    private String description;
-    private String rules;
     private String address;
+    private String description;
+    private Instructor instructor;
+    private Integer maxPeople;
+    private String rules;
+    private String fishingEquipment;
     private Double price;
-    private String type;
-    private Integer numberOfRooms;
-    private Integer numberOfBeds;
-    private Long houseOwnerId;
-
+    private String cancellationPolicy;
 }

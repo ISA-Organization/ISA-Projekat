@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class UserToUserDTO{
+public class UserToDTO {
 
     public UserDTO convert(User user) {
         UserDTO dto = new UserDTO();
@@ -21,7 +21,7 @@ public class UserToUserDTO{
         dto.setCity(user.getCity());
         dto.setPhoneNumber(user.getPhoneNumber());
         dto.setType(user.getType().toString());
-        dto.setApproved(user.getIs_approved());
+        dto.setApproved(user.getIsApproved());
         return dto;
     }
 

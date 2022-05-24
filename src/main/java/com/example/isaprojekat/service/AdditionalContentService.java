@@ -1,18 +1,18 @@
 package com.example.isaprojekat.service;
 
 import com.example.isaprojekat.model.AdditionalContent;
-import com.example.isaprojekat.model.Admin;
 import com.example.isaprojekat.model.User;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface AdminService {
-    Optional<Admin> findOne(Long id);
+public interface AdditionalContentService {
+    Optional<AdditionalContent> findOne(Long id);
 
-    List<Admin> findAll();
+    List<AdditionalContent> findAll();
 
-    Admin save(Admin admin);
+    AdditionalContent save(AdditionalContent additionalContent);
 
     Boolean delete(Long id);
+
 }

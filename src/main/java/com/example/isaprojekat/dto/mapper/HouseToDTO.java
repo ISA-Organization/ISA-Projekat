@@ -10,21 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class HouseToHouseDTO {
+public class HouseToDTO {
     public HouseDTO convert(House h) {
         HouseDTO dto = new HouseDTO();
 
-        dto.setHouseRules(h.getHouseRules());
-        dto.setAddress(h.getAddress());
-        dto.setAdditionalContent(h.getAdditionalContent());
+        dto.setId(h.getId());
         dto.setName(h.getName());
         dto.setDescription(h.getDescription());
-        dto.setId(h.getId());
+        dto.setRules(h.getRentingRules());
+        dto.setAddress(h.getAddress());
         dto.setPrice(h.getPrice());
-        dto.setNumberOfRooms(h.getNumberOfRooms());
+        dto.setHouseOwnerId(h.getHouseOwner().getId());
         dto.setNumberOfBeds(h.getNumberOfBeds());
-        dto.setOwnerId(h.getOwner().getId());
-        dto.setOwnerName(h.getOwner().getFirstName());
+        dto.setNumberOfRooms(h.getNumberOfRooms());
+        dto.setType(h.getRentingEntityType().toString());
 
         return dto;
     }

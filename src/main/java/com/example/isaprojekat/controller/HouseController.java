@@ -1,15 +1,11 @@
 package com.example.isaprojekat.controller;
 
 import com.example.isaprojekat.dto.HouseDTO;
-import com.example.isaprojekat.dto.mapper.HouseDTOToHouse;
-import com.example.isaprojekat.dto.mapper.HouseToHouseDTO;
-import com.example.isaprojekat.dto.mapper.UserDTOToUser;
-import com.example.isaprojekat.dto.mapper.UserToUserDTO;
+import com.example.isaprojekat.dto.mapper.DTOToHouse;
+import com.example.isaprojekat.dto.mapper.HouseToDTO;
 import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.service.HouseService;
-import com.example.isaprojekat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/houses", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,15 +23,18 @@ public class HouseController {
     private HouseService houseService;
 
     @Autowired
-    private HouseDTOToHouse toHouse;
+    private DTOToHouse toHouse;
 
     @Autowired
-    private HouseToHouseDTO toHouseDTO;
+    private HouseToDTO toHouseDTO;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HouseDTO> create(@Valid @RequestBody HouseDTO dto){
-        House h = toHouse.convert(dto);
-        House saved = houseService.save(h);
+        if(dto.getId() != null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        House saved = houseService.save(toHouse.convert(dto));
 
         return new ResponseEntity<>(toHouseDTO.convert(saved), HttpStatus.CREATED);
     }
@@ -57,7 +57,7 @@ public class HouseController {
         House deleted = houseService.delete(id);
 
         if(deleted != null) {
-            return new ResponseEntity<>(toHouseDTO.convert(deleted), HttpStatus.OK);
+            return new ResponseEntity<>(toHouseDTO.convert(deleted), HttpStatus.NO_CONTENT);
 
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -67,10 +67,11 @@ public class HouseController {
     // @PreAuthorize("hasAnyRole('KORISNIK', 'ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<HouseDTO> getOne(@PathVariable Long id){
-        House h = houseService.findOne(id).get();
 
-        if(h != null) {
-            return new ResponseEntity<>(toHouseDTO.convert(h), HttpStatus.OK);
+        Optional<House> h = houseService.findOne(id);
+
+        if(h.isPresent()) {
+            return new ResponseEntity<>(toHouseDTO.convert(h.get()), HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -81,18 +82,19 @@ public class HouseController {
     public ResponseEntity<List<HouseDTO>> getAll(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String address,
-            @RequestParam(required = false) Double price,
-            @RequestParam(required = false) Long ownerId){
+            @RequestParam(required = false) Double price){
 
         List<House> houses;
 
-        if(name != null || ownerId != null || address != null || price != null) {
+        if(name != null || address != null || price != null) {
             houses = houseService.find(name, address, price);
         }
         else {
             houses = houseService.findAll();
         }
 
-        return new ResponseEntity<>(toHouseDTO.convert(houses), HttpStatus.OK);
+        List<HouseDTO> houseDTOS = toHouseDTO.convert(houses);
+
+        return new ResponseEntity<>(houseDTOS, HttpStatus.OK);
     }
 }

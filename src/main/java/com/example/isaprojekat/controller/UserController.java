@@ -3,8 +3,8 @@ package com.example.isaprojekat.controller;
 import com.example.isaprojekat.dto.UserAuthenticationDTO;
 import com.example.isaprojekat.dto.UserDTO;
 import com.example.isaprojekat.dto.UserRegistrationDTO;
-import com.example.isaprojekat.dto.mapper.UserDTOToUser;
-import com.example.isaprojekat.dto.mapper.UserToUserDTO;
+import com.example.isaprojekat.dto.mapper.DTOToUser;
+import com.example.isaprojekat.dto.mapper.UserToDTO;
 import com.example.isaprojekat.model.User;
 import com.example.isaprojekat.model.UserType;
 import com.example.isaprojekat.security.TokenUtils;
@@ -38,10 +38,10 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private UserDTOToUser toUser;
+    private DTOToUser toUser;
 
     @Autowired
-    private UserToUserDTO toUserDTO;
+    private UserToDTO toUserDTO;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -68,9 +68,11 @@ public class UserController {
         User user = toUser.convert(dto);
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
         user.setPassword(encodedPassword);
-
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)), HttpStatus.CREATED);
     }
+
+
+
     @DeleteMapping(value="/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id){
         var isRemoved = userService.delete(id);
@@ -94,7 +96,7 @@ public class UserController {
 
             emailSender.sendSimpleMessage(user.getEmail(), "Registracija", "Uspesno ste registrovani");
         }
-        user.setIs_approved(true);
+        user.setIsApproved(true);
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)),HttpStatus.OK);
     }
 
@@ -111,7 +113,7 @@ public class UserController {
 
             emailSender.sendSimpleMessage(user.getEmail(), "Registracija odbijena", declineReason);
         }
-        user.setIs_approved(false);
+        user.setIsApproved(false);
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)),HttpStatus.OK);
     }
 
@@ -128,9 +130,11 @@ public class UserController {
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)),HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> get(@PathVariable Long id){
-        Optional<User> user = userService.findOne(id);
+    @GetMapping(value="/profile")
+    public ResponseEntity<UserDTO> getLoggedInUser(){
+        var loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println(loggedInUser);
+        Optional<User> user = userService.findbyEmail(loggedInUser);
 
         if(user.isPresent()) {
             return new ResponseEntity<>(toUserDTO.convert(user.get()), HttpStatus.OK);
