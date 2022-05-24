@@ -1,7 +1,5 @@
 package com.example.isaprojekat.model;
 
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +12,6 @@ import java.util.Set;
 @Table(name="boatOwners")
 @Getter
 @Setter
-
 @NoArgsConstructor
 public class BoatOwner extends  User{
 

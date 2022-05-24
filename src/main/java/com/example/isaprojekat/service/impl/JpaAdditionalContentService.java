@@ -4,10 +4,11 @@ import com.example.isaprojekat.model.AdditionalContent;
 import com.example.isaprojekat.repository.AdditionalContentRepository;
 import com.example.isaprojekat.service.AdditionalContentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class JpaAdditionalContentService implements AdditionalContentService {
 
     @Autowired
@@ -31,5 +32,10 @@ public class JpaAdditionalContentService implements AdditionalContentService {
     public Boolean delete(Long id) {
         additionalContentRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public List<AdditionalContent> findAllByEntityId(Long id) {
+        return additionalContentRepository.findAllByRentingEntityId(id);
     }
 }
