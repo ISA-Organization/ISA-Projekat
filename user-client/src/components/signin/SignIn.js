@@ -32,10 +32,10 @@ class SignIn extends React.Component {
       <Row className="justify-content-center">
         <Col md={6}>      
           <Form>
-           <h2 className="display-4" style={{marginLeft: "15%"}}>Sign in</h2>  
+           <h2 className="display-4" >Sign in</h2>  
            <br></br>
             <div className="form-inline" style={{marginBottom: "5%"}}>
-              <Form.Label style={{marginRight: "5%", width: "70px"}}>Email</Form.Label>
+              <Form.Label style={{marginRight: "5%", width: "70px", textAlign: "left"}}>Email</Form.Label>
               <Form.Control type="text" name="email" placeholder="Enter email" onChange = {(e) => this.onInputChange(e)}/>
             </div>
 
@@ -47,7 +47,7 @@ class SignIn extends React.Component {
             <br></br>
             <Button variant="success" onClick={() => {login(this.state.email, this.state.password)}} style={{marginLeft: "45%", marginBottom: "3%"}}>Sign in</Button>
             <div className="form-inline">
-              <Form.Label style={{marginLeft: "10%"}}>Don't have an account?</Form.Label>
+              <Form.Label >Don't have an account?</Form.Label>
               <Button variant="link" onClick={() => this.goToSignUp()}>Signup</Button>
             </div>
           </Form>

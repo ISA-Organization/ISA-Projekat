@@ -15,11 +15,10 @@ class AddHouse extends React.Component{
             description: "",
             numberOfRooms: 0,
             numberOfBeds: 0,
-            houseRules: "",
+            rules: "",
             price: 0,
-            additionalContent: "",
-            ownerId: 5, //sad zakucano, treba namestiti za ulogovanog
-            ownerName: ""
+            type: "HOUSE",
+            houseOwnerId: 1 //sad zakucano, treba namestiti za ulogovanog
         }
 
         this.state = {
@@ -80,11 +79,11 @@ class AddHouse extends React.Component{
                                 <Form.Label htmlFor="price">Price:</Form.Label>
                                 <Form.Control name="price"  style={ {width: "25%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 <br></br>
+                                <Form.Label htmlFor="rules">Rules:</Form.Label>
+                                <Form.Control name="rules"  style={ {width: "25%"}} onChange={(e) => this.changeInputValue(e)}/>
+                                <br></br>
                                 <Form.Label htmlFor="description">Description:</Form.Label>
                                 <Form.Control as="textarea" rows={3} name="description"  style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
-                                <br></br>
-                                <Form.Label htmlFor="additionalContent">Additional content:</Form.Label>
-                                <Form.Control as="textarea" name="additionalContent"  style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 <br></br>
                                 <Button style={{ marginTop: "25px" }} onClick={()=>{ this.addHouse() }}>
                                     Add

@@ -16,20 +16,33 @@ class EditHouse extends React.Component{
             description: "",
             numberOfRooms: 0,
             numberOfBeds: 0,
-            houseRules: "",
-            price: 0,
-            additionalContent: ""
+            rules: "",
+            price: 0
         }
 
         this.state = {
-             house: house
+             house: house,
+             additionalContent: []
         }
     }
 
     componentDidMount(){
 
          this.getHouseById(this.props.params.id)
+         this.getAdditionalContentByHouseId(this.props.params.id)
 
+
+    }
+
+    getAdditionalContentByHouseId(id){
+        Axios.get('/additionalContents/' + id)
+            .then(res => {
+                console.log(res.data)
+                this.setState({additionalContent: res.data})
+            })
+            .catch(err =>{
+                console.log(err)
+            })
     }
 
     getHouseById(id){
@@ -106,8 +119,18 @@ class EditHouse extends React.Component{
                                 <Form.Label htmlFor="description">Description:</Form.Label>
                                 <Form.Control as="textarea" rows={3} name="description" value={this.state.house.description} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 <br></br>
-                                <Form.Label htmlFor="additionalContent">Additional content:</Form.Label>
-                                <Form.Control as="textarea" name="additionalContent" value={this.state.house.additionalContent} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                                <Form.Label htmlFor="rules">House rules:</Form.Label>
+                                <Form.Control as="textarea" name="rules" value={this.state.house.rules} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                                <br></br>
+                                <Form.Label htmlFor="additionalContent">Additional content (price per day):</Form.Label>
+                                {/* <Form.Control as="textarea" name="additionalContent" value={this.state.additionalContent} style={ {width: "50%"}}/> */}
+                                {
+                                    this.state.additionalContent.map((c) => {
+                                        return (
+                                            <p>{c.name} {c.price}$</p>
+                                        )
+                                    })
+                                }
                                 <br></br>
                                 <Button style={{ marginTop: "25px" }} onClick={()=>{ this.editHouse() }}>
                                     Edit
