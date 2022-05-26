@@ -5,7 +5,6 @@ import {Button, Card, CardGroup, Modal} from 'react-bootstrap';
 
 import {withParams, withNavigation} from '../../utils/routeconf';
 import { useEffect, useState } from "react";
-import ListItem from "./ListItem";
 // function PopUpToggle(){
     
 //     const [show, setShow] = useState(false);
