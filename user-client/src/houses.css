@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(to right, #fcff9f, #521fb1);
+    background: linear-gradient(to right, #ffffff, #878787);
     min-height: 100vh
 }
 
@@ -7,7 +7,7 @@ body {
     color: #aaa
 }
 
-img {
+/* img {
     height: 170px;
     width: 140px
-}
+} */

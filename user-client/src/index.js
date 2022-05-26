@@ -22,7 +22,7 @@ class App extends React.Component{
           <Router>
             <Navbar expand bg="light" variant="light">
             <Navbar.Brand as={Link} to="/">
-            CSB
+              <img src={require('./images/logo.png')}></img>
             </Navbar.Brand>
             <Nav className="mr-auto">
               {
