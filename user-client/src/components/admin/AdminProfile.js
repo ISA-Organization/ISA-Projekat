@@ -58,11 +58,15 @@ class AdminProfile extends React.Component {
     changeInputValue(e){
         const name = e.target.name
         const value = e.target.value
+        console.log(e.target.value)
+        console.log(e.target.name)
 
         let user = this.state.user
         user[name] = value
 
         this.setState({user: user})
+        console.log(user[name])
+
     }
 
   render() {
@@ -80,7 +84,7 @@ class AdminProfile extends React.Component {
                     <h4 class="text-right">Profile Info</h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" onChange={(e) => this.changeInputValue(e)} placeholder="first name" value={this.state.user.name}/></div>
+                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" onChange={(e) => this.changeInputValue(e)} placeholder="first name" value={this.state.user.name}></input></div>
                     <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" onChange={(e) => this.changeInputValue(e)} value={this.state.user.surname} placeholder="surname"/></div>
                 </div>
                 <div class="row mt-3">
