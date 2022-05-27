@@ -1,17 +1,33 @@
 package com.example.isaprojekat.service.impl;
 
+import com.example.isaprojekat.model.Client;
+import com.example.isaprojekat.model.RentingEntity;
 import com.example.isaprojekat.model.Reservation;
+import com.example.isaprojekat.model.User;
 import com.example.isaprojekat.repository.ReservationRepository;
-import com.example.isaprojekat.service.ReservationService;
+import com.example.isaprojekat.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class JpaReservationService implements ReservationService{
 
     @Autowired
     private ReservationRepository reservationRepository;
+
+    @Autowired
+    private ClientService clientService;
+
+    @Autowired
+    private AvailablePeriodService availablePeriodService;
 
     @Override
     public Optional<Reservation> findOne(Long id) {
@@ -25,7 +41,10 @@ public class JpaReservationService implements ReservationService{
 
     @Override
     public Reservation save(Reservation reservation) {
-        return reservationRepository.save(reservation);
+        if(isPeriodFree(reservation.getRentingEntity(), reservation.getStartDate(), reservation.getEndDate())){
+            return reservationRepository.save(reservation);
+        }
+        return null;
     }
 
     @Override
@@ -33,4 +52,50 @@ public class JpaReservationService implements ReservationService{
         reservationRepository.deleteById(id);
         return true;
     }
+
+    @Override
+    public Boolean cancel(Long id) {
+        Reservation reservation = reservationRepository.getById(id);
+        if(LocalDateTime.now().plusDays(3).isBefore(ChronoLocalDateTime.from(reservation.getStartDate()))){
+            //availablePeriodService.addFromCanceledReservation(reservation);
+            reservation.setCancelled(true);
+            reservationRepository.save(reservation);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public List<Reservation> getMyUpcomingReservations() {
+        var loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        Client client = clientService.findByEmail(loggedInUser).get();
+        List<Reservation> reservations = reservationRepository.findAllByClient(client);
+        reservations.removeIf(res -> res.getStartDate().isBefore(ChronoLocalDate.from(LocalDateTime.now())));
+        return reservations;
+    }
+
+    private Boolean isPeriodFree(RentingEntity entity, LocalDate start, LocalDate end){
+        if(availablePeriodService.isPeriodFree(entity, start, end)){
+            List<Reservation> reservations = reservationRepository.findAllByRentingEntity(entity);
+            for(Reservation reservation : reservations){
+
+                if(reservation.isCancelled()) {
+                    continue;
+                }
+
+                if ((start.isAfter(reservation.getStartDate()) && start.isBefore(reservation.getEndDate())) ||
+                        (end.isAfter(reservation.getStartDate()) && end.isBefore(reservation.getEndDate()))){
+                    return false;
+                }
+
+                if(start.isBefore(reservation.getStartDate()) && end.isAfter(reservation.getEndDate())){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
 }

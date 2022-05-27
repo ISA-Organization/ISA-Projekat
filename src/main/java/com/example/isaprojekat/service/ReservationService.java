@@ -15,4 +15,8 @@ public interface ReservationService {
     Reservation save(Reservation reservation);
 
     Boolean delete(Long id);
+
+    Boolean cancel(Long id);
+
+    List<Reservation> getMyUpcomingReservations();
 }

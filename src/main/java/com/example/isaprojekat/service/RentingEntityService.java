@@ -2,6 +2,7 @@ package com.example.isaprojekat.service;
 
 import com.example.isaprojekat.model.AdditionalContent;
 import com.example.isaprojekat.model.RentingEntity;
+import com.example.isaprojekat.model.Reservation;
 import com.example.isaprojekat.model.User;
 
 import java.util.List;

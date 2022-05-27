@@ -1,6 +1,8 @@
 package com.example.isaprojekat.service.impl;
 
+import com.example.isaprojekat.model.AvailablePeriod;
 import com.example.isaprojekat.model.RentingEntity;
+import com.example.isaprojekat.model.Reservation;
 import com.example.isaprojekat.repository.RentingEntityRepository;
 import com.example.isaprojekat.service.RentingEntityService;
 import org.springframework.beans.factory.annotation.Autowired;

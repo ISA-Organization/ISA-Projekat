@@ -4,10 +4,12 @@ import com.example.isaprojekat.model.Client;
 import com.example.isaprojekat.repository.ClientRepository;
 import com.example.isaprojekat.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class JpaClientService implements ClientService {
 
     @Autowired
@@ -31,5 +33,10 @@ public class JpaClientService implements ClientService {
     public Boolean delete(Long id) {
         clientRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public Optional<Client> findByEmail(String email)  {
+        return clientRepository.findFirstByEmail(email);
     }
 }

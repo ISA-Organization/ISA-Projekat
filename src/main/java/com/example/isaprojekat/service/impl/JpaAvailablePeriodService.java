@@ -1,11 +1,16 @@
 package com.example.isaprojekat.service.impl;
 
 import com.example.isaprojekat.model.AvailablePeriod;
+import com.example.isaprojekat.model.RentingEntity;
+import com.example.isaprojekat.model.Reservation;
 import com.example.isaprojekat.repository.AvailablePeriodRepository;
 import com.example.isaprojekat.service.AvailablePeriodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,5 +43,28 @@ public class JpaAvailablePeriodService implements AvailablePeriodService {
     @Override
     public List<AvailablePeriod> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public AvailablePeriod addFromCanceledReservation(Reservation reservation) {
+        AvailablePeriod period = new AvailablePeriod();
+
+        period.setStart(Date.from(Instant.from(reservation.getStartDate())));
+        period.setEnd(Date.from(Instant.from(reservation.getEndDate())));
+        period.setRentingEntity(reservation.getRentingEntity());
+        period.setSpecialOffer(false);
+
+        return repository.save(period);
+    }
+
+    @Override
+    public Boolean isPeriodFree(RentingEntity rentingEntity, LocalDate startDate, LocalDate endDate) {
+        for(AvailablePeriod period : rentingEntity.getAvailablePeriods()) {
+            if ((period.getStart().toInstant().equals(Instant.from(startDate)) || period.getStart().toInstant().isBefore(Instant.from(startDate)))
+            && (period.getEnd().toInstant().equals(Instant.from(endDate)) || period.getEnd().toInstant().isAfter(Instant.from(endDate)))){
+                return true;
+            }
+        }
+        return false;
     }
 }
