@@ -144,13 +144,21 @@ public class UserController {
         }
     }
 
-
-
-
     @GetMapping
     public ResponseEntity<List<UserDTO>> get(){
         List<User> users = userService.findAll();
         return new ResponseEntity<>(toUserDTO.convert(users), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{email}")
+    public ResponseEntity<UserDTO> getByEmail(@PathVariable String email){
+        Optional<User> user = userService.findbyEmail(email);
+        if(user.isPresent()){
+            return new ResponseEntity<>(toUserDTO.convert(user.get()), HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PreAuthorize("permitAll()")

@@ -94,12 +94,11 @@ class EditHouse extends React.Component{
     render(){
         return(
             <Row className="justify-content-center">
-                <Col xs="12" sm="10" md="8" >
+                <Col md={5}>
                 
                         <h1 style={{color: "black"}}>House profile</h1>
-                
-                             <Form>
-                                
+
+                             <Form.Group>
                                 <Form.Label htmlFor="name">Name:</Form.Label>
                                 <Form.Control name="name" value={this.state.house.name} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 <br></br>
@@ -115,8 +114,13 @@ class EditHouse extends React.Component{
                                 <br></br>
                                 <Form.Label htmlFor="price">Price:</Form.Label>
                                 <Form.Control name="price" value={this.state.house.price} style={ {width: "25%"}} onChange={(e) => this.changeInputValue(e)}/>
-                                <br></br>
-                                <Form.Label htmlFor="description">Description:</Form.Label>
+                            </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                            <Form.Group>
+                            <img height={150} src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
+                            <br></br>
+                            <Form.Label htmlFor="description">Description:</Form.Label>
                                 <Form.Control as="textarea" rows={3} name="description" value={this.state.house.description} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 <br></br>
                                 <Form.Label htmlFor="rules">House rules:</Form.Label>
@@ -131,17 +135,17 @@ class EditHouse extends React.Component{
                                         )
                                     })
                                 }
-                                <br></br>
                                 <Button style={{ marginTop: "25px" }} onClick={()=>{ this.editHouse() }}>
                                     Edit
                                 </Button>
                                 <Button variant="danger" style={{ marginTop: "25px", marginLeft: "25px" }} onClick={()=>{ this.deleteHouse() }}>
                                     Delete 
                                 </Button>
-                            </Form>
-                </Col>
+                            </Form.Group>
+                            
+                    </Col>
                 
-                <img src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
+                
                         
                             
             </Row>

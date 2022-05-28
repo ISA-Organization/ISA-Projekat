@@ -14,14 +14,28 @@ class Houses extends React.Component{
             price: -1
         }
 
+        let user = {
+            id: 0,
+            address: '',
+             city: '',
+             email: '',
+             name: '',
+             phoneNumber:'',
+             surname:'',
+             approved : false,
+             type: ''
+        }
+
         this.state = {
              houses: [],
-             search: search
+             search: search,
+             user: user
         }
     }
 
-    componentDidMount(){
+   async componentDidMount(){
 
+        await this.getUser()
          this.getHouses()
 
     }
@@ -39,16 +53,32 @@ class Houses extends React.Component{
           if (this.state.search.price != -1) {
             config.params.price = this.state.search.price;
           }
-      
+          console.log(this.state.user.id)
+          config.params.ownerId = this.state.user.id;
 
         Axios.get('/houses', config)
             .then(res => {
-                console.log(res)
                 this.setState({houses: res.data})
+                console.log(config)
             })
             .catch(err =>{
                 console.log(err)
             })
+    }
+
+    async getUser(){
+        let config = {
+            headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+        }
+        try{
+			let result = await Axios.get("/users/profile", config);
+			this.setState({
+				user: result.data
+			});
+		  }
+		  catch (error){
+			console.log(error);
+		  }
     }
 
     goToHouse(id){
