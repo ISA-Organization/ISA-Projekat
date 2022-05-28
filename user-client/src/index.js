@@ -22,7 +22,7 @@ class App extends React.Component{
           <Router>
             <Navbar expand bg="light" variant="light">
             <Navbar.Brand as={Link} to="/">
-            CSB
+              <img src={require('./images/logo.png')}></img>
             </Navbar.Brand>
             <Nav className="mr-auto">
               {
@@ -49,13 +49,14 @@ class App extends React.Component{
                 
             </Nav>
             {window.localStorage['jwt'] ? 
-              <Nav.Link as={Link} style={{color: "purple"}} to="/profile">Go to your profile</Nav.Link>
+              <Nav.Link as={Link} to="/profile">Your profile</Nav.Link>
               :null
             }
             {window.localStorage['jwt'] ? 
-                    <Nav.Link onClick = {()=>logout()} style={{color: "purple"}}>Sign out</Nav.Link>
+                    
+                    <Nav.Link style={{color:"rgba(0,0,0,.5)"}} onClick = {()=>logout()}>Sign out</Nav.Link>
                     :
-                    <Nav.Link as={Link} to="/signin" style={{color: "purple"}}>Sign in</Nav.Link>
+                    <Nav.Link as={Link} to="/signin">Sign in</Nav.Link>
                 }
             </Navbar>
             <Container style={{paddingTop:"10px"}}>

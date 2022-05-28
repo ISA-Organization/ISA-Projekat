@@ -5,7 +5,7 @@ class Home extends React.Component {
   render() {
     return(
         <div className="bg">
-            <h1 class="display-4" style={{color: "black", marginLeft: "22%"}}>Country side booking</h1>
+            <h1 class="display-4">Welcome to Fishing booker!</h1>
         </div>
     )
   }
