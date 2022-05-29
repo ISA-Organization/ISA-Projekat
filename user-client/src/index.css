@@ -1,9 +1,9 @@
-table {
+/* table {
   border: 3px solid navy;
   width: 50%;
 
   text-align: center;
-}
+} */
 
 h1 {
 color: #0037ff;
@@ -23,7 +23,7 @@ border-radius: 8px
 }
 
 .button-navy { background-color: navy; } 
-
+/* 
 ul {
   list-style-type: none;
   margin: 0;
@@ -46,7 +46,7 @@ li a {
 
 li a:hover:not(.active) {
   background-color: rgb(226, 216, 216);
-}
+} */
 
 body, html {
   height: 100%;
@@ -58,5 +58,4 @@ body, html {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover; */
-
-  }
+}

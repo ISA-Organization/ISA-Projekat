@@ -11,6 +11,7 @@ import EditHouse from './components/house/EditHouse';
 import AddHouse from './components/house/AddHouse';
 import UserList from './components/admin/UserList';
 import ProfilePage from './components/ProfilePage';
+import Calendar from './components/calendar/Calendar';
 class App extends React.Component{
 
   render(){
@@ -46,6 +47,13 @@ class App extends React.Component{
                 </Nav.Link>]
                 : null
               }
+               {
+                role === 'HOUSE_OWNER' ?
+                [<Nav.Link as={Link} to="/calendar">
+                Calendar
+                </Nav.Link>]
+                : null
+              }
                 
             </Nav>
             {window.localStorage['jwt'] ? 
@@ -69,6 +77,7 @@ class App extends React.Component{
                 <Route path="/houses/add" element={<AddHouse/>}/>
                 <Route path="/houses/:id" element={<EditHouse/>}/>
                 <Route path="/profile" element={<ProfilePage/>}/>
+                <Route path="/calendar" element={<Calendar/>}/>
               </Routes>
             </Container>
           </Router>

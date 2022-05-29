@@ -1,0 +1,215 @@
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  
+  input, textarea, select {
+    outline: none;
+  }
+  
+  .main {
+    position: relative;
+    width: 100%;
+  }
+  
+  nav ul, nav ol, ul, li {
+    list-style: none;
+    list-style-image: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .wrapper {
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .wrapper .main-content {
+    border: none;
+    padding: 30px 15px;
+  }
+  
+  .table-navigation {
+    position: relative;
+    margin-bottom: 15px;
+    background: #a8baff;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  
+  .table-navigation__prev {
+    color: #000000;
+    font-weight: 600;
+    font-size: 13px;
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  .table-navigation__create {
+    color: #000000;
+    font-weight: 600;
+    font-size: 13px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-decoration: none;
+    position: relative;
+  }
+  
+  .table-navigation__search {
+    height: 23px;
+    position: relative;
+    padding-left: 30px;
+    border: 1px solid #bdbdbd;
+  }
+
+  /* .table-navigation__next {
+    color: #000000;
+    font-weight: 600;
+    font-size: 13px;
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-decoration: none;
+  } */
+  
+  .table-navigation__text {
+    padding-right: 10px;
+    color: #323232;
+  }
+  
+  .table-navigation__input-container {
+    position: relative;
+  }
+  
+  @media only screen and (max-width: 600px) {
+    .table-navigation__prev {
+      visibility: hidden;
+    }
+
+    .table-navigation__next {
+        visibility: hidden;
+      }
+    
+    }
+    .table-navigation__center {
+      color: #323232;
+      font-size: 14px;
+      font-weight: bold;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    @media only screen and (max-width: 600px) {
+      .table-navigation__center {
+        flex: initial;
+      }
+    }
+    .container {
+      min-height: 100%;
+    }
+    
+    .table-navigation__next {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      text-align: right;
+      color: #000000;
+      font-weight: 600;
+      font-size: 13px;
+      text-decoration: none;
+    }
+    
+    
+    .grey-box-wrap .top .next {
+      text-align: right;
+    }
+    
+    .table-wrapper {
+      width: 100%;
+    }
+    
+    @media only screen and (max-width: 767px) {
+      .table-wrapper {
+        overflow-x: auto;
+        padding-bottom: 15px;
+      }
+    }
+    @media only screen and (max-width: 767px) {
+      .table-wrapper table {
+        width: 767px;
+        max-width: none;
+      }
+    }
+    .main-content__title {
+      font-size: 22px;
+      color: grey-2;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    
+    .month-table {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    
+    .month-table__days {
+      padding-bottom: 10px;
+    }
+    
+    .month-table__days {
+      text-transform: uppercase;
+      font-weight: normal;
+    }
+    
+    .month-table__regular--disabled {
+      background: #ececec;
+    }
+    
+    .month-table__regular {
+      width: 14%;
+      border: 1px solid #dedede;
+    }
+    
+    .month-table__regular--disabled {
+      color: #bdbdbd;
+    }
+    
+    .month-table__date {
+      width: 100%;
+      padding: 5px;
+      color: #323232;
+    }
+    
+    .month-table__hours {
+      width: 100%;
+      padding: 10px 5px;
+    }
+    
+    .month-table__day {
+      color: #444;
+      border-bottom: 1px solid transparent;
+      text-decoration: none;
+    }
+    
+    .month-table__day:hover {
+      text-decoration: underline;
+    }
+    
+    .month-table__regular--disabled .month-table__day {
+      color: #bdbdbd;
+      cursor: default;
+      text-decoration: none;
+    }
