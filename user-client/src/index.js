@@ -33,7 +33,7 @@ class App extends React.Component{
             </Navbar.Brand>
             <Nav className="mr-auto">
               {
-                role === 'ADMIN' && approved === 'true' ? 
+                role == 'ADMIN' && approved == 'true' ? 
                 [<Nav.Link as={Link} to="/users">
                   Users
                   </Nav.Link>]
@@ -41,21 +41,21 @@ class App extends React.Component{
                 :null
                  }
               {
-                role === 'HOUSE_OWNER'  && approved === 'true'  ?
+                role == 'HOUSE_OWNER'  && approved == 'true'  ?
                 [<Nav.Link as={Link} to="/houses">
                 Houses
                 </Nav.Link>]
                 : null
               }
               {
-                role === 'HOUSE_OWNER'  && approved === 'true'  ?
+                role == 'HOUSE_OWNER'  && approved == 'true'  ?
                 [<Nav.Link as={Link} to="/reservations">
                 Reservations
                 </Nav.Link>]
                 : null
               }
                {
-                role === 'HOUSE_OWNER'  && approved === 'true'  ?
+                role == 'HOUSE_OWNER'  && approved == 'true'  ?
                 [<Nav.Link as={Link} to="/calendar">
                 Calendar
                 </Nav.Link>]
@@ -63,7 +63,7 @@ class App extends React.Component{
               }
                 
             </Nav>
-            {window.localStorage['jwt']  && approved === 'true'  ? 
+            {window.localStorage['jwt']  && approved == 'true'  ? 
               <Nav.Link as={Link} to="/profile">Your profile</Nav.Link>
               :null
             }
