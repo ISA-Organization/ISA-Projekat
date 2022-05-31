@@ -18,6 +18,7 @@ class SignIn extends React.Component {
       city: "",
       phoneNumber: "",
       type: "",
+      isApproved : false,
       password: "",
       confirmPassword: ""
     }
