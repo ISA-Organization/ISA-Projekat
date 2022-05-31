@@ -23,7 +23,6 @@ class ProfilePage extends React.Component {
 
       return(
           <div className="bg">
-              <h1 class="display-4" style={{color: "black", marginLeft: "22%"}}>This is your profile page</h1>
               {this.renderSwitch(role)}
           </div>
       )

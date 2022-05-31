@@ -33,7 +33,7 @@ class App extends React.Component{
             </Navbar.Brand>
             <Nav className="mr-auto">
               {
-                role == 'ADMIN' && approved == 'true' ? 
+                role == 'ADMIN' && approved === 'true' ? 
                 [<Nav.Link as={Link} to="/users">
                   Users
                   </Nav.Link>]
@@ -41,33 +41,26 @@ class App extends React.Component{
                 :null
                  }
               {
-                role == 'HOUSE_OWNER'  && approved == 'true'  ?
+                role === 'HOUSE_OWNER'  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/houses">
                 Houses
                 </Nav.Link>]
                 : null
               }
               {
-                role == 'HOUSE_OWNER'  && approved == 'true'  ?
+                role === 'HOUSE_OWNER'  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/reservations">
                 Reservations
                 </Nav.Link>]
                 : null
               }
-               {
-                role == 'HOUSE_OWNER'  && approved == 'true'  ?
-                [<Nav.Link as={Link} to="/calendar">
-                Calendar
-                </Nav.Link>]
-                : null
-              }
-                
+  
             </Nav>
-            {window.localStorage['jwt']  && approved == 'true'  ? 
+            {window.localStorage['jwt']  && approved === 'true'  ? 
               <Nav.Link as={Link} to="/profile">Your profile</Nav.Link>
               :null
             }
-            {window.localStorage['jwt'] ? 
+            {window.localStorage['jwt'] && approved === 'true' ? 
                     
                     <Nav.Link style={{color:"rgba(0,0,0,.5)"}} onClick = {()=>logout()}>Sign out</Nav.Link>
                     :
@@ -84,7 +77,7 @@ class App extends React.Component{
                 <Route path="/houses/add" element={<AddHouse/>}/>
                 <Route path="/houses/:id" element={<EditHouse/>}/>
                 <Route path="/profile" element={<ProfilePage/>}/>
-                <Route path="/calendar" element={<Calendar/>}/>
+                <Route path="/calendar/:id" element={<Calendar/>}/>
               </Routes>
             </Container>
           </Router>
