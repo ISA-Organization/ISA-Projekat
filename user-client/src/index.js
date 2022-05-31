@@ -11,12 +11,19 @@ import EditHouse from './components/house/EditHouse';
 import AddHouse from './components/house/AddHouse';
 import UserList from './components/admin/UserList';
 import ProfilePage from './components/ProfilePage';
+import Calendar from './components/calendar/Calendar';
 class App extends React.Component{
 
+  isAccountApproved(){
+    this.approved = window.localStorage.getItem['approved']
+    console.log('Ovo je da li je approved')
+    console.log(this.approved)
+    return this.approved;
+  }
   render(){
     const jwt = window.localStorage['jwt'];
     const role = window.localStorage['role'];
-
+    const approved = window.localStorage['approved'];
       return(
         <div>
           <Router>
@@ -26,29 +33,37 @@ class App extends React.Component{
             </Navbar.Brand>
             <Nav className="mr-auto">
               {
-                role === 'ADMIN' ?
+                role === 'ADMIN' && approved === 'true' ? 
                 [<Nav.Link as={Link} to="/users">
                   Users
                   </Nav.Link>]
-                  : null
-              }
+                
+                :null
+                 }
               {
-                role === 'HOUSE_OWNER' ?
+                role === 'HOUSE_OWNER'  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/houses">
                 Houses
                 </Nav.Link>]
                 : null
               }
               {
-                role === 'HOUSE_OWNER' ?
+                role === 'HOUSE_OWNER'  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/reservations">
                 Reservations
                 </Nav.Link>]
                 : null
               }
+               {
+                role === 'HOUSE_OWNER'  && approved === 'true'  ?
+                [<Nav.Link as={Link} to="/calendar">
+                Calendar
+                </Nav.Link>]
+                : null
+              }
                 
             </Nav>
-            {window.localStorage['jwt'] ? 
+            {window.localStorage['jwt']  && approved === 'true'  ? 
               <Nav.Link as={Link} to="/profile">Your profile</Nav.Link>
               :null
             }
@@ -69,9 +84,11 @@ class App extends React.Component{
                 <Route path="/houses/add" element={<AddHouse/>}/>
                 <Route path="/houses/:id" element={<EditHouse/>}/>
                 <Route path="/profile" element={<ProfilePage/>}/>
+                <Route path="/calendar" element={<Calendar/>}/>
               </Routes>
             </Container>
           </Router>
+        
         </div>
       )
       
