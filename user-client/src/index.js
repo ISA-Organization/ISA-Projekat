@@ -12,6 +12,8 @@ import AddHouse from './components/house/AddHouse';
 import UserList from './components/admin/UserList';
 import ProfilePage from './components/ProfilePage';
 import Calendar from './components/calendar/Calendar';
+import AddAdditionalContent from './components/additional content/AddAdditionalContent';
+
 class App extends React.Component{
 
   isAccountApproved(){
@@ -78,6 +80,7 @@ class App extends React.Component{
                 <Route path="/houses/:id" element={<EditHouse/>}/>
                 <Route path="/profile" element={<ProfilePage/>}/>
                 <Route path="/calendar/:id" element={<Calendar/>}/>
+                <Route path="/additionalContent/:entityId" element={<AddAdditionalContent/>}/>
               </Routes>
             </Container>
           </Router>

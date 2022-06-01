@@ -99,6 +99,14 @@ class EditHouse extends React.Component{
         this.props.navigate('/calendar/' + houseId);
     }
 
+<<<<<<< Updated upstream
+=======
+    goToAdditionalContent(){
+        this.props.navigate('/additionalContent/' + this.state.house.id)
+    }
+
+
+>>>>>>> Stashed changes
     render(){
         return(
             <Row className="justify-content-center">
@@ -142,7 +150,7 @@ class EditHouse extends React.Component{
                                 <Form.Label htmlFor="rules">House rules:</Form.Label>
                                 <Form.Control as="textarea" name="rules" value={this.state.house.rules} style={ {width: "100%", height: "20%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 <br></br>
-                                <Form.Label htmlFor="additionalContent"><button type="button" class="btn btn-outline-light btn-sm">+</button>     Additional content (price per day):</Form.Label>
+                                <Form.Label htmlFor="additionalContent"><button type="button" class="btn btn-outline-light btn-sm" onClick={()=> this.goToAdditionalContent()}>+</button>     Additional content (price per day):</Form.Label>
                                 <ul class="list-group list-group-light list-group-small" style={{width: "100%"}}>
                                 {
                                     this.state.additionalContent.map((c) => {
