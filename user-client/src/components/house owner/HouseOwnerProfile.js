@@ -1,6 +1,7 @@
 import React from 'react'
 import Axios from '../../utils/Axios'
 import {Form, Row, Col, Button} from 'react-bootstrap';
+import {withParams, withNavigation} from '../../utils/routeconf';
 
 class HouseOwnerProfile extends React.Component {
 
@@ -69,13 +70,18 @@ class HouseOwnerProfile extends React.Component {
 
     }
 
+    changePassword(id){
+        this.props.navigate('/users/pass/' + id)
+    }
+
 
   render() {
     return(
         <Row className="justify-content-center">
         <Col md={4}>
             <h1 style={{color: "black", width: "75%", textAlign: "right"}}>User profile</h1>
-            <button type="button" class="btn btn-outline-danger" onClick={() => { this.sendDeleteRequest(this.state.user.id)}} style={{marginTop: "5%", marginLeft: "20%"}}>Delete account</button>
+            <button type="button" class="btn btn-outline-danger" onClick={() => { this.sendDeleteRequest(this.state.user.id)}} style={{marginTop: "5%", marginLeft: "15%", width: "50%"}}>Delete account</button>
+            <button type="button" class="btn btn-outline-primary" onClick={() => { this.changePassword(this.state.user.id)}} style={{marginTop: "5%", marginLeft: "15%", width: "50%"}}>Change password</button>
        </Col>
 
         <Col md={4}>
@@ -110,4 +116,4 @@ class HouseOwnerProfile extends React.Component {
   }
 }
 
-export default HouseOwnerProfile;
+export default withNavigation(withParams(HouseOwnerProfile));

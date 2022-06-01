@@ -1,6 +1,7 @@
 package com.example.isaprojekat.controller;
 
 import com.example.isaprojekat.dto.UserAuthenticationDTO;
+import com.example.isaprojekat.dto.UserChangePasswordDTO;
 import com.example.isaprojekat.dto.UserDTO;
 import com.example.isaprojekat.dto.UserRegistrationDTO;
 import com.example.isaprojekat.dto.mapper.DTOToUser;
@@ -28,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -217,5 +219,34 @@ public class UserController {
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+
+    @PutMapping(value="/pass/{id}")
+    public ResponseEntity<Void> changePassword(
+            @PathVariable Long id,
+            @RequestBody UserChangePasswordDTO reqBody){
+        // ova metoda se "okida" kada se primi PUT /api/users?chpass
+
+        // pogrešno bi bilo mapirati na npr. PUT /api/users/password,
+        // pošto "password" nije punopravan REST resurs!
+
+        if(!reqBody.getPassword().equals(reqBody.getPasswordConfirm())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        boolean result;
+        try {
+            result = userService.changePassword(id, reqBody);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if(result) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 package com.example.isaprojekat.service.impl;
 
+import com.example.isaprojekat.dto.UserChangePasswordDTO;
 import com.example.isaprojekat.model.*;
 import com.example.isaprojekat.repository.*;
 import com.example.isaprojekat.service.UserService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -111,5 +113,32 @@ public class JpaUserService implements UserService {
             default: return null;
         }
 
+    }
+
+    @Override
+    public boolean changePassword(Long id, UserChangePasswordDTO userPasswordChangeDto) {
+        Optional<User> result = userRepository.findById(id);
+
+        if(!result.isPresent()) {
+            throw new EntityNotFoundException();
+        }
+
+        User user = result.get();
+
+        if(!user.getEmail().equals(userPasswordChangeDto.getEmail())
+                || passwordEncoder.matches(user.getPassword(), userPasswordChangeDto.getOldPassword())){
+            return false;
+        }
+
+        String password = userPasswordChangeDto.getPassword();
+        if (!userPasswordChangeDto.getPassword().equals("")) {
+            password = passwordEncoder.encode(userPasswordChangeDto.getPassword());
+        }
+
+        user.setPassword(password);
+
+        userRepository.save(user);
+
+        return true;
     }
 }

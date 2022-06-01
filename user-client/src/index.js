@@ -13,6 +13,7 @@ import UserList from './components/admin/UserList';
 import ProfilePage from './components/ProfilePage';
 import Calendar from './components/calendar/Calendar';
 import AddAdditionalContent from './components/additional content/AddAdditionalContent';
+import PasswordChange from './components/password change/PasswordChange';
 
 class App extends React.Component{
 
@@ -81,6 +82,7 @@ class App extends React.Component{
                 <Route path="/profile" element={<ProfilePage/>}/>
                 <Route path="/calendar/:id" element={<Calendar/>}/>
                 <Route path="/additionalContent/:entityId" element={<AddAdditionalContent/>}/>
+                <Route path="/users/pass/:id" element={<PasswordChange/>}/>
               </Routes>
             </Container>
           </Router>
