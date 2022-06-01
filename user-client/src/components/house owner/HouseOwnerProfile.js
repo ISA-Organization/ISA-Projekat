@@ -76,7 +76,7 @@ class HouseOwnerProfile extends React.Component {
         <Col md={4}>
             <h1 style={{color: "black", width: "75%", textAlign: "right"}}>User profile</h1>
             <button type="button" class="btn btn-outline-danger" onClick={() => { this.sendDeleteRequest(this.state.user.id)}} style={{marginTop: "5%", marginLeft: "20%"}}>Delete account</button>
-        </Col>
+       </Col>
 
         <Col md={4}>
             <Form.Group>
@@ -104,8 +104,7 @@ class HouseOwnerProfile extends React.Component {
         </Col>
         <Col>
             <button type="button" class="btn btn-primary" style={{marginTop: "160%"}} onClick={()=>{ this.editUser() }}>Edit</button>
-        </Col>
-       
+        </Col>       
     </Row>
     )
   }
