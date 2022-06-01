@@ -11,8 +11,10 @@ import EditHouse from './components/house/EditHouse';
 import AddHouse from './components/house/AddHouse';
 import UserList from './components/admin/UserList';
 import ProfilePage from './components/ProfilePage';
-import ClientComplaint from './components/client/ClientComplaint';
 import Calendar from './components/calendar/Calendar';
+import AddAdditionalContent from './components/additional content/AddAdditionalContent';
+import PasswordChange from './components/password change/PasswordChange';
+
 class App extends React.Component{
 
   isAccountApproved(){
@@ -42,82 +44,26 @@ class App extends React.Component{
                 :null
                  }
               {
-                role == 'HOUSE_OWNER'  && approved == 'true'  ?
+                role === 'HOUSE_OWNER'  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/houses">
                 Houses
                 </Nav.Link>]
                 : null
               }
               {
-                role == 'HOUSE_OWNER'  && approved == 'true'  ?
+                role === 'HOUSE_OWNER'  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/reservations">
                 Reservations
                 </Nav.Link>]
                 : null
               }
-                            {
-                role === 'CLIENT' ?
-                [<Nav.Link as={Link} to="/client-houses">
-                Houses
-                </Nav.Link>]
-                : null
-              }
-              {
-                role === 'CLIENT' ?
-                [<Nav.Link as={Link} to="/client-boats">
-                Boats
-                </Nav.Link>]
-                : null
-              }
-              {
-                role === 'CLIENT' ?
-                [<Nav.Link as={Link} to="/client-instructors">
-                Instructors
-                </Nav.Link>]
-                : null
-              }
-              {
-                role === 'CLIENT' ?
-                [<Nav.Link as={Link} to="/client-history">
-                History
-                </Nav.Link>]
-                : null
-              }
-              {
-                role === 'CLIENT' ?
-                [<Nav.Link as={Link} to="/client-reservations">
-                Reservations
-                </Nav.Link>]
-                : null
-              }
-              {
-                role === 'CLIENT' ?
-                [<Nav.Link as={Link} to="/client-penalties">
-                Penalties
-                </Nav.Link>]
-                : null
-              }
-              {
-                role === 'CLIENT' ?
-                [<Nav.Link as={Link} to="/client-subscriptions">
-                Subscriptions
-                </Nav.Link>]
-                : null
-              }
-              {
-                role === 'CLIENT' ?
-                [<Nav.Link as={Link} to="/client-complaints">
-                Complaints
-                </Nav.Link>]
-                : null
-              }
-                
+  
             </Nav>
             {window.localStorage['jwt']  && approved === 'true'  ? 
               <Nav.Link as={Link} to="/profile">Your profile</Nav.Link>
               :null
             }
-            {window.localStorage['jwt'] && approved == 'true' ? 
+            {window.localStorage['jwt'] && approved === 'true' ? 
                     
                     <Nav.Link style={{color:"rgba(0,0,0,.5)"}} onClick = {()=>logout()}>Sign out</Nav.Link>
                     :
@@ -134,8 +80,9 @@ class App extends React.Component{
                 <Route path="/houses/add" element={<AddHouse/>}/>
                 <Route path="/houses/:id" element={<EditHouse/>}/>
                 <Route path="/profile" element={<ProfilePage/>}/>
-                <Route path="/client-complaint" element={<ClientComplaint/>}/>
                 <Route path="/calendar/:id" element={<Calendar/>}/>
+                <Route path="/additionalContent/:entityId" element={<AddAdditionalContent/>}/>
+                <Route path="/users/pass/:id" element={<PasswordChange/>}/>
               </Routes>
             </Container>
           </Router>

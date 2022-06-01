@@ -1,5 +1,6 @@
 package com.example.isaprojekat.service;
 
+import com.example.isaprojekat.dto.UserChangePasswordDTO;
 import com.example.isaprojekat.model.User;
 
 import java.util.List;
@@ -17,5 +18,5 @@ public interface UserService {
 
     Optional<User> findbyEmail(String email);
 
-    //boolean changePassword(Long id, KorisnikPromenaLozinkeDto korisnikPromenaLozinkeDto);
+    boolean changePassword(Long id, UserChangePasswordDTO userPasswordChangeDto);
 }
