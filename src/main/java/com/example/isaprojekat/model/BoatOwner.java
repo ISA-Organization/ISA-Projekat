@@ -1,7 +1,5 @@
 package com.example.isaprojekat.model;
 
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,11 +12,10 @@ import java.util.Set;
 @Table(name="boatOwners")
 @Getter
 @Setter
-
 @NoArgsConstructor
 public class BoatOwner extends  User{
 
-    @OneToMany(mappedBy = "boatOwner" , fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "boatOwner" , cascade = CascadeType.ALL)
     private Set<Boat> boats = new HashSet<>();
 
 

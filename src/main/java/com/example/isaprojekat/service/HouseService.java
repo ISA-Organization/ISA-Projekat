@@ -1,8 +1,6 @@
 package com.example.isaprojekat.service;
 
 import com.example.isaprojekat.model.House;
-import com.example.isaprojekat.model.User;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,5 +17,5 @@ public interface HouseService {
 
     House update(House house);
 
-    List<House> find(String name, String address, Double price);
+    List<House> find(String name, String address, Double price, Long ownerId);
 }

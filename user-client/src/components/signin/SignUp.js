@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, Row, Col} from "react-bootstrap";
+import { Form, Button, Row, Col, Container, FormGroup} from "react-bootstrap";
 import '../../index.css';
 import Axios from "../../utils/Axios";
 import {withNavigation} from '../../utils/routeconf.js'
@@ -18,6 +18,7 @@ class SignIn extends React.Component {
       city: "",
       phoneNumber: "",
       type: "",
+      isApproved : false,
       password: "",
       confirmPassword: ""
     }
@@ -51,41 +52,42 @@ class SignIn extends React.Component {
 
   render() {
     return (
+      <Container fluid>
       <Row className="justify-content-center">
         <Col md={4}>
             <Form>
                 <h2 className="display-4">Sign up</h2>
-                <Form.Group>
+                <Form.Group mb={3}>
                     <br></br>
                     <Form.Label>First name</Form.Label>
                     <Form.Control type="text" name="name" placeholder="Enter first name" onChange = {(e) => this.onInputChange(e)}/>
                 </Form.Group>
                 <br></br>
-                <Form.Group>
+                <Form.Group mb={3}>
                     <Form.Label>Last name</Form.Label>
                     <Form.Control type="text" name="surname" placeholder="Enter last name" onChange = {(e) => this.onInputChange(e)}/>
                 </Form.Group>
                 <br></br>
-                <Form.Group>
+                <Form.Group mb={3}>
                     <Form.Label>Address</Form.Label>
                     <Form.Control type="text" name="address" placeholder="Enter address" onChange = {(e) => this.onInputChange(e)}/>
                 </Form.Group>
                 <br></br>
-                <Form.Group>
+                <Form.Group mb={3}>
                     <Form.Label>City</Form.Label>
                     <Form.Control type="text" name="city" placeholder="Enter city" onChange = {(e) => this.onInputChange(e)}/>
                 </Form.Group>
                 <br></br>
+                <FormGroup mb={3}>
                 <Form.Label>Telephone number</Form.Label>
-                <div className="form-inline">
                   <Form.Control type="text" name="phoneNumber" placeholder="Enter telephone number" onChange = {(e) => this.onInputChange(e)}/>  
-                  <Button variant="success" onClick={() => this.signUp()} style={{marginLeft: "10%"}}>Sign up</Button>
-                </div>
+                </FormGroup>
+                
             </Form> 
         </Col>
            
         <Col md={4}>        
-          <Form>
+          <Form style={{marginTop:"3px"}}>
             <Form.Group>
                 <br></br>
                 <br></br>
@@ -104,23 +106,30 @@ class SignIn extends React.Component {
                     </Form.Control>
             </Form.Group>
             <br></br>
-            <Form.Group>
+            <Form.Group mb={3}>
               <Form.Label>Email</Form.Label>
               <Form.Control type="text" name="email" placeholder="Enter email" onChange = {(e) => this.onInputChange(e)}/>
             </Form.Group>
             <br></br>
-            <Form.Group>
+            <Form.Group mb={3}>
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" name="password" placeholder="Enter password" onChange = {(e) => this.onInputChange(e)}/>
             </Form.Group>
             <br></br>
-            <Form.Group>
+            <Form.Group mb ={3}>
             <Form.Label>Confirm password</Form.Label>
             <Form.Control type="password" name="confirmPassword" placeholder="Enter password" onChange = {(e) => this.onInputChange(e)}/>
             </Form.Group>
+           
+
+            <FormGroup mb = {3}>
+                <Button mx={"auto"} variant="success" onClick={() => this.signUp()} style={{marginTop:"55px", width:"342px"}}>Sign up</Button>
+
+            </FormGroup>
           </Form>
         </Col>
       </Row>
+      </Container>
     );
   }
 }

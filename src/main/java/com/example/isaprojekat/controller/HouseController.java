@@ -80,15 +80,15 @@ public class HouseController {
 //    //@PreAuthorize("hasAnyRole('KORISNIK', 'ADMIN')")
     @GetMapping
     public ResponseEntity<List<HouseDTO>> getAll(
+            @RequestParam(required = false) Long ownerId,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String address,
-            @RequestParam(required = false) Double price,
-            @RequestParam(required = false) Long ownerId){
+            @RequestParam(required = false) Double price){
 
         List<House> houses;
 
-        if(name != null || address != null || price != null) {
-            houses = houseService.find(name, address, price);
+        if(name != null || address != null || price != null || ownerId != null) {
+            houses = houseService.find(name, address, price, ownerId);
         }
         else {
             houses = houseService.findAll();

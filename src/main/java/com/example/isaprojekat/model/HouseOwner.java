@@ -1,6 +1,5 @@
 package com.example.isaprojekat.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,16 +15,14 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-
 public class HouseOwner extends User {
 
     @OneToMany(mappedBy = "houseOwner", cascade = CascadeType.ALL)
-    private List<House> houseList;
+    private Set<House> houses = new HashSet<>();
 
-
-
-    public HouseOwner(Long id, String firstName, String surname, String address, String city, String phoneNumber, String email, String password, Boolean is_approved) {
-        super(id, firstName, surname, address, city, phoneNumber, email, password, is_approved, UserType.HOUSE_OWNER);
-        this.houseList = new ArrayList<>();
+    public HouseOwner(Long id, String firstname, String surname, String address, String city, String phoneNumber,
+                      String email, String password, Boolean isApproved) {
+        super(id, firstname, surname, address, city, phoneNumber, email, password, isApproved, UserType.HOUSE_OWNER);
+        this.houses = new HashSet<>();
     }
 }

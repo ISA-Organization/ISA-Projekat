@@ -1,14 +1,8 @@
 package com.example.isaprojekat.dto;
-
-import com.example.isaprojekat.model.AdditionalContent;
-import com.example.isaprojekat.model.HouseOwner;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.Column;
-import java.util.List;
 
 @Getter
 @Setter

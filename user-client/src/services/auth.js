@@ -8,8 +8,8 @@ export const login = async function(email, password){
     }
     try{
         const ret = await Axios.post('/users/auth', data);
-        console.log(ret.data)
         const decoded = jwt_decode(ret.data);
+        console.log(decoded)
         window.localStorage.setItem('role', decoded.role.authority);
         window.localStorage.setItem('jwt', ret.data);
     }catch(error){
