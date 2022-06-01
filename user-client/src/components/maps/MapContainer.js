@@ -9,9 +9,22 @@ class MapContainer extends Component {
 
         this.state = {
             lat: this.props.lat,
-            lng: this.props.lng
+            lng: this.props.lng,
+            zoom: 15
        }
     }
+
+    handleChangeLocation (lat, lng){
+
+        this.setState({lat: lat})
+        this.setState({lng: lng})
+      }
+
+      handleChangeZoom (newZoom){
+
+        this.setState({zoom: newZoom})
+      }
+
 
     render(){
         return(
@@ -21,6 +34,8 @@ class MapContainer extends Component {
                     defaultLocation={{ lat: this.state.lat, lng: this.state.lng}}
                     zoom={15}
                     style={{height: "300px", width: "90%", marginTop: "5%"}}
+                    onChangeLocation= {(lat, lng) => this.handleChangeLocation(lat, lng)}
+                    onChangeZoom= {(zoom)=> this.onChangeZoom(zoom)}
                     apiKey='AIzaSyAGcSN4JMNPgb4rQZ5QpoHoCZHj2h3b_eM'></MapPicker>
             </div>
         );
