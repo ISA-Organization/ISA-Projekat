@@ -99,14 +99,11 @@ class EditHouse extends React.Component{
         this.props.navigate('/calendar/' + houseId);
     }
 
-<<<<<<< Updated upstream
-=======
+
     goToAdditionalContent(){
         this.props.navigate('/additionalContent/' + this.state.house.id)
     }
 
-
->>>>>>> Stashed changes
     render(){
         return(
             <Row className="justify-content-center">
