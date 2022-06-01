@@ -3,6 +3,7 @@ import Axios from '../../utils/Axios';
 import './../../houses.css';
 import {Button, Form, Row, Col, ListGroup, ButtonGroup} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf';
+import MapContainer from "../maps/MapContainer";
 
 
 class EditHouse extends React.Component{
@@ -18,7 +19,9 @@ class EditHouse extends React.Component{
             numberOfRooms: 0,
             numberOfBeds: 0,
             rules: "",
-            price: 0
+            price: 0,
+            lat: 45.258800, //Stevana Milovanova 3
+            lng: 19.850940
         }
 
         this.state = {
@@ -103,7 +106,8 @@ class EditHouse extends React.Component{
                     <h1 style={{color: "black", width: "75%"}}>House profile</h1>
                     <br></br>
                     <img style={{width: "75%", height:"40%", borderRadius: "8px"}} src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
-                    <Button style={{marginTop: "5%"}} onClick={() => this.goToCalendar(this.state.house.id)}>View calendar</Button>
+                    <button type="button" class="btn btn-outline-primary" style={{marginTop: "5%"}} onClick={() => this.goToCalendar(this.state.house.id)}>View calendar</button>
+                    <MapContainer lat={45.258800} lng={19.850940}></MapContainer>
                 </Col>
 
                 <Col md={4}>
@@ -150,8 +154,8 @@ class EditHouse extends React.Component{
                                     })
                                 }
                                 </ul>
-                                <button type="button" class="btn btn-outline-primary" style={{marginTop: "10%", marginLeft: "55%"}} onClick={()=>{ this.editHouse() }}>Edit</button>
-                                <button type="button" class="btn btn-outline-danger" style={{marginLeft: "5%", marginTop: "10%"}}  onClick={()=>{ this.deleteHouse() }}>Delete</button>
+                                <button type="button" class="btn btn-primary" style={{marginTop: "10%", marginLeft: "55%"}} onClick={()=>{ this.editHouse() }}>Edit</button>
+                                <button type="button" class="btn btn-danger" style={{marginLeft: "5%", marginTop: "10%"}}  onClick={()=>{ this.deleteHouse() }}>Delete</button>
                     
                             </Form.Group>
                             
