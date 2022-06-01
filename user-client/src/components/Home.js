@@ -42,16 +42,20 @@ class Home extends React.Component {
   
   render() {
     const approved = window.localStorage['approved'];
-
+    const role = window.localStorage['role'];
     return(
       <div>
-      { approved === 'true' ? 
         <div className="bg">
         <h1 class="display-4">Welcome to Fishing booker!</h1>
     </div>
-    :
-    <div><h1>Sorry your account hasnot yet been activated </h1></div>
-      }
+       { role === 'ADMIN' && approved === 'false' ?
+       <div className="bg">
+       <h1 class="display-4">Looks like you need to change your password!
+        <a href='/changepass'>Click here!</a>
+        </h1>
+        </div>
+          : null
+       }
       </div>
     )
   }

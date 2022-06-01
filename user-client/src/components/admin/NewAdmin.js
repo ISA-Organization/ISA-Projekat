@@ -10,7 +10,7 @@ class NewAdmin extends React.Component{
         super(props)
         let user ={
             email: "",
-            name: "",
+            firstName: "",
             surname: "",
             address: "",
             city: "",
@@ -18,7 +18,8 @@ class NewAdmin extends React.Component{
             type: "ADMIN",
             isApproved : false,
             password: "123",
-            confirmPassword: "123"
+            confirmPassword: "123",
+            isDeleted: false
           }
           this.state = {username: "", password: "", user: user}
     }
