@@ -105,8 +105,7 @@ class EditHouse extends React.Component{
                 <Col>
                     <h1 style={{color: "black", width: "75%"}}>House profile</h1>
                     <br></br>
-                    <img style={{width: "75%", height:"40%", borderRadius: "8px"}} src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
-                    <button type="button" class="btn btn-outline-primary" style={{marginTop: "5%"}} onClick={() => this.goToCalendar(this.state.house.id)}>View calendar</button>
+                    <img style={{width: "90%", height:"30%", borderRadius: "8px"}} src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
                     <MapContainer lat={45.258800} lng={19.850940}></MapContainer>
                 </Col>
 
@@ -133,7 +132,7 @@ class EditHouse extends React.Component{
                     </Form.Group>
                 </Col>
                 <Col md={4}>
-                            <br></br>
+                            <button type="button" class="btn btn-outline-light" style={{marginLeft: "60%", marginTop: "5%"}} onClick={() => this.goToCalendar(this.state.house.id)}>View calendar</button>
                             <br></br>
                             <br></br>
                             <Form.Group>
