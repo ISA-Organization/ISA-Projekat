@@ -65,21 +65,22 @@ class HouseOwnerProfile extends React.Component {
 
     }
 
+    sendDeleteRequest(userId){
+
+    }
+
 
   render() {
     return(
         <Row className="justify-content-center">
         <Col md={4}>
-            <h1 style={{color: "black", width: "75%"}}>User profile</h1>
-            <br></br>
-            <img style={{width: "100%", height:"40%", borderRadius: "8px"}} src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
+            <h1 style={{color: "black", width: "75%", textAlign: "right"}}>User profile</h1>
+            <button type="button" class="btn btn-outline-danger" onClick={() => { this.sendDeleteRequest(this.state.user.id)}} style={{marginTop: "5%", marginLeft: "20%"}}>Delete account</button>
         </Col>
 
         <Col md={4}>
             <Form.Group>
-            <br></br>
-            <br></br>
-            <br></br>
+                <br></br>
             <Form.Label htmlFor="name">Name:</Form.Label>
             <Form.Control name="name" value={this.state.user.name} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
             <br></br>
@@ -102,7 +103,7 @@ class HouseOwnerProfile extends React.Component {
             </Form.Group>
         </Col>
         <Col>
-            <button type="button" class="btn btn-outline-primary" style={{marginTop: "175%"}} onClick={()=>{ this.editUser() }}>Edit</button>
+            <button type="button" class="btn btn-primary" style={{marginTop: "160%"}} onClick={()=>{ this.editUser() }}>Edit</button>
         </Col>
        
     </Row>
