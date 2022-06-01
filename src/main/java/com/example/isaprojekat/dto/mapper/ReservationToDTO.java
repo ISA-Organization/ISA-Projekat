@@ -1,8 +1,6 @@
 package com.example.isaprojekat.dto.mapper;
 
-import com.example.isaprojekat.dto.HouseDTO;
 import com.example.isaprojekat.dto.ReservationDTO;
-import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.model.Reservation;
 import org.springframework.stereotype.Component;
 

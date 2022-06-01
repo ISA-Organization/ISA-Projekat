@@ -26,8 +26,16 @@ public class UserDTO {
     private String type;
 
 
-
     private Boolean isApproved; //"approved" for testing
+
+    private Boolean isDeleted;
+
+    public Boolean getIsDeleted(){
+        return isDeleted;
+    }
+    public void setIsDeleted(Boolean isDeleted){
+        this.isDeleted = isDeleted;
+    }
 
     public Long getId() {
         return id;

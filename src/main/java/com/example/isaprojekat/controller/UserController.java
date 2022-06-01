@@ -73,12 +73,23 @@ public class UserController {
 
         User user = toUser.convert(dto);
         user.setIsApproved(false);
+        user.setIsDeleted(false);
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
         user.setPassword(encodedPassword);
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)), HttpStatus.CREATED);
     }
 
-
+    @PostMapping(value = "/newadmin")
+    public ResponseEntity<UserDTO> newAdmin(@RequestBody @Validated UserRegistrationDTO dto){
+        if(dto.getId() != null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        User user = toUser.convert(dto);
+        user.setIsApproved(false);
+        user.setIsDeleted(false);
+        user.setPassword(dto.getPassword());
+        return new ResponseEntity<>(toUserDTO.convert(userService.save(user)), HttpStatus.CREATED);
+    }
 
     @DeleteMapping(value="/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id){
@@ -125,8 +136,8 @@ public class UserController {
             return new ResponseEntity<>(false, HttpStatus.OK);
         }
     }
-    @PutMapping(value = "decline/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> approveUser(@PathVariable Long id, @Valid @RequestBody String declineReason){
+    @PutMapping(value = "decline/{id}")
+    public ResponseEntity<UserDTO> approveUser(@PathVariable Long id, @RequestBody String declineReason){
         if(!userService.findOne(id).isPresent()){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -139,6 +150,7 @@ public class UserController {
             emailSender.sendSimpleMessage(user.getEmail(), "Registracija odbijena", declineReason);
         }
         user.setIsApproved(false);
+        user.setIsDeleted(true);
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)),HttpStatus.OK);
     }
 
@@ -189,6 +201,11 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserDTO>> get(){
         List<User> users = userService.findAll();
+        for(User u : users){
+            if(u.getIsDeleted() == true){
+                users.remove(u);
+            }
+        }
         return new ResponseEntity<>(toUserDTO.convert(users), HttpStatus.OK);
     }
 

@@ -12,18 +12,21 @@ import AddHouse from './components/house/AddHouse';
 import UserList from './components/admin/UserList';
 import ProfilePage from './components/ProfilePage';
 import Calendar from './components/calendar/Calendar';
+<<<<<<< HEAD
 import AddAdditionalContent from './components/additional content/AddAdditionalContent';
 import PasswordChange from './components/password change/PasswordChange';
 import Boats from './components/boat/Boats';
 import EditBoat from './components/boat/EditBoat';
 import AddBoat from './components/boat/AddBoat';
 
+=======
+import NewAdmin from './components/admin/NewAdmin';
+>>>>>>> 26fb34b (feat: finished account decline reasons and super admin can add admins)
 class App extends React.Component{
 
   isAccountApproved(){
     this.approved = window.localStorage.getItem['approved']
-    console.log('Ovo je da li je approved')
-    console.log(this.approved)
+ 
     return this.approved;
   }
   render(){
@@ -91,11 +94,15 @@ class App extends React.Component{
                 <Route path="/houses/:id" element={<EditHouse/>}/>
                 <Route path="/profile" element={<ProfilePage/>}/>
                 <Route path="/calendar/:id" element={<Calendar/>}/>
+<<<<<<< HEAD
                 <Route path="/additionalContent/:entityId" element={<AddAdditionalContent/>}/>
                 <Route path="/users/pass/:id" element={<PasswordChange/>}/>
                 <Route path="/boats" element={<Boats/>}/>
                 <Route path="/boats/:id" element={<EditBoat/>}/>
                 <Route path="/boats/add" element={<AddBoat/>}/>
+=======
+                <Route path="/newadmin" element={<NewAdmin/>}/>
+>>>>>>> 26fb34b (feat: finished account decline reasons and super admin can add admins)
               </Routes>
             </Container>
           </Router>

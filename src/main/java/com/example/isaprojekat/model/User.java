@@ -33,9 +33,11 @@ public class User {
     private Boolean isApproved;
     @Enumerated(EnumType.STRING)
     private UserType type;
+    @Column
+    private Boolean isDeleted;
 
     public User(Long id, String firstname, String surname, String address, String city, String phoneNumber,
-                String email, String password, Boolean isApproved, UserType userType) {
+                String email, String password, Boolean isApproved, UserType userType, Boolean isDeleted) {
         this.id = id;
         this.firstName = firstname;
         this.surname = surname;
@@ -46,6 +48,7 @@ public class User {
         this.password = password;
         this.isApproved = isApproved;
         this.type = userType;
+        this.isDeleted = isDeleted;
     }
 
     public User() {
