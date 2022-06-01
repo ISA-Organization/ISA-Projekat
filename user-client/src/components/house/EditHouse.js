@@ -20,8 +20,8 @@ class EditHouse extends React.Component{
             numberOfBeds: 0,
             rules: "",
             price: 0,
-            lat: 45.258800, //Stevana Milovanova 3
-            lng: 19.850940
+            latitude: 0, 
+            longitude: 0
         }
 
         this.state = {
@@ -41,7 +41,6 @@ class EditHouse extends React.Component{
     getAdditionalContentByHouseId(id){
         Axios.get('/additionalContents/' + id)
             .then(res => {
-                console.log(res.data)
                 this.setState({additionalContent: res.data})
             })
             .catch(err =>{
@@ -53,7 +52,6 @@ class EditHouse extends React.Component{
 
         Axios.get('/houses/' + id)
             .then(res => {
-                console.log(res.data)
                 this.setState({house: res.data})
             })
             .catch(err =>{
@@ -62,6 +60,10 @@ class EditHouse extends React.Component{
     }
 
     editHouse(){
+        let house = this.state.house
+        house.latitude = window.localStorage['lat']
+        house.longitude = window.localStorage['long']
+        
         Axios.put('/houses/' + this.state.house.id, this.state.house)
             .then(res => {
                 alert("Successfully edited!")
@@ -93,11 +95,13 @@ class EditHouse extends React.Component{
         house[name] = value
 
         this.setState({house: house})
+        console.log(this.state)
     }
 
     goToCalendar(houseId){
         this.props.navigate('/calendar/' + houseId);
     }
+
 
     render(){
         return(
@@ -106,7 +110,8 @@ class EditHouse extends React.Component{
                     <h1 style={{color: "black", width: "75%"}}>House profile</h1>
                     <br></br>
                     <img style={{width: "90%", height:"30%", borderRadius: "8px"}} src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
-                    <MapContainer lat={45.258800} lng={19.850940}></MapContainer>
+                    <MapContainer lat={this.state.house.latitude} 
+                                  lng={this.state.house.longitude}></MapContainer>
                 </Col>
 
                 <Col md={4}>

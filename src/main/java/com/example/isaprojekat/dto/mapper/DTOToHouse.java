@@ -35,6 +35,9 @@ public class DTOToHouse {
         house.setNumberOfBeds(dto.getNumberOfBeds());
         house.setNumberOfRooms(dto.getNumberOfRooms());
 
+        house.setLatitude(dto.getLatitude());
+        house.setLongitude(dto.getLongitude());
+
         return house;
     }
 }

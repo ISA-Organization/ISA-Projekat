@@ -16,13 +16,13 @@ INSERT INTO house_owners (id) VALUES (2);
 INSERT INTO boat_owners (id) VALUES (3);
 
 
-INSERT INTO renting_entity (id, name, address, description, price, renting_rules, renting_entity_type)
-VALUES (1, 'Vila Grand', 'Stevana Milovanova 3', 'bla', 100, 'bla', 'HOUSE');
+INSERT INTO renting_entity (id, name, address, description, price, renting_rules, renting_entity_type, latitude, longitude)
+VALUES (1, 'Vila Grand', 'Stevana Milovanova 3', 'bla', 100, 'bla', 'HOUSE', 45.258779, 19.8509698);
 
 INSERT INTO house (id, number_of_beds, number_of_rooms, house_owner_id) VALUES (1, 2, 1, 2);
 
-INSERT INTO renting_entity (id, name, address, description, price, renting_rules, renting_entity_type)
-VALUES (2, 'Vila Ana', 'Dunavska 3', 'bla', 150, 'bla', 'HOUSE');
+INSERT INTO renting_entity (id, name, address, description, price, renting_rules, renting_entity_type, latitude, longitude)
+VALUES (2, 'Vila Ana', 'Dunavska 3', 'bla', 150, 'bla', 'HOUSE', 45.2568201, 19.8486402);
 
 INSERT INTO house (id, number_of_beds, number_of_rooms, house_owner_id) VALUES (2, 1, 2, 2);
 

@@ -36,7 +36,7 @@ class Houses extends React.Component{
    async componentDidMount(){
 
         await this.getUser()
-         this.getHouses()
+        this.getHouses()
 
     }
 
@@ -53,13 +53,11 @@ class Houses extends React.Component{
           if (this.state.search.price != -1) {
             config.params.price = this.state.search.price;
           }
-          console.log(this.state.user.id)
           config.params.ownerId = this.state.user.id;
 
         Axios.get('/houses', config)
             .then(res => {
                 this.setState({houses: res.data})
-                console.log(config)
             })
             .catch(err =>{
                 console.log(err)
@@ -83,6 +81,7 @@ class Houses extends React.Component{
 
     goToHouse(id){
         this.props.navigate('/houses/'+ id)
+        window.location.reload()
     }
 
     goToAddHouse(){

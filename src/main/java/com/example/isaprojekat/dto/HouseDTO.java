@@ -21,4 +21,7 @@ public class HouseDTO {
     private Integer numberOfBeds;
     private Long houseOwnerId;
 
+    private Double latitude;
+    private Double longitude;
+
 }
