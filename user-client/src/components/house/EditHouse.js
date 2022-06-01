@@ -2,7 +2,8 @@ import React from "react";
 import Axios from '../../utils/Axios';
 import './../../houses.css';
 import {Button, Form, Row, Col, ListGroup, ButtonGroup} from 'react-bootstrap';
-import {withParams, withNavigation} from '../../utils/routeconf'
+import {withParams, withNavigation} from '../../utils/routeconf';
+
 
 class EditHouse extends React.Component{
 
@@ -91,6 +92,10 @@ class EditHouse extends React.Component{
         this.setState({house: house})
     }
 
+    goToCalendar(houseId){
+        this.props.navigate('/calendar/' + houseId);
+    }
+
     render(){
         return(
             <Row className="justify-content-center">
@@ -98,6 +103,7 @@ class EditHouse extends React.Component{
                     <h1 style={{color: "black", width: "75%"}}>House profile</h1>
                     <br></br>
                     <img style={{width: "75%", height:"40%", borderRadius: "8px"}} src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
+                    <Button style={{marginTop: "5%"}} onClick={() => this.goToCalendar(this.state.house.id)}>View calendar</Button>
                 </Col>
 
                 <Col md={4}>
@@ -150,9 +156,7 @@ class EditHouse extends React.Component{
                             </Form.Group>
                             
                     </Col >
-                    {/* <Col md={4}>
-                        <img height={150} src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
-                    </Col> */}
+                    
                 
                 
                         

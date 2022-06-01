@@ -169,14 +169,11 @@ public class UserController {
 
     @GetMapping(value = "/approved")
     public ResponseEntity<Boolean> isUserApproved(){
-        System.out.println("Usao sam u proveru da li je approved");
+
         var approvedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("Ovo je email usera: " + approvedUser);
 
         Optional<User> user = userService.findbyEmail(approvedUser);
         if(!user.isPresent()){
-            System.out.println("Kaze da ne postoji");
-
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         else if(user.get().getIsApproved() == true){
