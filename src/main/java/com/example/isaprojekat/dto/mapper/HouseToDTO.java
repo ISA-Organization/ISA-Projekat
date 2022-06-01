@@ -25,6 +25,9 @@ public class HouseToDTO {
         dto.setNumberOfRooms(h.getNumberOfRooms());
         dto.setType(h.getRentingEntityType().toString());
 
+        dto.setLatitude(h.getLatitude());
+        dto.setLongitude(h.getLongitude());
+
         return dto;
     }
 

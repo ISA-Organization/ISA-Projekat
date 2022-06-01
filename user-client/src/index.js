@@ -42,14 +42,14 @@ class App extends React.Component{
                 :null
                  }
               {
-                role === 'HOUSE_OWNER'  && approved === 'true'  ?
+                role == 'HOUSE_OWNER'  && approved == 'true'  ?
                 [<Nav.Link as={Link} to="/houses">
                 Houses
                 </Nav.Link>]
                 : null
               }
               {
-                role === 'HOUSE_OWNER'  && approved === 'true'  ?
+                role == 'HOUSE_OWNER'  && approved == 'true'  ?
                 [<Nav.Link as={Link} to="/reservations">
                 Reservations
                 </Nav.Link>]
@@ -117,7 +117,7 @@ class App extends React.Component{
               <Nav.Link as={Link} to="/profile">Your profile</Nav.Link>
               :null
             }
-            {window.localStorage['jwt'] && approved === 'true' ? 
+            {window.localStorage['jwt'] && approved == 'true' ? 
                     
                     <Nav.Link style={{color:"rgba(0,0,0,.5)"}} onClick = {()=>logout()}>Sign out</Nav.Link>
                     :

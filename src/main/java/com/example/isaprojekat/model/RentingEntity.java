@@ -29,6 +29,10 @@ public class RentingEntity {
     private String address;
     @Column
     private double price;
+    @Column
+    private double latitude;
+    @Column
+    private double longitude;
     @Enumerated(EnumType.STRING)
     private RentingEntityType rentingEntityType;
 
