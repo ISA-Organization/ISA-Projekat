@@ -94,7 +94,7 @@ public class JpaUserService implements UserService {
                  return instructorRepository.save(instructor);
             case ADMIN:
                 Admin admin = new Admin(u.getId(), u.getFirstName(), u.getSurname(), u.getAddress(),  u.getCity(),
-                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIsApproved());
+                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIsApproved(), false);
                 return adminRepository.save(admin);
             case CLIENT:
                 Client client = new Client(u.getId(), u.getFirstName(), u.getSurname(), u.getAddress(),  u.getCity(),

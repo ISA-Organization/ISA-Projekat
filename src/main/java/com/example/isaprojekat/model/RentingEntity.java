@@ -34,9 +34,6 @@ public class RentingEntity {
 
     @OneToMany(mappedBy = "rentingEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Reservation> reservations = new HashSet<>();
-//
-//    @OneToMany(mappedBy = "rentingEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private Set<QuickActionReservation> quickActionReservations = new HashSet<>();
 
     @OneToMany(mappedBy = "rentingEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<AdditionalContent> additionalContents = new HashSet<>();

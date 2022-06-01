@@ -45,20 +45,34 @@ public class JpaHouseService implements HouseService {
     }
 
     @Override
-    public List<House> find(String name, String address, Double price) {
+    public List<House> find(String name, String address, Double price, Long ownerId) {
         if(price == null){
             price = Double.MAX_VALUE;
         }
 
-        if(name != null && address == null){
+        if(name != null && address == null && ownerId == null){
             return repository.findByNameContainingAndPriceLessThanEqual(name, price);
         }
-        else if(name != null && address != null){
+        else if(name != null && address != null && ownerId == null){
             return repository.findByNameAndAddressContainingAndPriceLessThanEqual(name, address, price);
         }
-        else if (name ==null && address != null){
+        else if (name ==null && address != null && ownerId == null){
             return repository.findByAddressContainingAndPriceLessThanEqual(address, price);
         }
+
+        else if(name != null && address == null && ownerId != null){
+            return repository.findByNameContainingAndPriceLessThanEqualAndHouseOwnerId(name, price, ownerId);
+        }
+        else if(name != null && address != null && ownerId != null){
+            return repository.findByNameAndAddressContainingAndPriceLessThanEqualAndHouseOwnerId(name, address, price, ownerId);
+        }
+        else if (name ==null && address != null && ownerId != null){
+            return repository.findByAddressContainingAndPriceLessThanEqualAndHouseOwnerId(address, price, ownerId);
+        }
+        else if (name ==null && address == null && ownerId != null){
+            return repository.findByHouseOwnerIdAndPriceLessThanEqual(ownerId, price);
+        }
+
 
         return repository.findByPriceLessThanEqual(price);
     }

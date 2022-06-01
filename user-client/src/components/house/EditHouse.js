@@ -1,8 +1,10 @@
 import React from "react";
 import Axios from '../../utils/Axios';
 import './../../houses.css';
-import {Button, Form, Row, Col} from 'react-bootstrap';
-import {withParams, withNavigation} from '../../utils/routeconf'
+import {Button, Form, Row, Col, ListGroup, ButtonGroup} from 'react-bootstrap';
+import {withParams, withNavigation} from '../../utils/routeconf';
+import MapContainer from "../maps/MapContainer";
+
 
 class EditHouse extends React.Component{
 
@@ -16,20 +18,35 @@ class EditHouse extends React.Component{
             description: "",
             numberOfRooms: 0,
             numberOfBeds: 0,
-            houseRules: "",
+            rules: "",
             price: 0,
-            additionalContent: ""
+            lat: 45.258800, //Stevana Milovanova 3
+            lng: 19.850940
         }
 
         this.state = {
-             house: house
+             house: house,
+             additionalContent: []
         }
     }
 
     componentDidMount(){
 
          this.getHouseById(this.props.params.id)
+         this.getAdditionalContentByHouseId(this.props.params.id)
 
+
+    }
+
+    getAdditionalContentByHouseId(id){
+        Axios.get('/additionalContents/' + id)
+            .then(res => {
+                console.log(res.data)
+                this.setState({additionalContent: res.data})
+            })
+            .catch(err =>{
+                console.log(err)
+            })
     }
 
     getHouseById(id){
@@ -78,47 +95,74 @@ class EditHouse extends React.Component{
         this.setState({house: house})
     }
 
+    goToCalendar(houseId){
+        this.props.navigate('/calendar/' + houseId);
+    }
+
     render(){
         return(
             <Row className="justify-content-center">
-                <Col xs="12" sm="10" md="8" >
-                
-                        <h1 style={{color: "black"}}>House profile</h1>
-                
-                             <Form>
-                                
-                                <Form.Label htmlFor="name">Name:</Form.Label>
-                                <Form.Control name="name" value={this.state.house.name} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
-                                <br></br>
-                                <Form.Label htmlFor="address">Address:</Form.Label>
-                                <Form.Control name="address" value={this.state.house.address} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
-                             
-                                <br></br>
-                                <Form.Label htmlFor="numberOfRooms">Number of rooms:</Form.Label>
-                                <Form.Control  name="numberOfRooms" value={this.state.house.numberOfRooms} style={ {width: "25%"}} onChange={(e) => this.changeInputValue(e)}/>
-                                <br></br>
-                                <Form.Label htmlFor="numberOfBeds">Number of beds:</Form.Label>
-                                <Form.Control name="numberOfBeds" value={this.state.house.numberOfBeds} style={ {width: "25%"}} onChange={(e) => this.changeInputValue(e)}/>
-                                <br></br>
-                                <Form.Label htmlFor="price">Price:</Form.Label>
-                                <Form.Control name="price" value={this.state.house.price} style={ {width: "25%"}} onChange={(e) => this.changeInputValue(e)}/>
-                                <br></br>
-                                <Form.Label htmlFor="description">Description:</Form.Label>
-                                <Form.Control as="textarea" rows={3} name="description" value={this.state.house.description} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
-                                <br></br>
-                                <Form.Label htmlFor="additionalContent">Additional content:</Form.Label>
-                                <Form.Control as="textarea" name="additionalContent" value={this.state.house.additionalContent} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
-                                <br></br>
-                                <Button style={{ marginTop: "25px" }} onClick={()=>{ this.editHouse() }}>
-                                    Edit
-                                </Button>
-                                <Button variant="danger" style={{ marginTop: "25px", marginLeft: "25px" }} onClick={()=>{ this.deleteHouse() }}>
-                                    Delete 
-                                </Button>
-                            </Form>
+                <Col>
+                    <h1 style={{color: "black", width: "75%"}}>House profile</h1>
+                    <br></br>
+                    <img style={{width: "75%", height:"40%", borderRadius: "8px"}} src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
+                    <button type="button" class="btn btn-outline-primary" style={{marginTop: "5%"}} onClick={() => this.goToCalendar(this.state.house.id)}>View calendar</button>
+                    <MapContainer lat={45.258800} lng={19.850940}></MapContainer>
                 </Col>
+
+                <Col md={4}>
+                    <Form.Group>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <Form.Label htmlFor="name">Name:</Form.Label>
+                    <Form.Control name="name" value={this.state.house.name} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+                    <br></br>
+                    <Form.Label htmlFor="address">Address:</Form.Label>
+                    <Form.Control name="address" value={this.state.house.address} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+                    
+                    <br></br>
+                    <Form.Label htmlFor="numberOfRooms">Number of rooms:</Form.Label>
+                    <Form.Control  name="numberOfRooms" value={this.state.house.numberOfRooms} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                    <br></br>
+                    <Form.Label htmlFor="numberOfBeds">Number of beds:</Form.Label>
+                    <Form.Control name="numberOfBeds" value={this.state.house.numberOfBeds} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                    <br></br>
+                    <Form.Label htmlFor="price">Price:</Form.Label>
+                    <Form.Control name="price" value={this.state.house.price} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                    </Form.Group>
+                </Col>
+                <Col md={4}>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <Form.Group>
+                            <Form.Label htmlFor="description">Description:</Form.Label>
+                                <Form.Control as="textarea" name="description" value={this.state.house.description} style={ {width: "100%", height: "20%"}} onChange={(e) => this.changeInputValue(e)}/>
+                                <br></br>
+                                <Form.Label htmlFor="rules">House rules:</Form.Label>
+                                <Form.Control as="textarea" name="rules" value={this.state.house.rules} style={ {width: "100%", height: "20%"}} onChange={(e) => this.changeInputValue(e)}/>
+                                <br></br>
+                                <Form.Label htmlFor="additionalContent"><button type="button" class="btn btn-outline-light btn-sm">+</button>     Additional content (price per day):</Form.Label>
+                                <ul class="list-group list-group-light list-group-small" style={{width: "100%"}}>
+                                {
+                                    this.state.additionalContent.map((c) => {
+                                        return (
+                                            // <ListGroup.Item width="100">{c.name} {c.price}$</ListGroup.Item>
+                                            <li class="list-group-item">{c.name} {c.price}$</li>
+                                        )
+                                    })
+                                }
+                                </ul>
+                                <button type="button" class="btn btn-primary" style={{marginTop: "10%", marginLeft: "55%"}} onClick={()=>{ this.editHouse() }}>Edit</button>
+                                <button type="button" class="btn btn-danger" style={{marginLeft: "5%", marginTop: "10%"}}  onClick={()=>{ this.deleteHouse() }}>Delete</button>
+                    
+                            </Form.Group>
+                            
+                    </Col >
+                    
                 
-                <img src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
+                
                         
                             
             </Row>

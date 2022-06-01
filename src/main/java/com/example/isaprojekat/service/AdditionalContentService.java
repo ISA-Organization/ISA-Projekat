@@ -15,4 +15,6 @@ public interface AdditionalContentService {
 
     Boolean delete(Long id);
 
+    List<AdditionalContent> findAllByEntityId(Long id);
+
 }

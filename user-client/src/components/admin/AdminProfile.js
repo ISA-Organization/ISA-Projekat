@@ -1,6 +1,6 @@
 import React from 'react'
 import Axios from "../../utils/Axios";
-import { Container, Row, Col } from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf'
 
 class AdminProfile extends React.Component {
@@ -58,43 +58,57 @@ class AdminProfile extends React.Component {
     changeInputValue(e){
         const name = e.target.name
         const value = e.target.value
+        console.log(e.target.value)
+        console.log(e.target.name)
 
         let user = this.state.user
         user[name] = value
 
         this.setState({user: user})
+        console.log(user[name])
+
     }
 
   render() {
     return(
-        <div class="container rounded bg-white mt-5 mb-5">
-    <div class="row">
-        <div class="col-md-3 border-right">
-        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"/>
-        <span class="font-weight-bold">{this.state.user.name}</span><span class="text-black-50">{this.state.user.email}</span><span> </span></div>
+        <Row className="justify-content-center">
+        <Col>
+            <h1 style={{color: "black", width: "75%"}}>User profile</h1>
+            <br></br>
+            <img style={{width: "75%", height:"40%", borderRadius: "8px"}} src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
+        </Col>
 
-        </div>
-        <div class="col-md-5 border-right">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Profile Info</h4>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" onChange={(e) => this.changeInputValue(e)} placeholder="first name" value={this.state.user.name}/></div>
-                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" onChange={(e) => this.changeInputValue(e)} value={this.state.user.surname} placeholder="surname"/></div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Mobile Number</label><input onChange={(e) => this.changeInputValue(e)} type="text" class="form-control" placeholder="enter phone number" value={this.state.user.phoneNumber}/></div>
-                    <div class="col-md-12"><label class="labels">Address Line 1</label><input onChange={(e) => this.changeInputValue(e)} type="text" class="form-control" placeholder="enter address line 1" value={this.state.user.address+ ', '+ this.state.user.city}/></div>
-                    <div class="col-md-12"><label class="labels">Email </label><input onChange={(e) => this.changeInputValue(e)} type="text" class="form-control" placeholder="enter email id" value={this.state.user.email}/></div>
-                    </div>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" onClick={() => this.editUser()} type="button">Save Profile</button></div>
-            </div>
-        </div>
-        
-    </div>
-</div>
+        <Col md={4}>
+            <Form.Group>
+            <br></br>
+            <br></br>
+            <br></br>
+            <Form.Label htmlFor="name">Name:</Form.Label>
+            <Form.Control name="name" value={this.state.user.name} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+            <br></br>
+            <Form.Label htmlFor="surname">Surname:</Form.Label>
+            <Form.Control name="surname" value={this.state.user.surname} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+            <br></br>
+            <Form.Label htmlFor="address">Email:</Form.Label>
+            <Form.Control name="address" value={this.state.user.email} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+            
+            <br></br>
+            <Form.Label htmlFor="email">Address:</Form.Label>
+            <Form.Control  name="email" value={this.state.user.address} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+            <br></br>
+            <Form.Label htmlFor="city">City:</Form.Label>
+            <Form.Control name="city" value={this.state.user.city} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+            <br></br>
+            <Form.Label htmlFor="price">Phone number:</Form.Label>
+            <Form.Control name="price" value={this.state.user.phoneNumber} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
 
+            <button type="button" class="btn btn-outline-primary" style={{marginTop: "10%", marginLeft: "55%"}} onClick={()=>{ this.editUser() }}>Edit</button>
+            </Form.Group>
+        </Col>
+       
+                
+                    
+    </Row>
     )
   }
 }

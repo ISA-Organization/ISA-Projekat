@@ -1,6 +1,7 @@
 import React from 'react'
 import '../index.css'
 import AdminProfile from "./admin/AdminProfile"
+import HouseOwnerProfile from './house owner/HouseOwnerProfile';
 import InstructorProfile from "./instructor/InstructorProfile"
 class ProfilePage extends React.Component {
 
@@ -10,6 +11,8 @@ class ProfilePage extends React.Component {
                 return <AdminProfile/>;
             case 'INSTRUCTOR':
                 return <InstructorProfile/>;
+            case 'HOUSE_OWNER':
+                return <HouseOwnerProfile/>;
             default:
                 return null;
         }
@@ -20,7 +23,6 @@ class ProfilePage extends React.Component {
 
       return(
           <div className="bg">
-              <h1 class="display-4" style={{color: "black", marginLeft: "22%"}}>This is your profile page</h1>
               {this.renderSwitch(role)}
           </div>
       )

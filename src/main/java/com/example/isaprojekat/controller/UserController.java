@@ -5,9 +5,11 @@ import com.example.isaprojekat.dto.UserDTO;
 import com.example.isaprojekat.dto.UserRegistrationDTO;
 import com.example.isaprojekat.dto.mapper.DTOToUser;
 import com.example.isaprojekat.dto.mapper.UserToDTO;
+import com.example.isaprojekat.model.Admin;
 import com.example.isaprojekat.model.User;
 import com.example.isaprojekat.model.UserType;
 import com.example.isaprojekat.security.TokenUtils;
+import com.example.isaprojekat.service.AdminService;
 import com.example.isaprojekat.service.UserService;
 import com.example.isaprojekat.service.impl.JpaEmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,8 @@ public class UserController {
 
     @Autowired
     private TokenUtils tokenUtils;
+    @Autowired
+    private AdminService adminService;
 
     @Autowired
     private JpaEmailSender emailSender;
@@ -66,6 +70,7 @@ public class UserController {
         }
 
         User user = toUser.convert(dto);
+        user.setIsApproved(false);
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
         user.setPassword(encodedPassword);
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)), HttpStatus.CREATED);
@@ -99,7 +104,25 @@ public class UserController {
         user.setIsApproved(true);
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)),HttpStatus.OK);
     }
+    @GetMapping(value = "/superAdmin")
+    public ResponseEntity<Boolean> isSuperAdmin(){
+        var approvedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("Ovo je email usera: " + approvedUser);
 
+        Optional<User> user = userService.findbyEmail(approvedUser);
+        Optional<Admin> a = adminService.findOne(user.get().getId());
+        if(!a.isPresent()){
+            System.out.println("Kaze da ne postoji");
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        else if(a.get().isSuperOwner() == true){
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
+    }
     @PutMapping(value = "decline/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> approveUser(@PathVariable Long id, @Valid @RequestBody String declineReason){
         if(!userService.findOne(id).isPresent()){
@@ -144,13 +167,38 @@ public class UserController {
         }
     }
 
+    @GetMapping(value = "/approved")
+    public ResponseEntity<Boolean> isUserApproved(){
 
+        var approvedUser = SecurityContextHolder.getContext().getAuthentication().getName();
 
+        Optional<User> user = userService.findbyEmail(approvedUser);
+        if(!user.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        else if(user.get().getIsApproved() == true){
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
+    }
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> get(){
         List<User> users = userService.findAll();
         return new ResponseEntity<>(toUserDTO.convert(users), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{email}")
+    public ResponseEntity<UserDTO> getByEmail(@PathVariable String email){
+        Optional<User> user = userService.findbyEmail(email);
+        if(user.isPresent()){
+            return new ResponseEntity<>(toUserDTO.convert(user.get()), HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PreAuthorize("permitAll()")
@@ -164,6 +212,7 @@ public class UserController {
         try {
             // Reload user details so we can generate token
             UserDetails userDetails = userDetailsService.loadUserByUsername(dto.getEmail());
+
             return ResponseEntity.ok(tokenUtils.generateToken(userDetails));
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.notFound().build();

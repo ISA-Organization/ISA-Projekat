@@ -5,7 +5,6 @@ import {Button, Card, CardGroup, Modal} from 'react-bootstrap';
 
 import {withParams, withNavigation} from '../../utils/routeconf';
 import { useEffect, useState } from "react";
-import ListItem from "./ListItem";
 // function PopUpToggle(){
     
 //     const [show, setShow] = useState(false);
@@ -121,8 +120,10 @@ class UserList extends React.Component{
     togglePopUpButton(){
     }
     renderUsers(){
+        const superAdmin = window.localStorage['superAdmin']
         return this.state.users.map((u) => {
             return(
+                <div>
                 <li class="list-group-item" key={u.id}>
                 <Card style={{ width: '18rem' }}>
                     <Card.Img variant="top" src="holder.js/100px180" />
@@ -144,6 +145,14 @@ class UserList extends React.Component{
                         </Card.Body>
                     </Card>
                 </li> 
+                <br></br>
+                <br></br>
+                {
+                    superAdmin === 'true' ?
+                <Button variant="primary" class="mr-5"> Add new admin</Button>
+                : null
+                }
+                </div>
                 )
         })
     }
