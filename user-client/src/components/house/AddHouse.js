@@ -137,7 +137,7 @@ class AddHouse extends React.Component{
                                 <Form.Control as="textarea" name="description"  style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 <br></br>
                                 
-                                <button type="button" class="btn btn-outline-primary" style={{marginTop: "2%", marginLeft: "80%"}} onClick={()=>{ this.addHouse() }}>Add</button>
+                                <button type="button" class="btn btn-primary" style={{marginTop: "2%", marginLeft: "80%"}} onClick={()=>{ this.addHouse() }}>Add</button>
                             </Form.Group>
                 </Col>
                         
