@@ -68,6 +68,11 @@ class EditBoat extends React.Component{
     }
 
     editBoat(){
+        let boat = this.state.boat
+        boat.latitude = window.localStorage['lat']
+        boat.longitude = window.localStorage['long']
+        this.setState({boat: boat})
+
         Axios.put('/boats/' + this.state.boat.id, this.state.boat)
             .then(res => {
                 alert("Successfully edited!")

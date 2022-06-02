@@ -3,6 +3,7 @@ import Axios from '../../utils/Axios';
 import './../../houses.css';
 import {Button, Form, Row, Col, Card} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf'
+import MapContainer from "../maps/MapContainer";
 
 class AddHouse extends React.Component{
 
@@ -18,7 +19,9 @@ class AddHouse extends React.Component{
             rules: "",
             price: 0,
             type: "HOUSE",
-            houseOwnerId: 0 //sad zakucano, treba namestiti za ulogovanog
+            houseOwnerId: 0, 
+            latitude: 45.267136, 
+            longitude: 19.833549
         }
         let user = {
             id: 0,
@@ -101,6 +104,7 @@ class AddHouse extends React.Component{
                             <Button variant="light">+</Button>
                         </Card.Body>
                     </Card>
+                    <MapContainer lat={this.state.house.latitude} lng={this.state.house.longitude}></MapContainer>
                 </Col>
                 <Col md={4}>
                              <Form.Group>
@@ -115,10 +119,10 @@ class AddHouse extends React.Component{
                              
                                 <br></br>
                                 <Form.Label htmlFor="numberOfRooms">Number of rooms:</Form.Label>
-                                <Form.Control  name="numberOfRooms"  style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                                <Form.Control  name="numberOfRooms"  style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 <br></br>
                                 <Form.Label htmlFor="numberOfBeds">Number of beds:</Form.Label>
-                                <Form.Control name="numberOfBeds"  style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                                <Form.Control name="numberOfBeds"  style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
                 
                             </Form.Group>
                 </Col>

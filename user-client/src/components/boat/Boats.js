@@ -84,7 +84,7 @@ class Boats extends React.Component{
         window.location.reload()
     }
 
-    goToAddHouse(){
+    goToAddBoat(){
         this.props.navigate('/boats/add')
     }
 
