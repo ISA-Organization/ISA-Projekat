@@ -36,4 +36,7 @@ public class BoatDTO {
     private String fishingEquipment;
     private String cancellationPolicy;
     private Long boatOwnerId;
+
+    private Double latitude;
+    private Double longitude;
 }

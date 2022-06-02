@@ -79,7 +79,7 @@ class Boats extends React.Component{
 		  }
     }
 
-    goToHouse(id){
+    goToBoat(id){
         this.props.navigate('/boats/'+ id)
         window.location.reload()
     }
@@ -105,7 +105,7 @@ class Boats extends React.Component{
                 <li class="list-group-item" key={h.id}>
                 <div class="media align-items-lg-center flex-column flex-lg-row p-3">
                     <div class="media-body order-2 order-lg-1">
-                        <h5 class="mt-0 font-weight-bold mb-2" style={{cursor:"pointer"}}><a onClick={()=> this.goToHouse(h.id)}>{h.name}</a></h5>
+                        <h5 class="mt-0 font-weight-bold mb-2" style={{cursor:"pointer"}}><a onClick={()=> this.goToBoat(h.id)}>{h.name}</a></h5>
                         <p class="font-italic text-muted mb-0 small">{h.description}</p>
                         <div class="d-flex align-items-center justify-content-between mt-1">
                             <h6 class="font-weight-bold my-2">${h.price}</h6>

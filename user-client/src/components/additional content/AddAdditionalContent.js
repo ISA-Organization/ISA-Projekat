@@ -11,23 +11,47 @@ class AddAdditionalContent extends React.Component{
         let content = {
             name: '',
             price: 0,
-            entityId: this.props.params.entityId
+            entityId: -1
         }
        
         this.state = {
-             content: content
+             content: content,
+             entityType: ''
         }
     }
 
     componentDidMount(){
+        this.getEntityType(this.props.params.entityId)
+    }
+
+    getEntityType(id){
+        Axios.get('/rentingEntities/' + id)
+            .then(res => {
+                console.log(res.data)
+                this.setState({entityType: res.data})
+            })
+            .catch(err =>{
+                alert("Failed!")
+                console.log(err)
+            })
     }
 
      addContent(){
 
+        let content = this.state.content
+        content.entityId = this.props.params.entityId
+        this.setState({content: content})
+
         Axios.post('/additionalContents', this.state.content)
             .then(res => {
                 alert("Successfully added!")
-                this.props.navigate('/houses/' + this.state.content.entityId)
+                switch (this.state.entityType){
+                    case 'HOUSE':
+                        this.props.navigate('/houses/' + this.state.content.entityId)
+                    case 'BOAT': 
+                    this.props.navigate('/boats/' + this.state.content.entityId)
+                }
+                
             })
             .catch(err =>{
                 alert("Failed!")

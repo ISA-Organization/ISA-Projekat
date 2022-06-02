@@ -36,6 +36,9 @@ public class BoatToDTO {
         dto.setMaxSpeed(b.getMaxSpeed());
         dto.setMaxNumOfPeople(b.getMaxNumOfPeople());
 
+        dto.setLatitude(b.getLatitude());
+        dto.setLongitude(b.getLongitude());
+
         return dto;
     }
 
