@@ -14,6 +14,9 @@ import ProfilePage from './components/ProfilePage';
 import Calendar from './components/calendar/Calendar';
 import AddAdditionalContent from './components/additional content/AddAdditionalContent';
 import PasswordChange from './components/password change/PasswordChange';
+import Boats from './components/boat/Boats';
+import EditBoat from './components/boat/EditBoat';
+import AddBoat from './components/boat/AddBoat';
 
 class App extends React.Component{
 
@@ -51,13 +54,20 @@ class App extends React.Component{
                 : null
               }
               {
-                role === 'HOUSE_OWNER'  && approved === 'true'  ?
+                role === 'BOAT_OWNER'  && approved === 'true'  ?
+                [<Nav.Link as={Link} to="/boats">
+                Boats
+                </Nav.Link>]
+                : null
+              }
+              {
+                (role === 'HOUSE_OWNER' || role === 'BOAT_OWNER')  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/reservations">
                 Reservations
                 </Nav.Link>]
                 : null
               }
-  
+              
             </Nav>
             {window.localStorage['jwt']  && approved === 'true'  ? 
               <Nav.Link as={Link} to="/profile">Your profile</Nav.Link>
@@ -83,6 +93,9 @@ class App extends React.Component{
                 <Route path="/calendar/:id" element={<Calendar/>}/>
                 <Route path="/additionalContent/:entityId" element={<AddAdditionalContent/>}/>
                 <Route path="/users/pass/:id" element={<PasswordChange/>}/>
+                <Route path="/boats" element={<Boats/>}/>
+                <Route path="/boats/:id" element={<EditBoat/>}/>
+                <Route path="/boats/add" element={<AddBoat/>}/>
               </Routes>
             </Container>
           </Router>
