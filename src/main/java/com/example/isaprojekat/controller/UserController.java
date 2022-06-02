@@ -226,10 +226,6 @@ public class UserController {
     public ResponseEntity<Void> changePassword(
             @PathVariable Long id,
             @RequestBody UserChangePasswordDTO reqBody){
-        // ova metoda se "okida" kada se primi PUT /api/users?chpass
-
-        // pogrešno bi bilo mapirati na npr. PUT /api/users/password,
-        // pošto "password" nije punopravan REST resurs!
 
         if(!reqBody.getPassword().equals(reqBody.getPasswordConfirm())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

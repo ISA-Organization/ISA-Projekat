@@ -30,7 +30,16 @@ INSERT INTO house (id, number_of_beds, number_of_rooms, house_owner_id) VALUES (
 INSERT INTO additional_content (id, name, price, renting_entity_id) VALUES (1, 'pool', 5, 1);
 INSERT INTO additional_content (id, name, price, renting_entity_id) VALUES (2, 'air condition', 3, 1);
 
--- INSERT INTO renting_entity (id, name, address, description, price, renting_rules, renting_entity_type)
--- VALUES 3, 'D&D', 'Suncani kej 3', 'bla', 300, 'bla', 'BOAT');
---
--- INSERT INTO boat (id, number_of_beds, number_of_rooms, house_owner_id) VALUES (3, 1, 2, 2);
+INSERT INTO renting_entity (id, name, address, description, price, renting_rules, renting_entity_type, latitude, longitude)
+VALUES (3, 'D&D', 'Suncani kej 3', 'bla', 300, 'bla', 'BOAT', 45.234150, 19.834890);
+
+INSERT INTO boat (id, type, length, engine_number, engine_power, max_speed, navigation, max_num_of_people,
+                  fishing_equipment, cancellation_policy, boat_owner_id)
+VALUES (3, 'motorboat', 7 ,'FF3456', 100, 90, 'GPS', 5, 'rod', 'aaa', 3);
+
+INSERT INTO renting_entity (id, name, address, description, price, renting_rules, renting_entity_type,latitude, longitude)
+VALUES (4, 'Lila', 'Ribarsko ostrvo 10', 'bla', 300, 'bla', 'BOAT', 45.232360, 19.836110);
+
+INSERT INTO boat (id, type, length, engine_number, engine_power, max_speed, navigation, max_num_of_people,
+                  fishing_equipment, cancellation_policy, boat_owner_id)
+VALUES (4, 'motorboat', 6, 'AA3456', 60, 50, 'VHF_radio', 2, 'fishnet', 'aaa', 3);
