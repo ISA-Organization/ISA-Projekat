@@ -103,7 +103,9 @@ const Calendar = () => {
         <div class="container">
 			<div class="wrapper">
 			<section class="main-content">
-				<div class="table-navigation">
+				<button type="button" class="btn btn-outline-primary" >Add free term</button>
+				<button type="button" class="btn btn-outline-secondary" style={{marginLeft: "73%"}}>Add reservation</button>
+				<div class="table-navigation" style={{marginTop: "5%"}}>
 					<a onClick={showPreviousMonth} class="table-navigation__prev"><span>previous month</span></a>
 					<span class="table-navigation__center">{name}, {yearVar}</span>
 					<a href="javascript:;" onClick={showNextMonth} class="table-navigation__next"><span>next month</span></a>
