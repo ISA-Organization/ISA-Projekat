@@ -55,9 +55,12 @@ class AddBoat extends React.Component{
         await this.getUser()
 
         let boat = this.state.boat
+        boat.latitude = window.localStorage['lat']
+        boat.longitude = window. localStorage['long']
         boat.boatOwnerId = this.state.user.id
         this.setState({boat: boat})
         console.log(this.state)
+
         Axios.post('/boats', this.state.boat)
             .then(res => {
                 alert("Successfully added!")
