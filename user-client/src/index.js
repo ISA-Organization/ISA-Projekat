@@ -17,6 +17,7 @@ import PasswordChange from './components/password change/PasswordChange';
 import Boats from './components/boat/Boats';
 import EditBoat from './components/boat/EditBoat';
 import AddBoat from './components/boat/AddBoat';
+import AddAvailablePeriod from './components/available period/AddAvailablePeriod'
 
 import NewAdmin from './components/admin/NewAdmin';
 import FirstAdminLogin from './components/admin/FirstAdminLogin';
@@ -42,7 +43,7 @@ class App extends React.Component{
             </Navbar.Brand>
             <Nav className="mr-auto">
               {
-                role === 'ADMIN' && approved === 'true' ? 
+                role == 'ADMIN' && approved === 'true' ? 
                 [<Nav.Link as={Link} to="/users">
                   Users
                   </Nav.Link>]
@@ -50,21 +51,21 @@ class App extends React.Component{
                 :null
                  }
               {
-                role === 'HOUSE_OWNER'  && approved === 'true'  ?
+                role == 'HOUSE_OWNER'  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/houses">
                 Houses
                 </Nav.Link>]
                 : null
               }
               {
-                role === 'BOAT_OWNER'  && approved === 'true'  ?
+                role == 'BOAT_OWNER'  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/boats">
                 Boats
                 </Nav.Link>]
                 : null
               }
               {
-                (role === 'HOUSE_OWNER' || role === 'BOAT_OWNER')  && approved === 'true'  ?
+                (role == 'HOUSE_OWNER' || role == 'BOAT_OWNER')  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/reservations">
                 Reservations
                 </Nav.Link>]
@@ -101,6 +102,7 @@ class App extends React.Component{
                 <Route path="/boats/add" element={<AddBoat/>}/>
                 <Route path="/newadmin" element={<NewAdmin/>}/>
                 <Route path="/changepass" element={<FirstAdminLogin/>}/>
+                <Route path="/addNewTerm/:id" element={<AddAvailablePeriod/>}/>
               </Routes>
             </Container>
           </Router>

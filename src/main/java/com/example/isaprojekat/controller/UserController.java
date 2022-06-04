@@ -123,6 +123,9 @@ public class UserController {
         System.out.println("Ovo je email usera: " + approvedUser);
 
         Optional<User> user = userService.findbyEmail(approvedUser);
+        if(!user.isPresent()){
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
         if(user.get().getType().equals(UserType.ADMIN)){
          Optional<Admin> a = adminService.findOne(user.get().getId());
             if(!a.isPresent()){

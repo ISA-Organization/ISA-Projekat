@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from "react-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../../calendar.css"
+import{ withNavigation, withParams} from '../../utils/routeconf';
 
 function getDays(days){
     let total = []
@@ -42,6 +44,8 @@ function getDaysInWeek(firstDay){
 
 const Calendar = () => {
 
+	const {id} = useParams();
+	const history = useNavigate();
 	const monthNames = ["January", "February", "March", "April", "May", "June",
   	"July", "August", "September", "October", "November", "December"];
 
@@ -98,11 +102,18 @@ const Calendar = () => {
 		}
     }
 
+	const goToAddNewTerm= () =>{
+		history('/addNewTerm/' + id)
+		
+	}
+
 
     return(
         <div class="container">
 			<div class="wrapper">
 			<section class="main-content">
+				<button type="button" onClick={(e) => goToAddNewTerm(e)} class="btn btn-outline-primary" style={{marginBottom: "5%"}}>Add free term</button>
+				<button type="button" class="btn btn-outline-dark" style={{marginBottom: "5%", marginLeft:"73%"}}>Add reservation</button>
 				<div class="table-navigation">
 					<a onClick={showPreviousMonth} class="table-navigation__prev"><span>previous month</span></a>
 					<span class="table-navigation__center">{name}, {yearVar}</span>
@@ -212,4 +223,4 @@ const Calendar = () => {
     );
 };
 
-export default Calendar;
+export default withNavigation(withParams(Calendar));
