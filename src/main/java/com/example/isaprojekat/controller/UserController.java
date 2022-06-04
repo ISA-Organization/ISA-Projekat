@@ -123,18 +123,22 @@ public class UserController {
         System.out.println("Ovo je email usera: " + approvedUser);
 
         Optional<User> user = userService.findbyEmail(approvedUser);
-        Optional<Admin> a = adminService.findOne(user.get().getId());
-        if(!a.isPresent()){
-            System.out.println("Kaze da ne postoji");
+        if(user.get().getType().equals(UserType.ADMIN)){
+         Optional<Admin> a = adminService.findOne(user.get().getId());
+            if(!a.isPresent()){
+                System.out.println("Kaze da ne postoji");
 
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        else if(a.get().isSuperOwner() == true){
-            return new ResponseEntity<>(true, HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            else if(a.get().isSuperOwner() == true){
+                return new ResponseEntity<>(true, HttpStatus.OK);
+            }
         }
         else{
             return new ResponseEntity<>(false, HttpStatus.OK);
         }
+        return new ResponseEntity<>(false, HttpStatus.OK);
+
     }
     @PutMapping(value = "decline/{id}")
     public ResponseEntity<UserDTO> approveUser(@PathVariable Long id, @RequestBody String declineReason){

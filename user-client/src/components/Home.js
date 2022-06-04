@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react'
 import '../index.css'
-
+import ClientEntityView from './client/ClientEntityView'
 class Home extends React.Component {
 
   constructor(props){
@@ -47,6 +47,13 @@ class Home extends React.Component {
       <div>
         <div className="bg">
         <h1 class="display-4">Welcome to Fishing booker!</h1>
+    </div>
+    <div>
+      {
+        role === 'CLIENT' ?
+        <ClientEntityView/>
+        : null
+      }
     </div>
        { role === 'ADMIN' && approved === 'false' ?
        <div className="bg">

@@ -37,7 +37,7 @@ class FirstAdminLogin extends React.Component{
       }
       updatePassword(password){
         const config = { headers: {'Content-Type': 'application/json'} };
-        Axios.put('/users/newpassword' + , password, config)
+        Axios.put('/users/newpassword' +  password, config)
         .then(res => {
             alert("Successfully edited")
             this.props.navigate('/')

@@ -12,7 +12,6 @@ import AddHouse from './components/house/AddHouse';
 import UserList from './components/admin/UserList';
 import ProfilePage from './components/ProfilePage';
 import Calendar from './components/calendar/Calendar';
-<<<<<<< HEAD
 import AddAdditionalContent from './components/additional content/AddAdditionalContent';
 import PasswordChange from './components/password change/PasswordChange';
 import Boats from './components/boat/Boats';

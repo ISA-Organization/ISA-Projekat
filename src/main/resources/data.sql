@@ -10,14 +10,25 @@ VALUES (2,'Anja','Pesic', 'Dunavska 8', 'Novi Sad', '064953666','anja@gmail.com'
 INSERT INTO users (id, first_name, surname, address, city, phone_number, email, password, type, is_approved, is_deleted)
 VALUES (3,'Boris','Horvat', 'Narodnog fronta 58', 'Novi Sad', '064789632','boki@gmail.com',
         '$2a$10$boa9C8KlOVUp0qmNP.TF4OtgNBD8N5hcZZ8VGikhynrT1rMJbQH8C','BOAT_OWNER', true, false);
+
+INSERT INTO users (id, first_name, surname, address, city, phone_number, email, password, type, is_approved, is_deleted)
+VALUES (5,'Klient','Horvat', 'Narodnog fronta 58', 'Novi Sad', '064789632','klient@gmail.com',
+        '$2a$10$oD0Cq/HgF.l/u5yUH3KdUuSl77Npw16xZuGHYbp10u9kO2onfEzC.','CLIENT', true, false);
+
 INSERT INTO users (id, first_name, surname, address, city, phone_number, email, password, type, is_approved, is_deleted)
 VALUES (4,'test','Kojic', 'Loncarska 8', 'Novi Sad', '063563965','test@gmail.com',
         '$2a$10$oD0Cq/HgF.l/u5yUH3KdUuSl77Npw16xZuGHYbp10u9kO2onfEzC.','HOUSE_OWNER', false, false);
+
+INSERT INTO users (id, first_name, surname, address, city, phone_number, email, password, type, is_approved, is_deleted)
+VALUES (6,'Instructor','Horvat', 'Narodnog fronta 58', 'Novi Sad', '064789632','instructor@gmail.com',
+        '$2a$10$oD0Cq/HgF.l/u5yUH3KdUuSl77Npw16xZuGHYbp10u9kO2onfEzC.','INSTRUCTOR', true, false);
+
 INSERT INTO admins (is_super_owner, id) VALUES (true, 1);
 INSERT INTO house_owners (id) VALUES (2);
 INSERT INTO boat_owners (id) VALUES (3);
 INSERT INTO house_owners (id) VALUES (4);
-
+INSERT INTO clients (id) values(5);
+insert into instructors (id) values(6);
 
 INSERT INTO renting_entity (id, name, address, description, price, renting_rules, renting_entity_type, latitude, longitude)
 VALUES (1, 'Vila Grand', 'Stevana Milovanova 3', 'bla', 100, 'bla', 'HOUSE', 45.258779, 19.8509698);
@@ -49,3 +60,9 @@ VALUES (4, 'motorboat', 6, 'AA3456', 60, 50, 'VHF_radio', 2, 'fishnet', 'aaa', 3
 
 INSERT INTO additional_content (id, name, price, renting_entity_id) VALUES (3, 'padle', 2, 4);
 INSERT INTO additional_content (id, name, price, renting_entity_id) VALUES (4, 'mini bar', 5, 4);
+
+INSERT INTO renting_entity (id, name, address, description, price, renting_rules, renting_entity_type,latitude, longitude)
+VALUES (5, 'Sarani', 'Ribarsko ostrvo 10', 'bla', 200, 'bla', 'ADVENTURE', 45.232360, 19.836110);
+
+insert into adventures(id, instructor_id, fishing_equipment, cancellation_policy)
+VALUES (5, 6, 'Pecaljke na dubinu', 'Dva dana nakon rez');
