@@ -3,7 +3,7 @@ import Axios from '../../utils/Axios'
 import {Form, Row, Col, Button} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf';
 
-class HouseOwnerProfile extends React.Component {
+class OwnerProfile extends React.Component {
 
     constructor(props){
         super(props)
@@ -116,4 +116,4 @@ class HouseOwnerProfile extends React.Component {
   }
 }
 
-export default withNavigation(withParams(HouseOwnerProfile));
+export default withNavigation(withParams(OwnerProfile));
