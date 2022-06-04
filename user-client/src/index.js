@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Link, HashRouter as Router, Routes } from 'react-router-dom';
-import { Navbar, Nav, Container, Button} from 'react-bootstrap';
+import { Navbar, Nav, Container, Button, Form, Row, Col} from 'react-bootstrap';
 import Home from './components/Home';
 import SignIn from './components/signin/SignIn';
 import SignUp from './components/signin/SignUp';
@@ -18,14 +18,17 @@ import Boats from './components/boat/Boats';
 import EditBoat from './components/boat/EditBoat';
 import AddBoat from './components/boat/AddBoat';
 
+import NewAdmin from './components/admin/NewAdmin';
+import FirstAdminLogin from './components/admin/FirstAdminLogin';
 class App extends React.Component{
 
   isAccountApproved(){
     this.approved = window.localStorage.getItem['approved']
-    console.log('Ovo je da li je approved')
-    console.log(this.approved)
+ 
     return this.approved;
   }
+ 
+
   render(){
     const jwt = window.localStorage['jwt'];
     const role = window.localStorage['role'];
@@ -96,12 +99,14 @@ class App extends React.Component{
                 <Route path="/boats" element={<Boats/>}/>
                 <Route path="/boats/:id" element={<EditBoat/>}/>
                 <Route path="/boats/add" element={<AddBoat/>}/>
+                <Route path="/newadmin" element={<NewAdmin/>}/>
+                <Route path="/changepass" element={<FirstAdminLogin/>}/>
               </Routes>
             </Container>
           </Router>
-        
+       
         </div>
-      )
+      );
       
   }
 }

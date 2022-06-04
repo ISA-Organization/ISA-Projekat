@@ -21,8 +21,8 @@ public class HouseOwner extends User {
     private Set<House> houses = new HashSet<>();
 
     public HouseOwner(Long id, String firstname, String surname, String address, String city, String phoneNumber,
-                      String email, String password, Boolean isApproved) {
-        super(id, firstname, surname, address, city, phoneNumber, email, password, isApproved, UserType.HOUSE_OWNER);
+                      String email, String password, Boolean isApproved, Boolean isDeleted) {
+        super(id, firstname, surname, address, city, phoneNumber, email, password, isApproved, UserType.HOUSE_OWNER, isDeleted);
         this.houses = new HashSet<>();
     }
 }

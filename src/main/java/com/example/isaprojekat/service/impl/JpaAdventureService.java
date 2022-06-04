@@ -59,4 +59,9 @@ public class JpaAdventureService implements AdventureService {
 
         return instructorAdventures;
     }
+
+    @Override
+    public List<Adventure> find(String name, String address, Double price, Long ownerId) {
+        return null;
+    }
 }

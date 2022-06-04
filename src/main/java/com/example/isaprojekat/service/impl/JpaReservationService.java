@@ -4,12 +4,11 @@ import com.example.isaprojekat.model.Client;
 import com.example.isaprojekat.model.RentingEntity;
 import com.example.isaprojekat.model.Reservation;
 import com.example.isaprojekat.model.User;
-import com.example.isaprojekat.repository.ReservationRepository;
 import com.example.isaprojekat.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
+import com.example.isaprojekat.repository.ReservationRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;

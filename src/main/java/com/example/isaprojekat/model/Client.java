@@ -23,8 +23,8 @@ public class Client extends  User{
     private Set<Reservation> reservations = new HashSet<>();
 
 
-    public Client(Long id, String firstName, String surname, String address, String city, String phoneNumber, String email, String password, Boolean is_approved) {
-        super(id, firstName, surname, address, city, phoneNumber, email, password, is_approved, UserType.CLIENT);
+    public Client(Long id, String firstName, String surname, String address, String city, String phoneNumber, String email, String password, Boolean is_approved, Boolean isDeleted) {
+        super(id, firstName, surname, address, city, phoneNumber, email, password, is_approved, UserType.CLIENT, isDeleted);
         this.reservations = new HashSet<>();
     }
 }

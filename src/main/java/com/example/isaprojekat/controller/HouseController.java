@@ -52,6 +52,8 @@ public class HouseController {
         return new ResponseEntity<>(toHouseDTO.convert(saved),HttpStatus.OK);
     }
 
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<HouseDTO> delete(@PathVariable Long id){
         House deleted = houseService.delete(id);

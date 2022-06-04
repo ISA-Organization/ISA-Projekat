@@ -2,7 +2,11 @@ package com.example.isaprojekat.controller;
 
 
 import com.example.isaprojekat.dto.AdventureDTO;
+import com.example.isaprojekat.dto.HouseDTO;
+import com.example.isaprojekat.dto.mapper.AdventureToDTO;
 import com.example.isaprojekat.model.Adventure;
+import com.example.isaprojekat.model.House;
+import com.example.isaprojekat.model.Instructor;
 import com.example.isaprojekat.service.AdventureService;
 import com.example.isaprojekat.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -26,6 +30,8 @@ public class AdventureController {
     AdventureService adventureService;
     @Autowired
     ModelMapper modelMapper;
+    @Autowired
+    AdventureToDTO toAdventureDTO;
 
     @GetMapping(value={"/{id}"})
     public ResponseEntity<AdventureDTO> get(@PathVariable Long id){
@@ -39,13 +45,23 @@ public class AdventureController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AdventureDTO>> getAll(){
-        var adventures = adventureService.findAll();
+    public ResponseEntity<List<AdventureDTO>> getAll(
+            @RequestParam(required = false) Long ownerId,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) Double price){
 
-        List<AdventureDTO> adventureDTOS = adventures.
-                stream()
-                .map(adventure -> modelMapper.map(adventure, AdventureDTO.class))
-                .collect(Collectors.toList());
+        List<Adventure> adventures;
+//
+        if(name != null || address != null || price != null || ownerId != null) {
+            adventures = adventureService.find(name, address, price, ownerId);
+        }
+        else {
+            adventures = adventureService.findAll();
+        }
+
+        List<AdventureDTO> adventureDTOS = toAdventureDTO.convert(adventures);
+
         return new ResponseEntity<>(adventureDTOS, HttpStatus.OK);
     }
 
@@ -67,7 +83,7 @@ public class AdventureController {
         Adventure adventure = adventureService.findOne(dto.getId()).get();
         adventure.setCancellationPolicy(dto.getCancellationPolicy());
         adventure.setFishingEquipment(dto.getFishingEquipment());
-        adventure.setInstructor(dto.getInstructor());
+        adventure.setInstructor((Instructor) userService.findOne(dto.getInstructorId()).get());
         return new ResponseEntity<>(modelMapper.map(adventureService.save(adventure), AdventureDTO.class), HttpStatus.OK);
     }
 

@@ -15,10 +15,13 @@ public class AdventureDTO {
     private String name;
     private String address;
     private String description;
-    private Instructor instructor;
+    private Long instructorId;
     private Integer maxPeople;
     private String rules;
     private String fishingEquipment;
     private Double price;
     private String cancellationPolicy;
+    private String type;
+    private Double latitude;
+    private Double longitude;
 }

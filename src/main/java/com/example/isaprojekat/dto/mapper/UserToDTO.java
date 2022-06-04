@@ -22,6 +22,7 @@ public class UserToDTO {
         dto.setPhoneNumber(user.getPhoneNumber());
         dto.setType(user.getType().toString());
         dto.setApproved(user.getIsApproved());
+        dto.setIsDeleted(user.getIsDeleted());
         return dto;
     }
 
