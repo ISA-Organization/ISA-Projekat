@@ -7,7 +7,22 @@ class FirstAdminLogin extends React.Component{
     constructor(props) {
         super(props);
     
-        this.state = { newPass: "", confirmNewPass: "" };
+        let user = {
+          id: 0,
+          address: '',
+           city: '',
+           email: '',
+           name: '',
+           phoneNumber:'',
+           surname:'',
+           approved : false,
+           type: null
+      }
+      this.state ={
+         user : user
+          
+
+      }
       }
 
       onInputChange(event) {
@@ -22,7 +37,7 @@ class FirstAdminLogin extends React.Component{
       }
       updatePassword(password){
         const config = { headers: {'Content-Type': 'application/json'} };
-        Axios.put('/users/newpassword', password, config)
+        Axios.put('/users/newpassword' + , password, config)
         .then(res => {
             alert("Successfully edited")
             this.props.navigate('/')
