@@ -28,7 +28,10 @@ class AddAvailablePeriod extends React.Component{
 
 
      addTerm(){
-
+         console.log(this.state)
+        if(!this.state.isSpecialOffer){
+            this.setState({specialPrice: 0})
+        }
         Axios.post('/additionalContents', this.state)
             .then(res => {
                 alert("Successfully added!")
@@ -53,6 +56,14 @@ class AddAvailablePeriod extends React.Component{
         })
       }
 
+      setSpecialOffer(){
+
+          this.setState({isSpecialOffer: !this.state.isSpecialOffer})
+      }
+      changeInputValue(e){
+
+      }
+
     render(){
         return(
             <Row>
@@ -66,6 +77,7 @@ class AddAvailablePeriod extends React.Component{
                         onChange={ this.handleStartChange }
                         name="start"
                         dateFormat="MM/dd/yyyy"
+                        style={{width: "100%"}}
                     />
                     <br></br>
                     <br></br>
@@ -77,6 +89,14 @@ class AddAvailablePeriod extends React.Component{
                         dateFormat="MM/dd/yyyy"
                     />
                     <br></br>
+                    <br></br>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" onChange={() => this.setSpecialOffer()}/>
+                        <label class="form-check-label">Special offer</label>
+                    </div>
+                    <br></br>
+                    <Form.Label style={{marginRight: "2%"}}>Special price:</Form.Label>
+                    <Form.Control disabled={!this.state.isSpecialOffer} name="specialPrice" style={{width: "100%", marginRight: "2%"}} onChange={(e)=>this.changeInputValue(e)}></Form.Control>
                     <br></br>
                     <button type="button" class="btn btn-outline-primary" style={{ width: "100%"}} onClick={()=>{ this.addTerm() }}>Add</button>
                 </Col>
