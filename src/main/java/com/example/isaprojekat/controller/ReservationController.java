@@ -1,6 +1,7 @@
 package com.example.isaprojekat.controller;
 
 import com.example.isaprojekat.dto.AdditionalContentDTO;
+import com.example.isaprojekat.dto.DateRange;
 import com.example.isaprojekat.dto.ReservationDTO;
 import com.example.isaprojekat.dto.mapper.DTOToReservation;
 import com.example.isaprojekat.dto.mapper.ReservationToDTO;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,6 +75,12 @@ public class ReservationController {
     @GetMapping(path="/upcoming/byEntity/{id}")
     public ResponseEntity<List<ReservationDTO>> findAllUpcomingByEntityId(@PathVariable Long id){
         List<Reservation> res = reservationService.findAllUpcomingByEntityId(id);
+
+        return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
+    }
+    @GetMapping(path="/forRange")
+    public ResponseEntity<List<ReservationDTO>> findAllForRange(@RequestBody DateRange obj){
+        List<Reservation> res = reservationService.findAllInDateRange(obj.getStart(), obj.getEnd());
 
         return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
     }

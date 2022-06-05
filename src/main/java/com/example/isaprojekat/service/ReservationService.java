@@ -4,6 +4,7 @@ import com.example.isaprojekat.model.AdditionalContent;
 import com.example.isaprojekat.model.Reservation;
 import com.example.isaprojekat.model.User;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,4 +26,6 @@ public interface ReservationService {
     List<Reservation> findAllByEntityId(Long id);
 
     List<Reservation> findAllUpcomingByEntityId(Long id);
+
+    List<Reservation> findAllInDateRange(LocalDate start, LocalDate end);
 }
