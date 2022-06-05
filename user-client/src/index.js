@@ -18,9 +18,9 @@ import Boats from './components/boat/Boats';
 import EditBoat from './components/boat/EditBoat';
 import AddBoat from './components/boat/AddBoat';
 import AddAvailablePeriod from './components/available period/AddAvailablePeriod'
-
 import NewAdmin from './components/admin/NewAdmin';
 import FirstAdminLogin from './components/admin/FirstAdminLogin';
+import HouseToRent from './components/client/HouseToRent';
 class App extends React.Component{
 
   isAccountApproved(){
@@ -102,7 +102,12 @@ class App extends React.Component{
                 <Route path="/boats/add" element={<AddBoat/>}/>
                 <Route path="/newadmin" element={<NewAdmin/>}/>
                 <Route path="/changepass" element={<FirstAdminLogin/>}/>
+<<<<<<< HEAD
                 <Route path="/addNewTerm/:id" element={<AddAvailablePeriod/>}/>
+=======
+                <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
+                <Route path="/newreservation/:id" element={<Reservation/>}/>
+>>>>>>> e948b74 (feat: client house display reservation work)
               </Routes>
             </Container>
           </Router>

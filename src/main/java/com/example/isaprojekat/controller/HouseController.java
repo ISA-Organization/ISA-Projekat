@@ -1,8 +1,11 @@
 package com.example.isaprojekat.controller;
 
+import com.example.isaprojekat.dto.AvailablePeriodDTO;
 import com.example.isaprojekat.dto.HouseDTO;
+import com.example.isaprojekat.dto.mapper.AvailablePeriodToDTO;
 import com.example.isaprojekat.dto.mapper.DTOToHouse;
 import com.example.isaprojekat.dto.mapper.HouseToDTO;
+import com.example.isaprojekat.model.AvailablePeriod;
 import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/api/houses", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -27,6 +32,8 @@ public class HouseController {
 
     @Autowired
     private HouseToDTO toHouseDTO;
+    @Autowired
+    private AvailablePeriodToDTO toAvialablePeriodDTO;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HouseDTO> create(@Valid @RequestBody HouseDTO dto){
@@ -52,7 +59,15 @@ public class HouseController {
         return new ResponseEntity<>(toHouseDTO.convert(saved),HttpStatus.OK);
     }
 
+    @GetMapping("/freeDate/{id}")
+    public ResponseEntity<List<AvailablePeriodDTO>> getFreePeriods(@PathVariable Long id){
+        Optional<House> h = houseService.findOne(id);
+        List<AvailablePeriod> availablePeriods = new ArrayList<>();
+        availablePeriods.addAll(h.get().getAvailablePeriods());
 
+        List<AvailablePeriodDTO> dtos = toAvialablePeriodDTO.convert(availablePeriods);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HouseDTO> delete(@PathVariable Long id){
@@ -62,6 +77,17 @@ public class HouseController {
             return new ResponseEntity<>(toHouseDTO.convert(deleted), HttpStatus.NO_CONTENT);
 
         } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/housetorent/{id}")
+    public ResponseEntity<HouseDTO> getForRes(@PathVariable Long id){
+        Optional<House> h = houseService.findOne(id);
+
+        if(h.isPresent()){
+            return new ResponseEntity<>(toHouseDTO.convert(h.get()), HttpStatus.OK);
+        }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
