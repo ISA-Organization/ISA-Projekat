@@ -5,7 +5,7 @@ import {Button, Form} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf'
 import Calendar from "../calendar/Calendar";
 
-class Reservation extends React.Component{
+class HouseReservation extends React.Component{
 
     constructor(props){
         super(props)
@@ -53,4 +53,4 @@ class Reservation extends React.Component{
     }
 }
 
-export default withNavigation(withParams(Reservation))
+export default withNavigation(withParams(HouseReservation))

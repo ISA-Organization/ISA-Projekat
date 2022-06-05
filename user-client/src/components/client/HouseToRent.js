@@ -3,6 +3,8 @@ import Axios from '../../utils/Axios'
 import {Button, Form, Row, Col, ListGroup, ButtonGroup} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf'
 import MapContainer from "../maps/MapContainer";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 class HouseToRent extends React.Component{
     
@@ -21,9 +23,33 @@ class HouseToRent extends React.Component{
             latitude: 0, 
             longitude: 0
         }
+        let reservation = {
+            startDate: new Date(),
+            endDate: new Date(),
+            numberOfPeople: 0,
+            numberOfDays: 0,
+            price: 0.0,
+            cancelled: false,
+            entityId: -1,
+            clientId: -1,
+        }
+        let user = {
+            id: 0,
+            address: '',
+             city: '',
+             email: '',
+             name: '',
+             phoneNumber:'',
+             surname:'',
+             approved : false,
+             type: ''
+        }
 
         this.state = {
+   
+            reservation: reservation,
              house: house,
+             user: user,
              additionalContent: []
         }
     }
@@ -31,6 +57,7 @@ class HouseToRent extends React.Component{
     componentDidMount(){
         console.log('Uso sam u ovu komp')
         this.getHouseById(this.props.params.id)
+        this.getClientId()
         this.getAdditionalContentByHouseId(this.props.params.id)
    }
 
@@ -60,11 +87,65 @@ class HouseToRent extends React.Component{
         this.props.navigate('/calendar/' + houseId);
     }
    
-    goToReservation(houseId){
-        this.props.navigate('/newreservation/' + houseId);
-        window.location.reload()
+    handleStartChange(e){
+       console.log(e)
+        this.setState({startDate: e})
+        this.state.reservation.startDate = e;
+        console.log(this.state.reservation)
     }
+    handleEndChange(e){
+        console.log(e)
+        this.setState({endDate: e})
 
+         this.state.reservation.endDate = e;
+         console.log(this.state.reservation)
+     }
+ 
+     changeInputValue(e){
+        const name = e.target.name
+        const value = e.target.value
+
+        let reservation = this.state.reservation
+        reservation[name] = value
+
+        this.setState({reservation: reservation})
+        console.log(reservation)
+    }
+    async getClientId(){
+        let config = {
+            headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+        }
+        try{
+			let result = await Axios.get("/users/profile", config);
+			this.setState({
+				user: result.data
+			});
+		  }
+		  catch (error){
+			console.log(error);
+		  }
+    }
+    makeReservation(id){
+        this.state.reservation.numberOfDays = this.getDifferenceInDays(this.state.reservation.startDate, this.state.reservation.endDate)
+        this.state.reservation.price = this.state.house.price * this.state.reservation.numberOfDays;
+        this.state.reservation.entityId = this.state.house.id
+        this.state.reservation.clientId = this.state.user.id
+        console.log(this.state.reservation)
+        Axios.post('/reservations/book' , this.state.reservation)
+        .then( res =>{
+            alert('Successfully made a reservation!')
+            this.props.navigate('')
+
+
+        }).catch(err =>{
+            console.log(err)
+            alert('Failed to reserve entity')
+        })
+    }
+    getDifferenceInDays(date1, date2){
+        const diffInMs = Math.abs(date2 - date1);
+        return Math.round(diffInMs / (1000 * 60 * 60 * 24));
+    }
     render(){
         return(
             <Row className="justify-content-center">
@@ -119,7 +200,17 @@ class HouseToRent extends React.Component{
                                 }
                                 </ul>
                                 <br></br>
-                               <Button onClick={() => this.goToReservation(this.state.house.id)}>Make reservation</Button>
+                               
+                                <Form.Label htmlFor="startDate">Reservation start date:</Form.Label>
+                                <DatePicker name="startDate" selected={this.state.reservation.startDate} onChange={(e) => this.handleStartChange(e)}/>
+                                
+                                    <Form.Label htmlFor="endDate">Reservation start date:</Form.Label>
+                                    
+                                    
+                                    <DatePicker name="endDate" selected={this.state.reservation.endDate} onChange={(e) => this.handleEndChange(e)}></DatePicker>
+                                    <Form.Label htmlFor="numberOfPeople">Number of people:</Form.Label>
+                                <Form.Control name="numberOfPeople" value={this.state.reservation.numberOfPeople} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                               <Button onClick={() => this.makeReservation(this.state.house.id)}>Make reservation</Button>
                             </Form.Group>
                             
                     </Col >

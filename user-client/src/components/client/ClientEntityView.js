@@ -132,12 +132,12 @@ class ClientEntityView extends React.Component{
         window.location.reload()
     }
     goToBoat(id){
-        this.porps.navigate('/boats/' + id)
+        this.props.navigate('/boats/' + id)
         window.location.reload()
 
     }
     goToAdventure(id){
-        this.porps.navigate('/adventures/' + id)
+        this.props.navigate('/adventures/' + id)
         window.location.reload()
     }
 
