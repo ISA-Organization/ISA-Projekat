@@ -4,6 +4,7 @@ import './../../houses.css';
 import {Button, Form, Row, Col, ListGroup, ButtonGroup} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf';
 import MapContainer from "../maps/MapContainer";
+import Swal from "sweetalert2";
 
 
 class EditHouse extends React.Component{
@@ -26,7 +27,8 @@ class EditHouse extends React.Component{
 
         this.state = {
              house: house,
-             additionalContent: []
+             additionalContent: [],
+             reservations: []
         }
     }
 
@@ -34,6 +36,7 @@ class EditHouse extends React.Component{
 
          this.getHouseById(this.props.params.id)
          this.getAdditionalContentByHouseId(this.props.params.id)
+         this.getReservationsByHouseId(this.props.params.id)
 
 
     }
@@ -41,7 +44,6 @@ class EditHouse extends React.Component{
     getAdditionalContentByHouseId(id){
         Axios.get('/additionalContents/' + id)
             .then(res => {
-                console.log(res.data)
                 this.setState({additionalContent: res.data})
             })
             .catch(err =>{
@@ -49,13 +51,23 @@ class EditHouse extends React.Component{
             })
     }
 
+    getReservationsByHouseId(id){
+        Axios.get('/reservations/upcoming/byEntity/' + id)
+            .then(res => {
+                console.log(res.data)
+                this.setState({reservations: res.data})
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+    }
+
+
     getHouseById(id){
 
         Axios.get('/houses/' + id)
             .then(res => {
-                console.log(res.data)
                 this.setState({house: res.data})
-                console.log(this.state)
             })
             .catch(err =>{
                 console.log(err)
@@ -80,15 +92,27 @@ class EditHouse extends React.Component{
     }
 
     deleteHouse(){
-        Axios.delete('/houses/' + this.state.house.id)
-            .then(res =>{
-                alert("Successfully deleted!")
-                this.props.navigate('/houses')
-            })
-            .catch(err=>{
-                alert("Failed!")
-                console.log(err)
-            })
+
+        if(this.state.reservations.length === 0){
+            console.log("smes da brises")
+            // Axios.delete('/houses/' + this.state.house.id)
+            // .then(res =>{
+            //     alert("Successfully deleted!")
+            //     this.props.navigate('/houses')
+            // })
+            // .catch(err=>{
+            //     alert("Failed!")
+            //     console.log(err)
+            // })
+        }
+        else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'House has upcoming reservations!'
+            });
+        }
+        
     }
 
     changeInputValue(e){

@@ -1,8 +1,10 @@
 package com.example.isaprojekat.controller;
 
+import com.example.isaprojekat.dto.AdditionalContentDTO;
 import com.example.isaprojekat.dto.ReservationDTO;
 import com.example.isaprojekat.dto.mapper.DTOToReservation;
 import com.example.isaprojekat.dto.mapper.ReservationToDTO;
+import com.example.isaprojekat.model.AdditionalContent;
 import com.example.isaprojekat.model.Reservation;
 import com.example.isaprojekat.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +56,19 @@ public class ReservationController {
     public ResponseEntity< List<ReservationDTO>> getMyUpcomingReservations() {
         List<Reservation> reservations = reservationService.getMyUpcomingReservations();
         return new ResponseEntity<>(toDTO.convert(reservations), HttpStatus.OK);
+    }
+
+    @GetMapping(path="/byEntity/{id}")
+    public ResponseEntity<List<ReservationDTO>> findAllByEntityId(@PathVariable Long id){
+        List<Reservation> res = reservationService.findAllByEntityId(id);
+
+        return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
+    }
+
+    @GetMapping(path="/upcoming/byEntity/{id}")
+    public ResponseEntity<List<ReservationDTO>> findAllUpcomingByEntityId(@PathVariable Long id){
+        List<Reservation> res = reservationService.findAllUpcomingByEntityId(id);
+
+        return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
     }
 }

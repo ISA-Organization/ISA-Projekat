@@ -19,4 +19,8 @@ public interface ReservationService {
     Boolean cancel(Long id);
 
     List<Reservation> getMyUpcomingReservations();
+
+    List<Reservation> findAllByEntityId(Long id);
+
+    List<Reservation> findAllUpcomingByEntityId(Long id);
 }
