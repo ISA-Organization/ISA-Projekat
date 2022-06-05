@@ -8,6 +8,7 @@ import com.example.isaprojekat.service.AvailablePeriodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Date;
@@ -59,9 +60,11 @@ public class JpaAvailablePeriodService implements AvailablePeriodService {
 
     @Override
     public Boolean isPeriodFree(RentingEntity rentingEntity, LocalDate startDate, LocalDate endDate) {
+        Timestamp timestampStart = Timestamp.valueOf(startDate.atStartOfDay());
+        Timestamp timestampEnd = Timestamp.valueOf(endDate.atStartOfDay());
         for(AvailablePeriod period : rentingEntity.getAvailablePeriods()) {
-            if ((period.getStart().toInstant().equals(Instant.from(startDate)) || period.getStart().toInstant().isBefore(Instant.from(startDate)))
-            && (period.getEnd().toInstant().equals(Instant.from(endDate)) || period.getEnd().toInstant().isAfter(Instant.from(endDate)))){
+            if ((period.getStart().toInstant().equals(timestampStart) || period.getStart().toInstant().isBefore(timestampStart.toInstant()))
+            && (period.getEnd().toInstant().equals(timestampEnd) || period.getEnd().toInstant().isAfter(timestampEnd.toInstant()))){
                 return true;
             }
         }

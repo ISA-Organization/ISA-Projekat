@@ -66,3 +66,6 @@ VALUES (5, 'Sarani', 'Ribarsko ostrvo 10', 'bla', 200, 'bla', 'ADVENTURE', 45.23
 
 insert into adventures(id, instructor_id, fishing_equipment, cancellation_policy)
 VALUES (5, 6, 'Pecaljke na dubinu', 'Dva dana nakon rez');
+
+insert into available_periods(id, end, is_special_offer, special_price, start, renting_entity_id)
+values(1, '2023-05-05', false, 0, '2022-04-05', 1);
