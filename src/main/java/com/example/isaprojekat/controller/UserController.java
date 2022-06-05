@@ -7,6 +7,7 @@ import com.example.isaprojekat.dto.UserRegistrationDTO;
 import com.example.isaprojekat.dto.mapper.DTOToUser;
 import com.example.isaprojekat.dto.mapper.UserToDTO;
 import com.example.isaprojekat.model.Admin;
+import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.model.User;
 import com.example.isaprojekat.model.UserType;
 import com.example.isaprojekat.security.TokenUtils;
@@ -214,6 +215,17 @@ public class UserController {
             }
         }
         return new ResponseEntity<>(toUserDTO.convert(users), HttpStatus.OK);
+    }
+
+    @GetMapping(path="/getOne/{id}")
+    public ResponseEntity<UserDTO> getOne(@PathVariable Long id){
+        Optional<User> h = userService.findOne(id);
+
+        if(h.isPresent()) {
+            return new ResponseEntity<>(toUserDTO.convert(h.get()), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping(value = "/{email}")
