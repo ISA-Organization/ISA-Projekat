@@ -23,6 +23,10 @@ public class JpaAvailablePeriodService implements AvailablePeriodService {
 
     @Override
     public AvailablePeriod save(AvailablePeriod period) {
+//        if(isPeriodFree(period.getRentingEntity(), period.getStart(), period.getEnd())){
+//            return repository.save(period);
+//        }
+//        return null;
         return repository.save(period);
     }
 

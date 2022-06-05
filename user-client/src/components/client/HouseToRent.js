@@ -32,6 +32,7 @@ class HouseToRent extends React.Component{
             cancelled: false,
             entityId: -1,
             clientId: -1,
+            ownerId: -1
         }
         let user = {
             id: 0,
@@ -77,6 +78,7 @@ class HouseToRent extends React.Component{
             .then(res => {
                 console.log(res.data)
                 this.setState({house: res.data})
+                
                 console.log(this.state)
             })
             .catch(err =>{
@@ -125,12 +127,19 @@ class HouseToRent extends React.Component{
 			console.log(error);
 		  }
     }
+
     makeReservation(id){
         this.state.reservation.numberOfDays = this.getDifferenceInDays(this.state.reservation.startDate, this.state.reservation.endDate)
         this.state.reservation.price = this.state.house.price * this.state.reservation.numberOfDays;
         this.state.reservation.entityId = this.state.house.id
         this.state.reservation.clientId = this.state.user.id
-        console.log(this.state.reservation)
+        
+
+        let reser = this.state.reservation
+        reser.ownerId = this.state.house.houseOwnerId
+        this.setState({reservation: reser})
+        console.log(this.state)
+
         Axios.post('/reservations/book' , this.state.reservation)
         .then( res =>{
             alert('Successfully made a reservation!')

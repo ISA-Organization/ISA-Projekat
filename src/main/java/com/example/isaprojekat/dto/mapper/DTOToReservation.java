@@ -21,6 +21,9 @@ public class DTOToReservation {
     private ClientService clientService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private RentingEntityService rentingEntityService;
 
     public Reservation convert(ReservationDTO dto){
@@ -41,6 +44,7 @@ public class DTOToReservation {
         reservation.setPrice(dto.getPrice());
         reservation.setClient(clientService.findOne(dto.getClientId()).get());
         reservation.setRentingEntity(rentingEntityService.findOne(dto.getEntityId()).get());
+        reservation.setOwner(userService.findOne(dto.getOwnerId()).get());
 
         return reservation;
     }

@@ -22,4 +22,5 @@ public class ReservationDTO {
     private Boolean cancelled;
     private Long entityId;
     private Long clientId;
+    private Long ownerId;
 }

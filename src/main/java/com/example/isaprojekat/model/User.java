@@ -3,7 +3,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import static javax.persistence.InheritanceType.JOINED;
 @Inheritance(strategy=JOINED)
 @Entity
@@ -35,6 +38,9 @@ public class User {
     private UserType type;
     @Column
     private Boolean isDeleted;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private Set<Reservation> reservations = new HashSet<>();
 
     public User(Long id, String firstname, String surname, String address, String city, String phoneNumber,
                 String email, String password, Boolean isApproved, UserType userType, Boolean isDeleted) {
