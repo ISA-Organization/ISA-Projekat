@@ -74,9 +74,21 @@ public class JpaReservationService implements ReservationService{
         return reservations;
     }
 
+    @Override
+    public List<Reservation> findAllByEntityId(Long id) {
+        return reservationRepository.findAllByRentingEntityId(id);
+    }
+
+    @Override
+    public List<Reservation> findAllUpcomingByEntityId(Long id) {
+        List<Reservation> list = reservationRepository.findAllByRentingEntityId(id);
+        list.removeIf(res -> res.getStartDate().isBefore(ChronoLocalDate.from(LocalDateTime.now())));
+        return list;
+    }
+
     private Boolean isPeriodFree(RentingEntity entity, LocalDate start, LocalDate end){
         if(availablePeriodService.isPeriodFree(entity, start, end)){
-            List<Reservation> reservations = reservationRepository.findAllByRentingEntity(entity);
+            List<Reservation> reservations = reservationRepository.findAllByRentingEntityId(entity.getId());
             for(Reservation reservation : reservations){
 
                 if(reservation.isCancelled()) {
