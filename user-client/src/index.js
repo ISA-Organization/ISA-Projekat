@@ -21,6 +21,9 @@ import AddAvailablePeriod from './components/available period/AddAvailablePeriod
 import NewAdmin from './components/admin/NewAdmin';
 import FirstAdminLogin from './components/admin/FirstAdminLogin';
 import HouseToRent from './components/client/HouseToRent';
+import AllReservationsForOwner from './components/reservation/AllReservationsForOwner'
+import ClientProfileView from './components/client/ClientProfileView';
+
 class App extends React.Component{
 
   isAccountApproved(){
@@ -103,8 +106,10 @@ class App extends React.Component{
                 <Route path="/newadmin" element={<NewAdmin/>}/>
                 <Route path="/changepass" element={<FirstAdminLogin/>}/>
                 <Route path="/addNewTerm/:id" element={<AddAvailablePeriod/>}/>
+                <Route path="/clientProfileView/:id" element={<ClientProfileView/>}/>
                 
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
+                <Route path="/reservationsForOwner/:entityId" element={<AllReservationsForOwner/>}/>
 
               </Routes>
             </Container>

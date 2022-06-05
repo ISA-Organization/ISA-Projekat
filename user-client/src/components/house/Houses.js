@@ -100,6 +100,10 @@ class Houses extends React.Component{
         this.getHouses()
     }
 
+    goToReservations(entityId){
+        this.props.navigate('/reservationsForOwner/'+ entityId)
+    }
+
     renderHouses(){
         return this.state.houses.map((h) =>{
             return(
@@ -120,6 +124,8 @@ class Houses extends React.Component{
                         </div>
                     </div><img src={require('../../images/homePage.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
                 </div> 
+                <button type="button" class="btn btn-outline-primary" onClick={() => this.goToReservations(h.id)}>Show reservations</button>
+        
             </li> 
             )
         })
