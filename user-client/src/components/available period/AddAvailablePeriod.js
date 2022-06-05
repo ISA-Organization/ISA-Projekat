@@ -24,15 +24,25 @@ class AddAvailablePeriod extends React.Component{
     }
 
     componentDidMount(){
+        this.getRentingEntityType()
     }
 
-
+    getRentingEntityType(){
+        Axios.get('/rentingEntities/' + this.props.params.id)
+            .then(res => {
+                this.setState({rentingEntityType: res.data})
+            })
+            .catch(err =>{
+                alert("Failed!")
+                console.log(err)
+            })
+    }
      addTerm(){
          console.log(this.state)
         if(!this.state.isSpecialOffer){
             this.setState({specialPrice: 0})
         }
-        Axios.post('/additionalContents', this.state)
+        Axios.post('/available/period', this.state)
             .then(res => {
                 alert("Successfully added!")
                 this.props.navigate('/calendar/' + this.props.params.id)
@@ -44,16 +54,14 @@ class AddAvailablePeriod extends React.Component{
     }
 
 
-    handleStartChange(date) {
-        this.setState({
-          start: date
-        })
+    handleStartChange(e) {
+        this.setState({start: e})
+        this.state.start = e;
       }
     
-      handleEndChange(date) {
-        this.setState({
-          end: date
-        })
+      handleEndChange(e) {
+        this.setState({end: e})
+        this.state.end = e;
       }
 
       setSpecialOffer(){
@@ -72,22 +80,11 @@ class AddAvailablePeriod extends React.Component{
                     <h1 style={{color: "black"}}>Add new term</h1>
                     <br></br>
                     <Form.Label>Start date:</Form.Label>
-                    <DatePicker
-                        selected={ this.state.start}
-                        onChange={ this.handleStartChange }
-                        name="start"
-                        dateFormat="MM/dd/yyyy"
-                        style={{width: "100%"}}
-                    />
+                    <DatePicker name="start" selected={this.state.start} onChange={(e) => this.handleStartChange(e)}/>           
                     <br></br>
                     <br></br>
                     <Form.Label>End date:</Form.Label>
-                    <DatePicker
-                        selected={ this.state.end}
-                        onChange={ this.handleEndChange }
-                        name="end"
-                        dateFormat="MM/dd/yyyy"
-                    />
+                    <DatePicker name="end" selected={this.state.end} onChange={(e) => this.handleEndChange(e)}/> 
                     <br></br>
                     <br></br>
                     <div class="form-check">
