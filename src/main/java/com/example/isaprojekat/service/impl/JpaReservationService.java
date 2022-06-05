@@ -66,6 +66,14 @@ public class JpaReservationService implements ReservationService{
     }
 
     @Override
+    public List<Reservation> getMyUpcomingReservationsOwner(Long id) {
+
+        List<Reservation> reservations = reservationRepository.findAllByOwnerId(id);
+        reservations.removeIf(res -> res.getStartDate().isBefore(ChronoLocalDate.from(LocalDateTime.now())));
+        return reservations;
+    }
+
+    @Override
     public List<Reservation> getMyUpcomingReservations() {
         var loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
         Client client = clientService.findByEmail(loggedInUser).get();

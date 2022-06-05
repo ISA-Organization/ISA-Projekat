@@ -18,6 +18,8 @@ public interface ReservationService {
 
     Boolean cancel(Long id);
 
+    List<Reservation> getMyUpcomingReservationsOwner(Long id);
+
     List<Reservation> getMyUpcomingReservations();
 
     List<Reservation> findAllByEntityId(Long id);

@@ -57,6 +57,11 @@ public class ReservationController {
         List<Reservation> reservations = reservationService.getMyUpcomingReservations();
         return new ResponseEntity<>(toDTO.convert(reservations), HttpStatus.OK);
     }
+    @GetMapping(path = "/upcomingForOwner/{id}")
+    public ResponseEntity< List<ReservationDTO>> getMyUpcomingReservationsOwner(@PathVariable Long id) {
+        List<Reservation> reservations = reservationService.getMyUpcomingReservationsOwner(id);
+        return new ResponseEntity<>(toDTO.convert(reservations), HttpStatus.OK);
+    }
 
     @GetMapping(path="/byEntity/{id}")
     public ResponseEntity<List<ReservationDTO>> findAllByEntityId(@PathVariable Long id){
