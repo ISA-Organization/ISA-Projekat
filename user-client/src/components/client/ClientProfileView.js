@@ -1,6 +1,7 @@
 import React from 'react'
 import Axios from '../../utils/Axios'
 import { withParams } from '../../utils/routeconf'
+import {Form} from 'react-bootstrap'
 
 class ClientProfileView extends React.Component {
 
@@ -20,7 +21,8 @@ class ClientProfileView extends React.Component {
             approved: true
         }
         this.state ={
-            client: client
+            client: client,
+            showComment: false
 
         }
 
@@ -55,10 +57,21 @@ class ClientProfileView extends React.Component {
                                     </div>
                                     <br></br>
                                     <h5 class="user-name">{this.state.client.name} {this.state.client.surname}</h5>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onChange={() => this.setSpecialOffer()}/>
+                                        <label class="form-check-label">I want a penalty</label>
+                                    </div>
+                                    <br></br>
+                                    <Form.Label style={{marginRight: "2%"}}>Comment:</Form.Label>
+                                    <Form.Control name="specialPrice" as="textarea" style={{width: "100%", marginRight: "2%"}} onChange={(e)=>this.changeInputValue(e)}></Form.Control>
+                                    <br></br>
+                                    <button type="button" class="btn btn-outline-primary" onClick={()=>{this.goToAddComment(this.state.client.id)}}>Done</button>
+                          
                                 </div>
                             </div>
                         </div>
                     </div>
+                          
                     </div>
                     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
                     <div class="card h-100">
