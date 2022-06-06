@@ -25,6 +25,8 @@ public interface ReservationService {
 
     List<Reservation> findAllByEntityId(Long id);
 
+    List<Reservation> findAllByOwnerId(Long id);
+
     List<Reservation> findAllUpcomingByEntityId(Long id);
 
     List<Reservation> findAllInDateRange(LocalDate start, LocalDate end);
