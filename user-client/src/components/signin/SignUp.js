@@ -3,6 +3,7 @@ import { Form, Button, Row, Col, Container, FormGroup} from "react-bootstrap";
 import '../../index.css';
 import Axios from "../../utils/Axios";
 import {withNavigation} from '../../utils/routeconf.js'
+import Swal from "sweetalert2";
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -27,15 +28,33 @@ class SignIn extends React.Component {
   }
 
   signUp(){
+    console.log(this.state.user)
+    if(this.state.user.email == '' || this.state.user.name == '' || this.state.user.surname == '' || 
+    this.state.user.address == '' || this.state.user.city == '' || this.state.user.phoneNumber == '' ||
+    this.state.user.type == '' || this.state.user.password == '' || this.state.user.confirmPassword == ''){
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed',
+          text: 'All fields must be filled!' 
+      });
+      return;
+    }
 
     Axios.post('/users', this.state.user)
       .then(res=>{
-        alert("Registration successful!")
-          this.props.navigate('/signin')
-          window.location.reload()
+        Swal.fire({
+          icon: 'success',
+          title: 'Done',
+          text: 'Successfully registrated!' 
+      });
+          this.props.navigate('/')
       })
       .catch(err=>{
-        alert("Registration failed")
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Registration failed!' 
+      });
         console.log(err)
       })
   }
