@@ -27,7 +27,7 @@ import EarningsInRange from './components/report/EarningsInRange';
 import Adventure from './components/adventure/Adventures';
 import AddAdventure from './components/adventure/AddAdventure';
 import EditAdventure from './components/adventure/EditAdventure';
-import MakeReservationByOwner from './components/reservation/MakeReservationByOwner';
+import MakeReservationByOwner from './components/reservation/MakeReservationByOwner'
 
 import DeletionRequestForm from './components/deletionRequests/DeletionRequestForm';
 import DeletionRequestList from './components/admin/DeletionRequestList';

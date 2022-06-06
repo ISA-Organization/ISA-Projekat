@@ -48,6 +48,7 @@ function getAvailabilityDates(avialablePeriod){
 		periods.push(formatedPeriod)
 		
 	}
+
 	console.log('Im Free baby')
 
 	console.log(periods)
@@ -142,7 +143,6 @@ const Calendar = () => {
 		Axios.get('/available/period/' + id)
 		.then(res => {
 			setAvailablePeriods(res.data);
-			console.log(res.data)
 			
 		}).catch(err =>{
 			console.log(err)
@@ -208,13 +208,17 @@ const Calendar = () => {
 		let dateToCheck = new Date(yearVar,correctMonth, day);
 		
 		let availability = []
+
 		//console.log(dateToCheck)
+
 		for(let range of availabilityPeriods){
 			if(dateToCheck >= range['startDate'] && dateToCheck <= range['endDate']){
 				availability.push(true);
 			}
 		}
+
 		//console.log(availability.length)
+
 		if(availability.length != 0){
 			return true;
 		}

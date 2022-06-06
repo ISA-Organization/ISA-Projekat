@@ -34,6 +34,9 @@ public class ReservationController {
     //@PreAuthorize("hasAuthority('KORISNIK')")
     @PostMapping(path = "/book")
     public ResponseEntity<ReservationDTO> create(@RequestBody ReservationDTO dto){
+        if(dto.getId() != null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         Reservation reservation = reservationService.save(toReservation.convert(dto));
         return new ResponseEntity<>(toDTO.convert(reservation), HttpStatus.OK);
     }

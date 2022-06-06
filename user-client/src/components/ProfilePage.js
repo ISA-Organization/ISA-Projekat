@@ -1,7 +1,7 @@
 import React from 'react'
 import '../index.css'
 import AdminProfile from "./admin/AdminProfile"
-import HouseOwnerProfile from './owner/HouseOwnerProfile';
+import OwnerProfile from './owner/OwnerProfile';
 import InstructorProfile from "./instructor/InstructorProfile"
 class ProfilePage extends React.Component {
 
@@ -12,7 +12,9 @@ class ProfilePage extends React.Component {
             case 'INSTRUCTOR':
                 return <InstructorProfile/>;
             case 'HOUSE_OWNER':
-                return <HouseOwnerProfile/>;
+                return <OwnerProfile/>;
+            case 'BOAT_OWNER':
+                    return <OwnerProfile/>;
             default:
                 return null;
         }
