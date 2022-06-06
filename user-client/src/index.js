@@ -83,13 +83,7 @@ class App extends React.Component{
                 </Nav.Link>]
                 : null
               }
-              {
-                (role == 'HOUSE_OWNER' || role == 'BOAT_OWNER' || role == 'INSTRUCTOR')  && approved === 'true'  ?
-                [<Nav.Link as={Link} to="/reservations">
-                Reservations
-                </Nav.Link>]
-                : null
-              }
+            
               {role == 'ADMIN' && approved === 'true' ?
                 <Nav.Link as={Link} to="/deletionrequests">
                   Deletion Requests
