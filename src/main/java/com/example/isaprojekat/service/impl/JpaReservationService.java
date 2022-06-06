@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,6 +72,21 @@ public class JpaReservationService implements ReservationService{
         List<Reservation> reservations = reservationRepository.findAllByOwnerId(id);
         reservations.removeIf(res -> res.getStartDate().isBefore(ChronoLocalDate.from(LocalDateTime.now())));
         return reservations;
+    }
+
+    @Override
+    public List<Reservation> findAllInDateRange(LocalDate start, LocalDate end) {
+
+        List<Reservation> reservations = reservationRepository.findAll();
+        List<Reservation> res = new ArrayList<>();
+
+        for(Reservation r : reservations){
+            if(r.getStartDate().isAfter(start) && r.getStartDate().isBefore(end) && r.getEndDate().isAfter(start)
+               && r.getEndDate().isBefore(end)){
+                res.add(r);
+            }
+        }
+        return res;
     }
 
     @Override

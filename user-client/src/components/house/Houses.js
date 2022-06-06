@@ -104,6 +104,10 @@ class Houses extends React.Component{
         this.props.navigate('/reservationsForOwner/'+ entityId)
     }
 
+    goToRangeSelect(){
+        this.props.navigate('/earningsReport')
+    }
+
     renderHouses(){
         return this.state.houses.map((h) =>{
             return(
@@ -149,6 +153,9 @@ class Houses extends React.Component{
                             <Form.Control name="price" placeholder="Search by price" style={{width: "25%"}} onChange={(e)=>this.changeInputValue(e)}></Form.Control>
                             <Button onClick={()=> this.goToAddHouse()} style={{marginLeft: "7%"}}>Add new</Button>
                         </div>
+                        <br></br>
+                        <button type="button" class="btn btn-outline-secondary" onClick={()=> this.goToRangeSelect()}>Report for earnings</button>
+                        <br></br>
                         <br></br>
                         <ul class="list-group shadow">
                             {this.renderHouses()}

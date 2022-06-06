@@ -1,10 +1,12 @@
 package com.example.isaprojekat.controller;
 
 import com.example.isaprojekat.dto.AdditionalContentDTO;
+import com.example.isaprojekat.dto.DateRange;
 import com.example.isaprojekat.dto.ReservationDTO;
 import com.example.isaprojekat.dto.mapper.DTOToReservation;
 import com.example.isaprojekat.dto.mapper.ReservationToDTO;
 import com.example.isaprojekat.model.AdditionalContent;
+import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.model.Reservation;
 import com.example.isaprojekat.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,9 +49,14 @@ public class ReservationController {
 
     //@PreAuthorize("hasAuthority('KORISNIK')")
     @GetMapping(path = "/{id}")
-    public ResponseEntity<?> getOne(@PathVariable Long id) {
-        Optional<Reservation> reservation = reservationService.findOne(id);
-        return new ResponseEntity<>(reservation, HttpStatus.OK);
+    public ResponseEntity<ReservationDTO> getOne(@PathVariable Long id) {
+        Optional<Reservation> h = reservationService.findOne(id);
+
+        if(h.isPresent()) {
+            return new ResponseEntity<>(toDTO.convert(h.get()), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     //@PreAuthorize("hasAuthority('KORISNIK')")
@@ -73,6 +81,13 @@ public class ReservationController {
     @GetMapping(path="/upcoming/byEntity/{id}")
     public ResponseEntity<List<ReservationDTO>> findAllUpcomingByEntityId(@PathVariable Long id){
         List<Reservation> res = reservationService.findAllUpcomingByEntityId(id);
+
+        return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
+    }
+    @PostMapping(path="/forRange", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ReservationDTO>> findAllForRange(@RequestBody DateRange obj){
+        System.out.println("**********************   "+obj.getStart());
+        List<Reservation> res = reservationService.findAllInDateRange(obj.getStart(), obj.getEnd());
 
         return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
     }
