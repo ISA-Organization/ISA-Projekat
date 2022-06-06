@@ -34,6 +34,8 @@ public class RentingEntity {
     private double latitude;
     @Column
     private double longitude;
+    @Column
+    private String photos;
     @Enumerated(EnumType.STRING)
     private RentingEntityType rentingEntityType;
 

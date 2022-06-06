@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Base64;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -24,4 +27,5 @@ public class AdventureDTO {
     private String type;
     private Double latitude;
     private Double longitude;
+    public List<String> pictures;
 }

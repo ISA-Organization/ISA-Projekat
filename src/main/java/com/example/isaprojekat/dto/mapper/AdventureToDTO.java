@@ -22,7 +22,9 @@ public class AdventureToDTO {
         dto.setAddress(a.getAddress());
         dto.setPrice(a.getPrice());
         dto.setInstructorId(a.getInstructor().getId());
-
+        dto.setFishingEquipment(a.getFishingEquipment());
+        dto.setCancellationPolicy(a.getCancellationPolicy());
+        dto.setMaxNumberOfPeople(a.getMaxNumberOfPeople());
         dto.setType(a.getRentingEntityType().toString());
 
         dto.setLatitude(a.getLatitude());

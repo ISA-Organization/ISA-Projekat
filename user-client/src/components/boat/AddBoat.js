@@ -4,11 +4,13 @@ import './../../houses.css';
 import {Button, Form, Row, Col, Card} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf'
 import MapContainer from "../maps/MapContainer";
+import ImageUploader from "react-images-upload";
 
 class AddBoat extends React.Component{
 
     constructor(props){
         super(props)
+        this.onDrop = this.onDrop.bind(this);
 
         let boat = {
             name: "",
@@ -28,7 +30,8 @@ class AddBoat extends React.Component{
             fishingEquipment: '',
             cancellationPolicy: '',
             rentingEntityType: "BOAT",
-            boatOwnerId: -1
+            boatOwnerId: -1,
+            pictures: []
         }
         let user = {
             id: 0,
@@ -44,15 +47,27 @@ class AddBoat extends React.Component{
 
         this.state = {
              boat: boat,
-             user: user
+             user: user,
+             pictures:[],
+             i: 0
         }
     }
 
     componentDidMount(){
     }
-
+    onDrop(pictureFiles, pictureDataURLs) {
+                this.setState({
+                  pictures: this.state.pictures.concat(pictureFiles[pictureFiles.length -1])
+        
+                }, () => {
+                    console.log(this.state.pictures)
+                    this.setState({i : this.state.i + 1})
+                });
+                console.log(pictureFiles)
+              }
     async addBoat(){
         await this.getUser()
+        await this.fileArrayToBase64(this.state.pictures)
 
         let boat = this.state.boat
         boat.boatOwnerId = this.state.user.id
@@ -68,7 +83,29 @@ class AddBoat extends React.Component{
                 console.log(err)
             })
     }
-
+    async fileArrayToBase64(images){
+                for(let image of images){
+                    const base64 = await this.convertBase64(image)
+                    let realValue = base64.slice(23)
+                    this.state.boat.pictures.push(realValue)
+                }
+        
+            }
+            convertBase64(file){
+                        return new Promise((resolve, reject)=>{
+                            const fileReader = new FileReader();
+                
+                            fileReader.readAsDataURL(file);
+                
+                            fileReader.onload = ()=>{
+                                resolve(fileReader.result);
+                            }
+                
+                            fileReader.onerror = (err)=>{
+                                reject(err);
+                            }
+                        })
+                    }
     async getUser(){
         let config = {
             headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
@@ -101,16 +138,7 @@ class AddBoat extends React.Component{
                 <Col md={3}>
                     <h1 style={{color: "black"}}>Add new boat</h1>
                     <br></br>
-                    <Card style={{ width: "90%", height: "30%" }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                        <Card.Body>
-                            <Card.Title>Import picture</Card.Title>
-                            <Card.Text>
-                            Add profile picture here.
-                            </Card.Text>
-                            <Button variant="light">+</Button>
-                        </Card.Body>
-                    </Card>
+                    
                     <MapContainer lat={this.state.boat.latitude} lng={this.state.boat.longitude}></MapContainer>
                 </Col>
                 <Col md={3}>
@@ -176,6 +204,17 @@ class AddBoat extends React.Component{
                             </Form.Group>
                             
                     </Col >
+                    <Col md={12}>
+                    <Form.Group>
+                        <ImageUploader
+                        withIcon={true}
+                        buttonText="Choose images"
+                        onChange={this.onDrop}
+                        withPreview={true}
+                        imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                        maxFileSize={5242880}/>
+                    </Form.Group>
+                </Col>
 
             </Row>
         )

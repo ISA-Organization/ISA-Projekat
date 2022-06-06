@@ -4,8 +4,8 @@ import {Button, Form, Row, Col, ListGroup, ButtonGroup} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf';
 import MapContainer from "../maps/MapContainer";
 import Swal from "sweetalert2";
-
-
+import { Carousel, CarouselItem } from "react-bootstrap";
+import ImageUploader from "react-images-upload";
 class EditAdventure extends React.Component{
 
     constructor(props){
@@ -16,16 +16,19 @@ class EditAdventure extends React.Component{
             name: "",
             address: "",
             description: "",
+            fishingEquipment: "",
             rules: "",
             price: 0,
             latitude: 0, 
-            longitude: 0
+            longitude: 0,
+            pictures: []
         }
 
         this.state = {
             adventure: adventure,
              additionalContent: [],
              reservations: []
+
         }
     }
 
@@ -72,6 +75,8 @@ class EditAdventure extends React.Component{
     }
 
     editAdventure(){
+        this.fileArrayToBase64(this.state.pictures)
+
         let adventure = this.state.adventure
         adventure.latitude = window.localStorage['lat']
         adventure.longitude = window.localStorage['long']
@@ -125,19 +130,39 @@ class EditAdventure extends React.Component{
     goToCalendar(adventureId){
         this.props.navigate('/calendar/' + adventureId);
     }
-
+    setToImage(image){
+        return "data:image/png;base64," + image;
+      }
 
     goToAdditionalContent(){
         this.props.navigate('/additionalContent/' + this.state.adventure.id)
     }
 
+    
+   
     render(){
         return(
+            
+
             <Row className="justify-content-center">
+                    
                 <Col>
                     <h1 style={{color: "black", width: "75%"}}>Adventure profile</h1>
                     <br></br>
-                    <img style={{width: "90%", height:"30%", borderRadius: "8px"}} src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
+                    <Carousel>
+                        {
+                            this.state.adventure.pictures.map((p) => {
+                                console.log(this.state.adventure)
+                                return(
+                                    <CarouselItem>
+                                        <img className="d-block w-100"  src={this.setToImage(p)}>
+
+                                        </img>
+                                    </CarouselItem>
+                                )
+                            })
+                        }
+                    </Carousel>                    
                     <MapContainer lat={this.state.adventure.latitude} lng={this.state.adventure.longitude}></MapContainer>
                 </Col>
 
@@ -156,6 +181,17 @@ class EditAdventure extends React.Component{
                     <br></br>
                     <Form.Label htmlFor="price">Price:</Form.Label>
                     <Form.Control name="price" value={this.state.adventure.price} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+
+                      
+                    <br></br>
+                    <Form.Label htmlFor="fishingEquipment">Fishing equipment:</Form.Label>
+                    <Form.Control name="fishingEquipment" value={this.state.adventure.fishingEquipment} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                    <br></br>
+                    <Form.Label htmlFor="maxNumberOfPeople">Max Number of People:</Form.Label>
+                    <Form.Control name="maxNumberOfPeople" value={this.state.adventure.maxNumberOfPeople} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                    <br></br>
+                    <Form.Label htmlFor="cancellationPolicy">Cancellation policy:</Form.Label>
+                    <Form.Control name="cancellationPolicy" value={this.state.adventure.cancellationPolicy} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
                     </Form.Group>
                 </Col>
                 <Col md={4}>
@@ -186,8 +222,8 @@ class EditAdventure extends React.Component{
                             </Form.Group>
                             
                     </Col >
-                    
-                
+                   
+
                 
                         
                             

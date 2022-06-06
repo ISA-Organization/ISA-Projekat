@@ -7,7 +7,10 @@ import com.example.isaprojekat.dto.mapper.DTOToHouse;
 import com.example.isaprojekat.dto.mapper.HouseToDTO;
 import com.example.isaprojekat.model.AvailablePeriod;
 import com.example.isaprojekat.model.House;
+import com.example.isaprojekat.model.Picture;
+import com.example.isaprojekat.repository.PictureRepository;
 import com.example.isaprojekat.service.HouseService;
+import com.example.isaprojekat.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,10 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/api/houses", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -34,7 +34,10 @@ public class HouseController {
     private HouseToDTO toHouseDTO;
     @Autowired
     private AvailablePeriodToDTO toAvialablePeriodDTO;
-
+    @Autowired
+    PictureService pictureService;
+    @Autowired
+    PictureRepository pictureRepository;
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HouseDTO> create(@Valid @RequestBody HouseDTO dto){
         if(dto.getId() != null) {
@@ -42,6 +45,9 @@ public class HouseController {
         }
 
         House saved = houseService.save(toHouse.convert(dto));
+        for(String s : dto.getPictures()){
+            pictureService.addPictureHome(saved, s);
+        }
 
         return new ResponseEntity<>(toHouseDTO.convert(saved), HttpStatus.CREATED);
     }
@@ -72,7 +78,9 @@ public class HouseController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HouseDTO> delete(@PathVariable Long id){
         House deleted = houseService.delete(id);
-
+        for(Picture p : pictureService.getImagesByEntity(id)){
+            pictureRepository.deleteById(p.getId());
+        }
         if(deleted != null) {
             return new ResponseEntity<>(toHouseDTO.convert(deleted), HttpStatus.NO_CONTENT);
 
@@ -97,9 +105,13 @@ public class HouseController {
     public ResponseEntity<HouseDTO> getOne(@PathVariable Long id){
 
         Optional<House> h = houseService.findOne(id);
-
+        HouseDTO dto = toHouseDTO.convert(h.get());
+        dto.pictures = new ArrayList<>();
+        for(Picture p : pictureService.getImagesByEntity(id)){
+            dto.pictures.add(Base64.getEncoder().encodeToString(p.getBytes()));
+        }
         if(h.isPresent()) {
-            return new ResponseEntity<>(toHouseDTO.convert(h.get()), HttpStatus.OK);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -123,7 +135,17 @@ public class HouseController {
         }
 
         List<HouseDTO> houseDTOS = toHouseDTO.convert(houses);
-
+        for(HouseDTO dto : houseDTOS){
+            List<Picture> pictures = pictureService.getImagesByEntity(dto.getId());
+            List<String> pictureBase64 = new ArrayList<>();
+            for(Picture p : pictures){
+                if(p.getRentingEntityId().getId() == dto.getId()){
+                    pictureBase64.add(Base64.getEncoder().encodeToString(p.getBytes()));
+                    break;
+                }
+            }
+            dto.setPictures(pictureBase64);
+        }
         return new ResponseEntity<>(houseDTOS, HttpStatus.OK);
     }
 }

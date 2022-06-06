@@ -8,7 +8,10 @@ import com.example.isaprojekat.dto.mapper.DTOToAdventure;
 import com.example.isaprojekat.model.Adventure;
 import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.model.Instructor;
+import com.example.isaprojekat.model.Picture;
+import com.example.isaprojekat.repository.PictureRepository;
 import com.example.isaprojekat.service.AdventureService;
+import com.example.isaprojekat.service.PictureService;
 import com.example.isaprojekat.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -36,13 +38,22 @@ public class AdventureController {
     AdventureToDTO toAdventureDTO;
     @Autowired
     DTOToAdventure toAdventure;
+    @Autowired
+    PictureService pictureService;
+    @Autowired
+    PictureRepository pictureRepository;
 
     @GetMapping(value={"/{id}"})
     public ResponseEntity<AdventureDTO> get(@PathVariable Long id){
         Optional<Adventure> adventure = adventureService.findOne(id);
+        AdventureDTO dto = toAdventureDTO.convert(adventure.get());
+        dto.pictures = new ArrayList<>();
+        for(Picture p : pictureService.getImagesByEntity(id)){
+            dto.pictures.add(Base64.getEncoder().encodeToString(p.getBytes()));
+        }
 
         if(adventure.isPresent())
-            return new ResponseEntity<>(modelMapper.map(adventure.get(), AdventureDTO.class), HttpStatus.OK);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -63,8 +74,19 @@ public class AdventureController {
         else {
             adventures = adventureService.findAll();
         }
-
         List<AdventureDTO> adventureDTOS = toAdventureDTO.convert(adventures);
+        for(AdventureDTO dto : adventureDTOS){
+
+            List<Picture> pictures = pictureService.getImagesByEntity(dto.getId());
+            List<String> pictureBase64 = new ArrayList<>();
+            for(Picture p : pictures){
+                if(p.getRentingEntityId().getId() == dto.getId()){
+                    pictureBase64.add(Base64.getEncoder().encodeToString(p.getBytes()));
+                    break;
+                }
+            }
+            dto.setPictures(pictureBase64);
+        }
 
         return new ResponseEntity<>(adventureDTOS, HttpStatus.OK);
     }
@@ -75,6 +97,7 @@ public class AdventureController {
         if(!id.equals(dto.getId())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
         dto.setType("ADVENTURE");
         Adventure h = toAdventure.convert(dto);
         Adventure saved = adventureService.update(h);
@@ -83,6 +106,9 @@ public class AdventureController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<AdventureDTO> delete(@PathVariable Long id){
+        for(Picture p : pictureService.getImagesByEntity(id)){
+            pictureRepository.deleteById(p.getId());
+        }
         Adventure deleted = adventureService.delete(id);
 
         if(deleted != null) {
@@ -98,8 +124,10 @@ public class AdventureController {
         if(dto.getId() != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         Adventure saved = adventureService.save(toAdventure.convert(dto));
+        for(String s : dto.getPictures()){
+            pictureService.addPictureAdventure(saved, s);
+        }
 
         return new ResponseEntity<>(toAdventureDTO.convert(saved), HttpStatus.CREATED);
     }

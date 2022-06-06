@@ -39,7 +39,10 @@ class Houses extends React.Component{
         this.getHouses()
 
     }
-
+    
+        setToImage(image){
+          return "data:image/png;base64," + image;
+         }
     getHouses(){
 
         let config = { params: {
@@ -114,7 +117,7 @@ class Houses extends React.Component{
     }
 
     goToAttendanceReports(){
-        this.props.navigate('/attendanceReport')
+        this.props.navigate('/attendanceReport/'+ this.state.user.id)
     }
 
     renderHouses(){
@@ -135,7 +138,7 @@ class Houses extends React.Component{
                                 <li class="list-inline-item m-0"><i class="fa fa-star-o text-gray"></i></li>
                             </ul>
                         </div>
-                        </div><img style={{width: "55%"}} src={require('../../images/homePage.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
+                        </div><img src={this.setToImage(h.pictures[0])} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
                 </div> 
                 <button style={{marginLeft: "45%"}} type="button" class="btn btn-outline-primary" onClick={() => this.goToReservations(h.id)}>Show reservations</button>
                 <button style={{marginLeft: "5%"}} type="button" class="btn btn-outline-primary" onClick={() => this.goToFreeTerms(h.id)}>Show free terms</button>

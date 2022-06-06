@@ -13,7 +13,6 @@ class Adventure extends React.Component{
             name: "",
             price: -1
         }
-
         let user = {
             id: 0,
             address: '',
@@ -63,6 +62,10 @@ class Adventure extends React.Component{
             .catch(err =>{
                 console.log(err)
             })
+            
+    }
+    setToImage(image){
+      return "data:image/png;base64," + image;
     }
 
     async getUser(){
@@ -93,6 +96,16 @@ class Adventure extends React.Component{
     goToAddAdventure(){
         this.props.navigate('/adventures/add')
     }
+    decodeFileBase64(base64String){
+        return decodeURIComponent(
+            atob(base64String)
+            .split("")
+            .map(function (c){
+                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join("")
+            )
+    }
 
     changeInputValue(e){
         const name = e.target.name
@@ -108,7 +121,32 @@ class Adventure extends React.Component{
     goToReservations(entityId){
         this.props.navigate('/reservationsForOwner/'+ entityId)
     }
+    goToFreeTerms(entityId){
+        this.props.navigate('/periodsForOwner/'+ entityId)
+    }
+    
+    goToRangeSelect(){
+        this.props.navigate('/earningsReport')
+    }
 
+    goToAttendanceReports(){
+        this.props.navigate('/attendanceReport/'+ this.state.user.id)
+    }
+    convertBase64(file){
+        return new Promise((resolve, reject)=>{
+            const fileReader = new FileReader();
+
+            fileReader.readAsDataURL(file);
+
+            fileReader.onload = ()=>{
+                resolve(fileReader.result);
+            }
+
+            fileReader.onerror = (err)=>{
+                reject(err);
+            }
+        })
+    }
     renderAdventures(){
         return this.state.adventures.map((a) =>{
             return(
@@ -127,10 +165,10 @@ class Adventure extends React.Component{
                                 <li class="list-inline-item m-0"><i class="fa fa-star-o text-gray"></i></li>
                             </ul>
                         </div>
-                    </div><img src={require('../../images/homePage.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
+                    </div><img src={this.setToImage(a.pictures[0])} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
                 </div> 
-                <button type="button" class="btn btn-outline-primary" onClick={() => this.goToReservations(a.id)}>Show reservations</button>
-
+                <button style={{marginLeft: "45%"}} type="button" class="btn btn-outline-primary" onClick={() => this.goToReservations(a.id)}>Show reservations</button>
+                <button style={{marginLeft: "5%"}} type="button" class="btn btn-outline-primary" onClick={() => this.goToFreeTerms(a.id)}>Show free terms</button>
             </li> 
             )
         })
@@ -154,6 +192,9 @@ class Adventure extends React.Component{
                             <Form.Control name="price" placeholder="Search by price" style={{width: "25%"}} onChange={(e)=>this.changeInputValue(e)}></Form.Control>
                             <Button onClick={()=> this.goToAddAdventure()} style={{marginLeft: "7%"}}>Add new</Button>
                         </div>
+                        <br></br>
+                        <button style={{marginLeft: "47%"}} type="button" class="btn btn-outline-secondary" onClick={()=> this.goToRangeSelect()}>Earnings report</button>
+                        <button style={{marginLeft: "5%"}} type="button" class="btn btn-outline-secondary" onClick={()=> this.goToAttendanceReports()}>Attendence report</button>
                         <br></br>
                         <ul class="list-group shadow">
                             {this.renderAdventures()}

@@ -5,7 +5,7 @@ import {Button, Form, Row, Col, ListGroup, ButtonGroup} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf';
 import MapContainer from "../maps/MapContainer";
 import Swal from "sweetalert2";
-
+import { Carousel, CarouselItem } from "react-bootstrap";
 
 class EditHouse extends React.Component{
 
@@ -22,7 +22,8 @@ class EditHouse extends React.Component{
             rules: "",
             price: 0,
             latitude: 0, 
-            longitude: 0
+            longitude: 0,
+            pictures: []
         }
 
         this.state = {
@@ -40,7 +41,9 @@ class EditHouse extends React.Component{
 
 
     }
-
+    setToImage(image){
+            return "data:image/png;base64," + image;
+          }
     getAdditionalContentByHouseId(id){
         Axios.get('/additionalContents/' + id)
             .then(res => {
@@ -139,8 +142,19 @@ class EditHouse extends React.Component{
                 <Col>
                     <h1 style={{color: "black", width: "75%"}}>House profile</h1>
                     <br></br>
-                    <img style={{width: "90%", height:"30%", borderRadius: "8px"}} src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
-                    <MapContainer lat={this.state.house.latitude} lng={this.state.house.longitude}></MapContainer>
+                    <Carousel>
+                        {
+                            this.state.house.pictures.map((p) => {
+                                return(
+                                    <CarouselItem>
+                                        <img className="d-block w-100"  src={this.setToImage(p)}>
+
+                                        </img>
+                                    </CarouselItem>
+                                )
+                            })
+                        }
+                    </Carousel>                    <MapContainer lat={this.state.house.latitude} lng={this.state.house.longitude}></MapContainer>
                 </Col>
 
                 <Col md={4}>

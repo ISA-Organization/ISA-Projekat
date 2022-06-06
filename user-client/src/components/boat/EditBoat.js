@@ -5,6 +5,7 @@ import {Button, Form, Row, Col, ListGroup, ButtonGroup} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf';
 import MapContainer from "../maps/MapContainer";
 import Swal from "sweetalert2";
+import { Carousel, CarouselItem } from "react-bootstrap";
 
 
 class EditBoat extends React.Component{
@@ -30,7 +31,9 @@ class EditBoat extends React.Component{
             maxNumOfPeople: 0,
             fishingEquipment: '',
             cancellationPolicy: '',
-            boatOwnerId: -1
+            boatOwnerId: -1,
+           pictures: []
+
         }
 
         this.state = {
@@ -39,7 +42,9 @@ class EditBoat extends React.Component{
              reservations: []
         }
     }
-
+    setToImage(image){
+            return "data:image/png;base64," + image;
+          }
     componentDidMount(){
 
          this.getBoatById(this.props.params.id)
@@ -75,6 +80,7 @@ class EditBoat extends React.Component{
         Axios.get('/boats/' + id)
             .then(res => {
                 this.setState({boat: res.data})
+                console.log(res.data)
             })
             .catch(err =>{
                 console.log(err)
@@ -145,8 +151,20 @@ class EditBoat extends React.Component{
                 <Col md={3}>
                     <h1 style={{color: "black", width: "75%"}}>Boat profile</h1>
                     <br></br>
-                    <img style={{width: "90%", height:"20%", borderRadius: "8px"}} src={require('../../images/boat.jpg')} alt="Image placeholder"/>
-                    <MapContainer lat={this.state.boat.latitude} lng={this.state.boat.longitude}></MapContainer>
+                    <Carousel>
+                        {
+                            this.state.boat.pictures.map((p) => {
+                                console.log(this.state.boat)
+                                return(
+                                    <CarouselItem>
+                                        <img className="d-block w-100"  src={this.setToImage(p)}/>
+
+                                    </CarouselItem>
+                                )
+                            })
+                        }
+                    </Carousel>
+                                       <MapContainer lat={this.state.boat.latitude} lng={this.state.boat.longitude}></MapContainer>
                 </Col>
 
                 <Col md={3}>

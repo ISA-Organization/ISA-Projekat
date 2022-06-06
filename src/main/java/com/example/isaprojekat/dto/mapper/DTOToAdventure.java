@@ -27,6 +27,8 @@ public class DTOToAdventure {
         dto.setInstructor(instructorService.findOne(a.getInstructorId()).get());
         dto.setMaxNumberOfPeople(a.getMaxNumberOfPeople());
         dto.setRentingEntityType((RentingEntityType.valueOf(a.getType())));
+        dto.setFishingEquipment(a.getFishingEquipment());
+        dto.setCancellationPolicy(a.getCancellationPolicy());
 
         dto.setLatitude(a.getLatitude());
         dto.setLongitude(a.getLongitude());

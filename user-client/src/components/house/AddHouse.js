@@ -4,11 +4,13 @@ import './../../houses.css';
 import {Button, Form, Row, Col, Card} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf'
 import MapContainer from "../maps/MapContainer";
+import ImageUploader from "react-images-upload";
 
 class AddHouse extends React.Component{
 
     constructor(props){
         super(props)
+        this.onDrop = this.onDrop.bind(this);
 
         let house = {
             name: "",
@@ -21,7 +23,8 @@ class AddHouse extends React.Component{
             type: "HOUSE",
             houseOwnerId: 0, 
             latitude: 45.267136, 
-            longitude: 19.833549
+            longitude: 19.833549,
+            pictures: []
         }
         let user = {
             id: 0,
@@ -37,16 +40,27 @@ class AddHouse extends React.Component{
 
         this.state = {
              house: house,
-             user: user
+             user: user,
+             pictures:[],
+             i: 0
         }
     }
 
     componentDidMount(){
     }
-
+    onDrop(pictureFiles, pictureDataURLs) {
+            this.setState({
+              pictures: this.state.pictures.concat(pictureFiles[pictureFiles.length -1])
+    
+            }, () => {
+                console.log(this.state.pictures)
+                this.setState({i : this.state.i + 1})
+            });
+            console.log(pictureFiles)
+          }
     async addHouse(){
         await this.getUser()
-
+        await this.fileArrayToBase64(this.state.pictures)
         let house = this.state.house
         house.houseOwnerId = this.state.user.id
         this.setState({house: house})
@@ -61,7 +75,30 @@ class AddHouse extends React.Component{
                 console.log(err)
             })
     }
+    async fileArrayToBase64(images){
+            for(let image of images){
+                const base64 = await this.convertBase64(image)
+                let realValue = base64.slice(23)
+                this.state.house.pictures.push(realValue)
+            }
+    
+        }
 
+        convertBase64(file){
+                return new Promise((resolve, reject)=>{
+                    const fileReader = new FileReader();
+        
+                    fileReader.readAsDataURL(file);
+        
+                    fileReader.onload = ()=>{
+                        resolve(fileReader.result);
+                    }
+        
+                    fileReader.onerror = (err)=>{
+                        reject(err);
+                    }
+                })
+            }
     async getUser(){
         let config = {
             headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
@@ -94,16 +131,7 @@ class AddHouse extends React.Component{
                 <Col md={4}>
                     <h1 style={{color: "black"}}>Add new house</h1>
                     <br></br>
-                    <Card style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                        <Card.Body>
-                            <Card.Title>Import picture</Card.Title>
-                            <Card.Text>
-                            Add profile picture here.
-                            </Card.Text>
-                            <Button variant="light">+</Button>
-                        </Card.Body>
-                    </Card>
+                    
                     <MapContainer lat={this.state.house.latitude} lng={this.state.house.longitude}></MapContainer>
                 </Col>
                 <Col md={4}>
@@ -145,7 +173,17 @@ class AddHouse extends React.Component{
                             </Form.Group>
                 </Col>
                         
-                            
+                <Col md={12}>
+                    <Form.Group>
+                        <ImageUploader
+                        withIcon={true}
+                        buttonText="Choose images"
+                        onChange={this.onDrop}
+                        withPreview={true}
+                        imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                        maxFileSize={5242880}/>
+                    </Form.Group>
+                </Col>     
             </Row>
         )
     }

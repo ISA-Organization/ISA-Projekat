@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,7 +37,7 @@ public class BoatDTO {
     private String fishingEquipment;
     private String cancellationPolicy;
     private Long boatOwnerId;
-
+    public List<String> pictures;
     private Double latitude;
     private Double longitude;
 }

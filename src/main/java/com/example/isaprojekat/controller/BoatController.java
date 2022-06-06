@@ -6,7 +6,10 @@ import com.example.isaprojekat.dto.mapper.BoatToDTO;
 import com.example.isaprojekat.dto.mapper.DTOToBoat;
 import com.example.isaprojekat.model.Boat;
 import com.example.isaprojekat.model.House;
+import com.example.isaprojekat.model.Picture;
+import com.example.isaprojekat.repository.PictureRepository;
 import com.example.isaprojekat.service.BoatService;
+import com.example.isaprojekat.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +31,11 @@ public class BoatController {
     private DTOToBoat toBoat;
     @Autowired
     private BoatToDTO toDTO;
+    @Autowired
+    PictureService pictureService;
+    @Autowired
+    PictureRepository pictureRepository;
+
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BoatDTO> create(@Valid @RequestBody BoatDTO dto){
@@ -34,7 +44,9 @@ public class BoatController {
         }
 
         Boat saved = boatService.save(toBoat.convert(dto));
-
+        for(String s : dto.getPictures()){
+            pictureService.addPictureBoat(saved, s);
+        }
         return new ResponseEntity<>(toDTO.convert(saved), HttpStatus.CREATED);
     }
 
@@ -53,7 +65,9 @@ public class BoatController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id){
-
+        for(Picture p : pictureService.getImagesByEntity(id)){
+            pictureRepository.deleteById(p.getId());
+        }
         if(boatService.delete(id))
             return new ResponseEntity<>(true, HttpStatus.OK);
         return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
@@ -64,9 +78,13 @@ public class BoatController {
     public ResponseEntity<BoatDTO> getOne(@PathVariable Long id){
 
         Optional<Boat> b = boatService.findOne(id);
-
+        BoatDTO dto = toDTO.convert(b.get());
+        dto.pictures = new ArrayList<>();
+                for(Picture p : pictureService.getImagesByEntity(id)){
+                        dto.pictures.add(Base64.getEncoder().encodeToString(p.getBytes()));
+                    }
         if(b.isPresent()) {
-            return new ResponseEntity<>(toDTO.convert(b.get()), HttpStatus.OK);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -89,6 +107,17 @@ public class BoatController {
         }
 
         List<BoatDTO> boatDTOS = toDTO.convert(boats);
+        for(BoatDTO dto : boatDTOS){
+            List<Picture> pictures = pictureService.getImagesByEntity(dto.getId());
+            List<String> pictureBase64 = new ArrayList<>();
+            for(Picture p : pictures){
+                if(p.getRentingEntityId().getId() == dto.getId()){
+                    pictureBase64.add(Base64.getEncoder().encodeToString(p.getBytes()));
+                    break;
+                }
+            }
+            dto.setPictures(pictureBase64);
+        }
 
         return new ResponseEntity<>(boatDTOS, HttpStatus.OK);
     }

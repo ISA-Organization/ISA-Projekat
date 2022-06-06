@@ -32,7 +32,9 @@ class Boats extends React.Component{
              user: user
         }
     }
-
+    setToImage(image){
+          return "data:image/png;base64," + image;
+    }
    async componentDidMount(){
 
         await this.getUser()
@@ -102,7 +104,7 @@ class Boats extends React.Component{
     }
 
     goToAttendanceReports(){
-        this.props.navigate('/attendanceReport')
+        this.props.navigate('/attendanceReport/' + + this.state.user.id)
     }
 
     changeInputValue(e){
@@ -116,6 +118,8 @@ class Boats extends React.Component{
         this.getBoats()
     }
 
+
+    
     renderBoats(){
         return this.state.boats.map((h) =>{
             return(
@@ -134,7 +138,7 @@ class Boats extends React.Component{
                                 <li class="list-inline-item m-0"><i class="fa fa-star-o text-gray"></i></li>
                             </ul>
                         </div>
-                    </div><img style={{width: "55%"}} src={require('../../images/boat.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
+                     </div><img src={this.setToImage(h.pictures[0])} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
                 </div> 
                 <button style={{marginLeft: "45%"}} type="button" class="btn btn-outline-primary" onClick={() => this.goToReservations(h.id)}>Show reservations</button>
                 <button style={{marginLeft: "5%"}} type="button" class="btn btn-outline-primary" onClick={() => this.goToFreeTerms(h.id)}>Show free terms</button>

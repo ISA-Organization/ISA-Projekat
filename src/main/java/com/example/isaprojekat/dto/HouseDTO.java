@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,7 +22,7 @@ public class HouseDTO {
     private Integer numberOfRooms;
     private Integer numberOfBeds;
     private Long houseOwnerId;
-
+    public List<String> pictures;
     private Double latitude;
     private Double longitude;
 
