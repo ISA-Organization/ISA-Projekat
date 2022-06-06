@@ -173,12 +173,15 @@ const Calendar = () => {
 		}
 		return false;
 	}
+	const goToAddNewReservation = () =>{
+        history('/newReservation/'+ id)
+   }
     return(
         <div class="container">
 			<div class="wrapper">
 			<section class="main-content">
 				<button type="button" onClick={(e) => goToAddNewTerm(e)} class="btn btn-outline-primary" style={{marginBottom: "5%"}}>Add free term</button>
-				<button type="button" class="btn btn-outline-dark" style={{marginBottom: "5%", marginLeft:"73%"}}>Add reservation</button>
+				<button type="button" class="btn btn-outline-dark" style={{marginBottom: "5%", marginLeft:"73%"}} onClick={(e) => goToAddNewReservation(e)}>Add reservation</button>
 				<div class="table-navigation">
 					<a onClick={showPreviousMonth} class="table-navigation__prev"><span>previous month</span></a>
 					<span class="table-navigation__center">{name}, {yearVar}</span>
