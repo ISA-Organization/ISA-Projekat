@@ -186,7 +186,7 @@ class MakeReservationByOwner extends React.Component{
                 title: 'Done',
                 text: 'Successfully made a reservation!'
             });
-            this.props.navigate('/calendar/' + this.state.entityId )
+            this.props.navigate('/calendar/' + this.state.reservation.entityId )
 
 
         }).catch(err =>{

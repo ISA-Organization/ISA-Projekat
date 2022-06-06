@@ -4,6 +4,7 @@ import './../../houses.css';
 import {Button, Form, Row, Col, ListGroup, ButtonGroup} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf';
 import MapContainer from "../maps/MapContainer";
+import Swal from "sweetalert2";
 
 
 class EditBoat extends React.Component{
@@ -34,7 +35,8 @@ class EditBoat extends React.Component{
 
         this.state = {
              boat: boat,
-             additionalContent: []
+             additionalContent: [],
+             reservations: []
         }
     }
 
@@ -42,8 +44,20 @@ class EditBoat extends React.Component{
 
          this.getBoatById(this.props.params.id)
          this.getAdditionalContentByBoatId(this.props.params.id)
+         this.getReservationsByBoatId(this.props.params.id)
 
 
+    }
+
+    getReservationsByBoatId(id){
+        Axios.get('/reservations/upcoming/byEntity/' + id)
+            .then(res => {
+                console.log(res.data)
+                this.setState({reservations: res.data})
+            })
+            .catch(err =>{
+                console.log(err)
+            })
     }
 
     getAdditionalContentByBoatId(id){
@@ -85,7 +99,8 @@ class EditBoat extends React.Component{
     }
 
     deleteBoat(){
-        Axios.delete('/boats/' + this.state.boat.id)
+        if(this.state.reservations.length === 0){
+            Axios.delete('/boats/' + this.state.boat.id)
             .then(res =>{
                 alert("Successfully deleted!")
                 this.props.navigate('/boats')
@@ -94,6 +109,15 @@ class EditBoat extends React.Component{
                 alert("Failed!")
                 console.log(err)
             })
+        }
+        else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Boat has upcoming reservations!'
+            });
+        }
+        
     }
 
     changeInputValue(e){

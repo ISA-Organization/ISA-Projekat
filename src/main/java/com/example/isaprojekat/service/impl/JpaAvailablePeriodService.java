@@ -93,8 +93,17 @@ public class JpaAvailablePeriodService implements AvailablePeriodService {
         }else if(period.getStart().toInstant().isBefore(timestampStart.toInstant()) && period.getEnd().toInstant().equals(timestampEnd)){
             period.setEnd(java.sql.Date.valueOf(start));
         }else if(period.getStart().toInstant().isBefore(timestampStart.toInstant()) && period.getEnd().toInstant().isAfter(timestampEnd.toInstant())){
-            period.setEnd(java.sql.Date.valueOf(start));
-            repository.save(period);
+
+            repository.delete(period);
+
+            AvailablePeriod period2 = new AvailablePeriod();
+            period2.setStart(period.getStart());
+            period2.setEnd(java.sql.Date.valueOf(start));
+            period2.setRentingEntity(period.getRentingEntity());
+            period2.setSpecialOffer(period.isSpecialOffer());
+            period2.setSpecialPrice(period.getSpecialPrice());
+            repository.save(period2);
+
             AvailablePeriod period1 = new AvailablePeriod();
             period1.setStart(java.sql.Date.valueOf(end));
             period1.setEnd(period.getEnd());
