@@ -18,7 +18,7 @@ public class LoyaltyProgramController {
     @Autowired
     ModelMapper modelMapper;
 
-    
+
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateLoyalty(@RequestBody LoyaltyProgramDTO program){
