@@ -212,7 +212,10 @@ const Calendar = () => {
 		//console.log(dateToCheck)
 
 		for(let range of availabilityPeriods){
+			console.log(range)
 			if(dateToCheck >= range['startDate'] && dateToCheck <= range['endDate']){
+				console.log(dateToCheck)
+				console.log(range)
 				availability.push(true);
 			}
 		}
