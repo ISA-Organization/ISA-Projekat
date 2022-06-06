@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -23,11 +24,10 @@ public class JpaAvailablePeriodService implements AvailablePeriodService {
 
     @Override
     public AvailablePeriod save(AvailablePeriod period) {
-//        if(isPeriodFree(period.getRentingEntity(), period.getStart(), period.getEnd())){
-//            return repository.save(period);
-//        }
-//        return null;
-        return repository.save(period);
+        if(isPeriodFree(period.getRentingEntity(), period.getStart().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), period.getEnd().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
+            return repository.save(period);
+        }
+        return null;
     }
 
     @Override
@@ -72,10 +72,10 @@ public class JpaAvailablePeriodService implements AvailablePeriodService {
 
                 splitReservationPeriod(period, startDate, endDate);
 
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public void splitReservationPeriod(AvailablePeriod period, LocalDate start, LocalDate end){
