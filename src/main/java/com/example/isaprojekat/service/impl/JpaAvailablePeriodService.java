@@ -69,9 +69,39 @@ public class JpaAvailablePeriodService implements AvailablePeriodService {
         for(AvailablePeriod period : rentingEntity.getAvailablePeriods()) {
             if ((period.getStart().toInstant().equals(timestampStart) || period.getStart().toInstant().isBefore(timestampStart.toInstant()))
             && (period.getEnd().toInstant().equals(timestampEnd) || period.getEnd().toInstant().isAfter(timestampEnd.toInstant()))){
+
+                splitReservationPeriod(period, startDate, endDate);
+
                 return true;
             }
         }
         return false;
+    }
+
+    public void splitReservationPeriod(AvailablePeriod period, LocalDate start, LocalDate end){
+        Timestamp timestampStart = Timestamp.valueOf(start.atStartOfDay());
+        Timestamp timestampEnd = Timestamp.valueOf(end.atStartOfDay());
+        if(period.getStart().toInstant().equals(timestampStart) && period.getEnd().toInstant().equals(timestampEnd)){
+
+            repository.delete(period);
+
+        }else if(period.getStart().toInstant().equals(timestampStart) && period.getEnd().toInstant().isAfter(timestampEnd.toInstant())){
+
+            period.setStart(java.sql.Date.valueOf(end));
+            repository.save(period);
+
+        }else if(period.getStart().toInstant().isBefore(timestampStart.toInstant()) && period.getEnd().toInstant().equals(timestampEnd)){
+            period.setEnd(java.sql.Date.valueOf(start));
+        }else if(period.getStart().toInstant().isBefore(timestampStart.toInstant()) && period.getEnd().toInstant().isAfter(timestampEnd.toInstant())){
+            period.setEnd(java.sql.Date.valueOf(start));
+            repository.save(period);
+            AvailablePeriod period1 = new AvailablePeriod();
+            period1.setStart(java.sql.Date.valueOf(end));
+            period1.setEnd(period.getEnd());
+            period1.setRentingEntity(period.getRentingEntity());
+            period1.setSpecialOffer(period.isSpecialOffer());
+            period1.setSpecialPrice(period.getSpecialPrice());
+            repository.save(period1);
+        }
     }
 }

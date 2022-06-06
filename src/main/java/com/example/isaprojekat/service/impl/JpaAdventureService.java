@@ -1,6 +1,7 @@
 package com.example.isaprojekat.service.impl;
 
 import com.example.isaprojekat.model.Adventure;
+import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.model.Instructor;
 import com.example.isaprojekat.repository.AdventureRepository;
 import com.example.isaprojekat.repository.InstructorRepository;
@@ -38,9 +39,14 @@ public class JpaAdventureService implements AdventureService {
     }
 
     @Override
-    public Boolean delete(Long id) {
-        adventureRepository.deleteById(id);
-        return true;
+    public Adventure delete(Long id) {
+        Optional<Adventure> l = adventureRepository.findById(id);
+        if(l.isPresent()) {
+            System.out.println("Brisem Avanturu" + l.toString());
+            adventureRepository.delete(l.get());
+            return l.get();
+        }
+        return null;
     }
 
     @Override
