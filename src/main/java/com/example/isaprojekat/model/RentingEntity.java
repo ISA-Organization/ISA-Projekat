@@ -29,6 +29,7 @@ public class RentingEntity {
     private String address;
     @Column
     private double price;
+
     @Column
     private double latitude;
     @Column

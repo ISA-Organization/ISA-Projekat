@@ -9,6 +9,8 @@ import com.example.isaprojekat.service.RentingEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class JpaEntityReviewService implements RentingEntityReviewService {
 
@@ -18,5 +20,20 @@ public class JpaEntityReviewService implements RentingEntityReviewService {
     @Override
     public RentingEntityReview save(RentingEntityReview h) {
         return repository.save(h);
+    }
+
+    @Override
+    public RentingEntityReview findOne(Long id) {
+        return repository.findById(id).get();
+    }
+
+    @Override
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
+    public List<RentingEntityReview> findAll() {
+        return repository.findAll();
     }
 }

@@ -48,6 +48,7 @@ class AdminProfile extends React.Component {
                 .then(res => {
                     console.log(res.data)
                     this.setState({user : res.data})
+                    console.log(res.data)
                 })
                 .catch(
                     err=>{

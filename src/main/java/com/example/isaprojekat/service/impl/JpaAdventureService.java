@@ -27,6 +27,10 @@ public class JpaAdventureService implements AdventureService {
         return adventureRepository.findById(id);
     }
 
+    @Override
+    public Adventure update(Adventure adventure) {
+        return adventureRepository.save(adventure);
+    }
 
     @Override
     public List<Adventure> findAll() {

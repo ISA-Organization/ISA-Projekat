@@ -16,7 +16,7 @@ public class AdventureDTO {
     private String address;
     private String description;
     private Long instructorId;
-    private Integer maxPeople;
+    private Integer maxNumberOfPeople;
     private String rules;
     private String fishingEquipment;
     private Double price;

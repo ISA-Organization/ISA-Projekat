@@ -15,5 +15,5 @@ public class EntityReviewDTO {
     private String content;
     private Long ownerId;
     private Long reservationId;
-    private boolean isBadComment;
+    private Boolean isBadComment;
 }

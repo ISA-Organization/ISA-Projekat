@@ -17,4 +17,6 @@ public interface AdventureService {
     List<Adventure> findByInstructor(Long id);
 
     List<Adventure> find(String name, String address, Double price, Long ownerId);
+
+    Adventure update(Adventure h);
 }

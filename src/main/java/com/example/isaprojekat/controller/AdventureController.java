@@ -4,6 +4,7 @@ package com.example.isaprojekat.controller;
 import com.example.isaprojekat.dto.AdventureDTO;
 import com.example.isaprojekat.dto.HouseDTO;
 import com.example.isaprojekat.dto.mapper.AdventureToDTO;
+import com.example.isaprojekat.dto.mapper.DTOToAdventure;
 import com.example.isaprojekat.model.Adventure;
 import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.model.Instructor;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,6 +34,8 @@ public class AdventureController {
     ModelMapper modelMapper;
     @Autowired
     AdventureToDTO toAdventureDTO;
+    @Autowired
+    DTOToAdventure toAdventure;
 
     @GetMapping(value={"/{id}"})
     public ResponseEntity<AdventureDTO> get(@PathVariable Long id){
@@ -65,6 +69,18 @@ public class AdventureController {
         return new ResponseEntity<>(adventureDTOS, HttpStatus.OK);
     }
 
+    @PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AdventureDTO> update(@PathVariable Long id, @Valid @RequestBody AdventureDTO dto){
+
+        if(!id.equals(dto.getId())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        dto.setType("ADVENTURE");
+        Adventure h = toAdventure.convert(dto);
+        Adventure saved = adventureService.update(h);
+
+        return new ResponseEntity<>(toAdventureDTO.convert(saved),HttpStatus.OK);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<AdventureDTO> delete(@PathVariable Long id){
         Adventure deleted = adventureService.delete(id);
@@ -82,8 +98,10 @@ public class AdventureController {
         if(dto.getId() != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        var adventure = modelMapper.map(dto, Adventure.class);
-        return new ResponseEntity<AdventureDTO>(modelMapper.map(adventureService.save(adventure), AdventureDTO.class), HttpStatus.OK);
+
+        Adventure saved = adventureService.save(toAdventure.convert(dto));
+
+        return new ResponseEntity<>(toAdventureDTO.convert(saved), HttpStatus.CREATED);
     }
 
     @PutMapping(value= {"/edit"})

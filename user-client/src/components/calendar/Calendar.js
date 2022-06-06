@@ -214,8 +214,7 @@ const Calendar = () => {
 		for(let range of availabilityPeriods){
 			console.log(range)
 			if(dateToCheck >= range['startDate'] && dateToCheck <= range['endDate']){
-				console.log(dateToCheck)
-				console.log(range)
+				
 				availability.push(true);
 			}
 		}
@@ -232,7 +231,7 @@ const Calendar = () => {
 		let dateToCheck = new Date(yearVar, correctMonth, day);
 		let notavilable = []
 		for(let range of reservedPeriod ){
-		
+			console.log(range)
 			if(dateToCheck >= range['startDate'] && dateToCheck <= range['endDate']){
 				notavilable.push(false);
 			

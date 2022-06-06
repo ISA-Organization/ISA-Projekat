@@ -4,11 +4,12 @@ import com.example.isaprojekat.model.Instructor;
 import com.example.isaprojekat.repository.InstructorRepository;
 import com.example.isaprojekat.service.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class JpaInstructorService implements InstructorService {
 
     @Autowired

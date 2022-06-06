@@ -105,6 +105,9 @@ class Adventure extends React.Component{
         console.log(this.state.search)
         this.getAdventures()
     }
+    goToReservations(entityId){
+        this.props.navigate('/reservationsForOwner/'+ entityId)
+    }
 
     renderAdventures(){
         return this.state.adventures.map((a) =>{
@@ -126,6 +129,8 @@ class Adventure extends React.Component{
                         </div>
                     </div><img src={require('../../images/homePage.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
                 </div> 
+                <button type="button" class="btn btn-outline-primary" onClick={() => this.goToReservations(a.id)}>Show reservations</button>
+
             </li> 
             )
         })

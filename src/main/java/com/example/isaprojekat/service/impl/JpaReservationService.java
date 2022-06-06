@@ -102,6 +102,11 @@ public class JpaReservationService implements ReservationService{
     }
 
     @Override
+    public List<Reservation> getMyReservationsClient(Long id) {
+        List<Reservation> reservations = reservationRepository.findAllByClientId(id);
+        return reservations;    }
+
+    @Override
     public List<Reservation> getMyUpcomingReservations() {
         var loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
         Client client = clientService.findByEmail(loggedInUser).get();

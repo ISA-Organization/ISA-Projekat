@@ -34,7 +34,14 @@ import DeleteRequests from './components/admin/DeleteRequests';
 import DenyDeleteRequestForm from './components/admin/DenyDeleteRequestForm';
 import AllAvailablePeriodsForOwner from './components/available period/AllAvailablePeriodsForOwner';
 import WeeklyReportGraph from './components/graph/WeeklyReportGraph'
-
+import ClientReservationView from './components/reservation/ClientReservationView';
+import EntityRating from './components/reservation/EntityRating';
+import RatingList from './components/admin/RatingList';
+import ComplaintsList from './components/admin/ComplaintsList';
+import EntityComplaint from './components/reservation/EntityComplaint';
+import ComplaintResponse from './components/admin/ComplaintResponse';
+import CreateLoyaltyProgram from './components/admin/CreateLoyaltyProgram';
+import PenaltyList from './components/admin/PenaltyList';
 class App extends React.Component{
 
   isAccountApproved(){
@@ -90,7 +97,37 @@ class App extends React.Component{
                 </Nav.Link>
                 : null
               }
-              
+               {role === 'ADMIN' && approved === 'true' ?
+                <Nav.Link as={Link} to="/allratings">
+                  Rating Requests
+                </Nav.Link>
+                : null
+              }
+              {role === 'ADMIN' && approved === 'true' ?
+                <Nav.Link as={Link} to="/allcomplaints">
+                  Complaints
+                </Nav.Link>
+                : null
+              }
+              {role === 'ADMIN' && approved === 'true' ?
+                <Nav.Link as={Link} to="/newloyalty">
+                  New Loyalty Program
+                </Nav.Link>
+                : null
+              }
+               {role === 'ADMIN' && approved === 'true' ?
+                <Nav.Link as={Link} to="/allcomments">
+                  See penalties
+                </Nav.Link>
+                : null
+              }
+                {role === 'CLIENT' && approved === 'true' ?
+                <Nav.Link as={Link} to="/client/reservationview">
+                  Your reservations.
+                </Nav.Link>
+                : null
+              }
+
             </Nav>
             {window.localStorage['jwt']  && approved === 'true'  ? 
               <Nav.Link as={Link} to="/profile">Your profile</Nav.Link>
@@ -124,6 +161,8 @@ class App extends React.Component{
                 <Route path="/addNewTerm/:id" element={<AddAvailablePeriod/>}/>
                 <Route path="/clientProfileView/:id/:reservationId" element={<ClientProfileView/>}/>
                 
+                <Route path="/clientProfileView/:id" element={<ClientProfileView/>}/>
+                <Route path='/client/reservationview' element={<ClientReservationView/>}/>
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
                 <Route path="/periodsForOwner/:entityId" element={<AllAvailablePeriodsForOwner/>}/>
                 <Route path="/reservationsForOwner/:entityId" element={<AllReservationsForOwner/>}/>
@@ -133,10 +172,18 @@ class App extends React.Component{
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
                 <Route path="/adventures/:id" element={<EditAdventure/>}/>
                 <Route path="/newReservation/:entityId" element={<MakeReservationByOwner/>}/>
-
+                <Route path="/entity/rate/:id" element={<EntityRating/>}/>
                 <Route path="/delete/request" element={<DeletionRequestForm/>}/>
                 <Route path="/deletionrequests" element={<DeleteRequests/>}/>
                 <Route path='/delete/request/:id' element={<DenyDeleteRequestForm/>}/>
+                <Route path='/adventures/add' element={<AddAdventure/>}/>
+                <Route path='/allratings' element={<RatingList/>}/>
+                <Route path='/allcomplaints' element={<ComplaintsList/>}/>
+                <Route path='/entity/complaint/:id' element={<EntityComplaint/>}/>
+                <Route path='/complaint/respond/:id' element={<ComplaintResponse/>}/>
+                <Route path='/newloyalty' element={<CreateLoyaltyProgram/>}/>
+                <Route path='/allcomments' element={<PenaltyList/>}/>
+
               </Routes>
             </Container>
           </Router>

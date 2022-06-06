@@ -105,7 +105,7 @@ public class JpaUserService implements UserService {
                 return adminRepository.save(admin);
             case CLIENT:
                 Client client = new Client(u.getId(), u.getFirstName(), u.getSurname(), u.getAddress(),  u.getCity(),
-                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIsApproved(), u.getIsDeleted());
+                        u.getPhoneNumber(), u.getEmail(), u.getPassword(), u.getIsApproved(), u.getIsDeleted(), 0);
                 return clientRepository.save(client);
             case BOAT_OWNER:
                 BoatOwner boatOwner = new BoatOwner(u.getId(), u.getFirstName(), u.getSurname(), u.getAddress(),  u.getCity(),
@@ -118,6 +118,26 @@ public class JpaUserService implements UserService {
             default: return null;
         }
 
+    }
+    public void update(Optional<User> user){
+        userRepository.save(user.get());
+    }
+
+    @Override
+    public void removeSpecifiedUser(Optional<User> user) {
+        switch (user.get().getType()) {
+            case INSTRUCTOR:
+                instructorRepository.deleteById(user.get().getId());
+            case ADMIN:
+               adminRepository.deleteById(user.get().getId());
+            case CLIENT:
+               clientRepository.deleteById(user.get().getId());
+            case BOAT_OWNER:
+                boatOwnerRepository.deleteById(user.get().getId());
+            case HOUSE_OWNER:
+                houseOwnerRepository.deleteById(user.get().getId());
+        }
+        userRepository.deleteById(user.get().getId());
     }
 
     @Override

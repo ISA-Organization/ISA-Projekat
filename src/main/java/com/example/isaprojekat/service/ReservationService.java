@@ -32,4 +32,6 @@ public interface ReservationService {
     List<Reservation> findAllInDateRange(LocalDate start, LocalDate end);
 
     List<Reservation> findAllInProgressByClientId(Long id);
+
+    List<Reservation> getMyReservationsClient(Long id);
 }

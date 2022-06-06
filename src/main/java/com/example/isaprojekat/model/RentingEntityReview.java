@@ -23,7 +23,7 @@ public class RentingEntityReview {
     private Long ownerId;
     @OneToOne
     private Reservation reservation;
-    private boolean isBadComment;
+    private Boolean isBadComment;
 
     public RentingEntityReview(Long id, String content, Long ownerId, Reservation reservation, boolean isBadComment) {
         this.id = id;

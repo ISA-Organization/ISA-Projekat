@@ -42,6 +42,10 @@ class AddAvailablePeriod extends React.Component{
         if(!this.state.isSpecialOffer){
             this.setState({specialPrice: 0})
         }
+        if(this.state.isSpecialOffer){
+            this.setState({specialPrice: this.state.specialPrice})
+        }
+        
         Axios.post('/available/period', this.state)
 
             .then(res => {
@@ -70,7 +74,7 @@ class AddAvailablePeriod extends React.Component{
           this.setState({isSpecialOffer: !this.state.isSpecialOffer})
       }
       changeInputValue(e){
-
+            this.state.specialPrice = e.target.value;
       }
 
     render(){
