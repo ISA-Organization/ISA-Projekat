@@ -25,7 +25,6 @@ function getDayName(date = new Date(), locale = 'en-US') {
 function getAvailabilityDates(avialablePeriod){
 	var periods  =[]
 	for(let range of avialablePeriod){
-		console.log(range)
 		let startDate = range['start']
 		let endDate = range['end']
 		let syear = startDate.split('-')[0]
@@ -49,7 +48,6 @@ function getAvailabilityDates(avialablePeriod){
 		periods.push(formatedPeriod)
 		
 	}
-	console.log(periods)
 	return periods;
 	
 
@@ -109,7 +107,6 @@ const Calendar = () => {
 		Axios.get('/available/period/' + id)
 		.then(res => {
 			setAvailablePeriods(res.data);
-			console.log(res.data)
 			
 		}).catch(err =>{
 			console.log(err)
@@ -161,13 +158,13 @@ const Calendar = () => {
 	const isAvailable = (day, name, yearVar) =>{
 		let dateToCheck = new Date(yearVar,name, day);
 		let availability = []
-		console.log(dateToCheck)
+
 		for(let range of availabilityPeriods){
 			if(dateToCheck > range['startDate'] && dateToCheck < range['endDate']){
 				availability.push(true);
 			}
 		}
-		console.log(availability.length)
+		
 		if(availability.length != 0){
 			return true;
 		}

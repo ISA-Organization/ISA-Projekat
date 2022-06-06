@@ -11,8 +11,6 @@ class MakeReservationByOwner extends React.Component{
     constructor(props){
         super(props)
 
-        this.myRef = React.createRef();
-
         let reservation = {
             startDate: new Date(),
             endDate: new Date(),
@@ -36,6 +34,28 @@ class MakeReservationByOwner extends React.Component{
             latitude: 0, 
             longitude: 0
         }
+        
+        let boat = {
+            id: -1,
+            name: "",
+            address: "",
+            description: "",
+            rentingRules: "",
+            price: 0,
+            latitude: 0, 
+            longitude: 0,
+            type: '',
+            length: 0,
+            engineNumber: '',
+            enginePower: 0,
+            maxSpeed: 0,
+            navigation: '',
+            maxNumOfPeople: 0,
+            fishingEquipment: '',
+            cancellationPolicy: '',
+            boatOwnerId: -1
+        }
+
         let selectedClient = {
             id: 0,
             address: '',
@@ -50,19 +70,48 @@ class MakeReservationByOwner extends React.Component{
         this.state = {
             reservation: reservation,
             house: house,
+            boat: boat,
             clients: [],
-            selectedClient: selectedClient
+            selectedClient: selectedClient,
+            entityType: ''
         }
     }
     componentDidMount(){
-        this.getHouseById()
-        this.getClients()
+
+       this.getEntityType()
+       this.getClients()
+    }
+        
+    getEntityType(){
+        Axios.get('/rentingEntities/' + this.props.params.entityId)
+            .then(res => {
+                this.setState({entityType: res.data})
+                switch(res.data){
+                    case "HOUSE":
+                        this.getHouseById()
+                    case "BOAT":
+                        this.getBoatById()
+                }
+            })
+            .catch(err =>{
+                console.log(err)
+            })
     }
     getHouseById(){
 
         Axios.get('/houses/' + this.props.params.entityId)
             .then(res => {
                 this.setState({house: res.data})
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+    }
+    getBoatById(){
+
+        Axios.get('/boats/' + this.props.params.entityId)
+            .then(res => {
+                this.setState({boat: res.data})
             })
             .catch(err =>{
                 console.log(err)
@@ -103,16 +152,32 @@ class MakeReservationByOwner extends React.Component{
          console.log(reservation)
      }
      makeReservation(){
+
         this.state.reservation.numberOfDays = this.getDifferenceInDays(this.state.reservation.startDate, this.state.reservation.endDate)
-        this.state.reservation.price = this.state.house.price * this.state.reservation.numberOfDays;
-        this.state.reservation.entityId = this.state.house.id
         this.state.reservation.clientId = this.state.selectedClient.id
+
+        switch(this.state.entityType){
+            case "HOUSE": 
+                this.state.reservation.price = this.state.house.price * this.state.reservation.numberOfDays;
+                this.state.reservation.entityId = this.state.house.id;
+                let reserv1 = this.state.reservation;
+                reserv1.ownerId = this.state.house.houseOwnerId;
+                this.setState({reservation: reserv1});
+                break;
+               
+            case "BOAT": 
+                this.state.reservation.price = this.state.boat.price * this.state.reservation.numberOfDays;
+                this.state.reservation.entityId = this.state.boat.id;
+                let reserv2 = this.state.reservation
+                reserv2.ownerId = this.state.boat.boatOwnerId
+                this.setState({reservation: reserv2})
+                break;
+                
+        }
         
 
-        let reser = this.state.reservation
-        reser.ownerId = this.state.house.houseOwnerId
-        this.setState({reservation: reser})
-        console.log(this.state)
+        
+        console.log(this.state.reservation)
 
         Axios.post('/reservations/book' , this.state.reservation)
         .then( res =>{
@@ -121,7 +186,7 @@ class MakeReservationByOwner extends React.Component{
                 title: 'Done',
                 text: 'Successfully made a reservation!'
             });
-            this.props.navigate('/calendar/' + this.state.house.id )
+            this.props.navigate('/calendar/' + this.state.entityId )
 
 
         }).catch(err =>{
