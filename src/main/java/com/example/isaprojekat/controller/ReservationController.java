@@ -86,7 +86,6 @@ public class ReservationController {
     }
     @PostMapping(path="/forRange", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ReservationDTO>> findAllForRange(@RequestBody DateRange obj){
-        System.out.println("**********************   "+obj.getStart());
         List<Reservation> res = reservationService.findAllInDateRange(obj.getStart(), obj.getEnd());
 
         return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);

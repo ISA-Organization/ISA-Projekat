@@ -4,19 +4,17 @@ import {Button, Form, Row, Col, Card} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Swal from "sweetalert2";
 
 class EarningsInRange extends React.Component{
 
     constructor(props){
         super(props)
 
-        let range = {
-            start: new Date(),
-            end: new Date()
-        }
        
         this.state = {
-             range: range
+            start: new Date(),
+            end: new Date()
         }
 
         this.handleStartChange = this.handleStartChange.bind(this);
@@ -27,18 +25,32 @@ class EarningsInRange extends React.Component{
     }
 
     handleStartChange(e) {
-        this.state.range.start = e;
+        this.setState({start: e})
+        this.state.start = e;
       }
     
       handleEndChange(e) {
-        this.state.range.end = e;
+        this.setState({end: e})
+        this.state.end = e;
+      }
+
+      countEarnings(reservations){
+        let sum = 0
+        for (var i = 0; i < reservations.length; i++) {
+            console.log(reservations[i].price)
+            sum =  sum + reservations[i].price
+        }
+        Swal.fire({
+            icon: 'info',
+            title: 'Report',
+            text: 'You earned ' + sum + '$ for this period!' 
+        });
       }
 
       showReport(){
-          console.log(this.state.range)
-       Axios.post('/reservations/forRange', this.state.range)
+       Axios.post('/reservations/forRange', this.state)
            .then(res => {
-               console.log(res.data)
+                this.countEarnings(res.data)
            })
            .catch(err =>{
                alert("Failed!")
@@ -56,11 +68,11 @@ class EarningsInRange extends React.Component{
                     <h1 style={{color: "black"}}>Choose date range</h1>
                     <br></br>
                     <Form.Label>Start date:</Form.Label>
-                    <DatePicker name="start" selected={this.state.range.start} onChange={(e) => this.handleStartChange(e)}/>           
+                    <DatePicker name="start" selected={this.state.start} onChange={(e) => this.handleStartChange(e)}/>           
                     <br></br>
                     <br></br>
                     <Form.Label>End date:</Form.Label>
-                    <DatePicker name="end" selected={this.state.range.end} onChange={(e) => this.handleEndChange(e)}/> 
+                    <DatePicker name="end" selected={this.state.end} onChange={(e) => this.handleEndChange(e)}/> 
                     <br></br>
                     <br></br>
                     <button type="button" class="btn btn-outline-primary" style={{ width: "60%"}} onClick={()=>{ this.showReport() }}>Show report</button>
