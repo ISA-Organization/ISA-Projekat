@@ -12,7 +12,7 @@ public interface AdventureService {
 
     Adventure save(Adventure adventure);
 
-    Boolean delete(Long id);
+    Adventure delete(Long id);
 
     List<Adventure> findByInstructor(Long id);
 

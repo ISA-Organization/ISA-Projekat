@@ -19,7 +19,7 @@ import java.util.Set;
 public class Instructor extends User{
 
 
-    @OneToMany(mappedBy = "instructor",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
     private Set<Adventure> adventures = new HashSet<>();
 
     public Instructor(Long id, String firstName, String surname, String address, String city, String phoneNumber, String email, String password,
@@ -27,4 +27,5 @@ public class Instructor extends User{
        super(id, firstName, surname, address, city, phoneNumber, email, password, is_approved, UserType.INSTRUCTOR, isDeleted);
        this.adventures = new HashSet<>();
     }
+
 }

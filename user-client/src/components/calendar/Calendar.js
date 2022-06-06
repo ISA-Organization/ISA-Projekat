@@ -32,13 +32,13 @@ function getAvailabilityDates(avialablePeriod){
 		let sday1 = startDate.split('-')[2]
 		let sday2 = sday1.split('T')[0]
 		//let formatedStartDate = sday2 + '-' + smonth + '-' + syear 
-		let formatedStartDate = new Date(syear, smonth, sday2)
+		let formatedStartDate = new Date(syear, smonth-1, sday2)
 		let eyear = endDate.split('-')[0]
 		let emonth = endDate.split('-')[1]
 		let eday1 = endDate.split('-')[2]
 		let eday2 = eday1.split('T')[0]
 		//let formatedEndDate = eday2 + '-' + emonth + '-' + eyear
-		let formatedEndDate = new Date(eyear, emonth, eday2)
+		let formatedEndDate = new Date(eyear, emonth-1, eday2)
 		let formatedPeriod ={
 			startDate: formatedStartDate,
 			endDate: formatedEndDate
@@ -48,6 +48,10 @@ function getAvailabilityDates(avialablePeriod){
 		periods.push(formatedPeriod)
 		
 	}
+
+	console.log('Im Free baby')
+
+	console.log(periods)
 	return periods;
 	
 
@@ -75,6 +79,37 @@ function getDaysInWeek(firstDay){
 
 
 }
+function getReservedDates(reservations){
+	var periods  =[]
+	for(let range of reservations){
+		console.log(range)
+		let startDate = range['startDate']
+		let endDate = range['endDate']
+		let syear = startDate.split('-')[0]
+		let smonth = startDate.split('-')[1]
+		let sday1 = startDate.split('-')[2]
+		let sday2 = sday1.split('T')[0]
+		//let formatedStartDate = sday2 + '-' + smonth + '-' + syear 
+		let formatedStartDate = new Date(syear, smonth -1, sday1)
+		let eyear = endDate.split('-')[0]
+		let emonth = endDate.split('-')[1]
+		let eday1 = endDate.split('-')[2]
+		let eday2 = eday1.split('T')[0]
+		//let formatedEndDate = eday2 + '-' + emonth + '-' + eyear
+		let formatedEndDate = new Date(eyear, emonth -1, eday1)
+		let formatedPeriod ={
+			startDate: formatedStartDate,
+			endDate: formatedEndDate
+
+		}
+
+		periods.push(formatedPeriod)
+		
+	}
+	console.log('Reservations')
+	console.log(periods)
+	return periods;
+}
 
 const Calendar = () => {
 
@@ -93,7 +128,7 @@ const Calendar = () => {
     const[firstDay, setFirstDay] = useState(getDayName(new Date(year + '-' + (monthNum + 1) + '-' + '01')))
     const[daysInWeek, setDaysInWeek] = useState(getDaysInWeek(firstDay))
 	const[avialablePeriod, setAvailablePeriods] = useState([])
-	
+	const[reservations, setReservations] = useState([])
     let num = monthNum;
     let name = monthNames[num];
     let days = daysInMonth(num + 1, year);
@@ -103,10 +138,22 @@ const Calendar = () => {
     let daysInWeekVar = getDaysInWeek(firstDayInMonth);
 
 	let availabilityPeriods = getAvailabilityDates(avialablePeriod)
+	let reservedPeriod = getReservedDates(reservations)
 	useEffect(()=>{
 		Axios.get('/available/period/' + id)
 		.then(res => {
 			setAvailablePeriods(res.data);
+			
+		}).catch(err =>{
+			console.log(err)
+		})
+	}, [])
+	
+	useEffect(()=>{
+		Axios.get('/reservations/byEntity/' + id)
+		.then(res => {
+			setReservations(res.data);
+			console.log(res.data)
 			
 		}).catch(err =>{
 			console.log(err)
@@ -156,20 +203,44 @@ const Calendar = () => {
 	}
 
 	const isAvailable = (day, name, yearVar) =>{
-		let dateToCheck = new Date(yearVar,name, day);
+		let correctMonth = name;
+
+		let dateToCheck = new Date(yearVar,correctMonth, day);
+		
 		let availability = []
 
+		//console.log(dateToCheck)
+
 		for(let range of availabilityPeriods){
-			if(dateToCheck > range['startDate'] && dateToCheck < range['endDate']){
+			if(dateToCheck >= range['startDate'] && dateToCheck <= range['endDate']){
 				availability.push(true);
 			}
 		}
-		
+
+		//console.log(availability.length)
+
 		if(availability.length != 0){
 			return true;
 		}
 		return false;
 	}
+	const isNotAvailable = (day, name, yearVar) =>{
+		let correctMonth = name;
+		let dateToCheck = new Date(yearVar, correctMonth, day);
+		let notavilable = []
+		for(let range of reservedPeriod ){
+		
+			if(dateToCheck >= range['startDate'] && dateToCheck <= range['endDate']){
+				notavilable.push(false);
+			
+			}
+		}
+		if(notavilable.length != 0){
+			return true;
+		}
+		return false;
+	}
+	
 	const goToAddNewReservation = () =>{
         history('/newReservation/'+ id)
    }
@@ -203,7 +274,7 @@ const Calendar = () => {
 									daysArrayVar.map((day) => {
 										return(
 											day >= 1 && day <= 7 ?
-											<td class="month-table__regular" style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : {backgroundColor: "red"}}>
+											<td class="month-table__regular" style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : (isNotAvailable(day, num, yearVar) ? {backgroundColor: "red"} : null)}>
 												<div class="month-table__date">
 													<span>{day}</span>
 													<i></i>
@@ -219,8 +290,8 @@ const Calendar = () => {
 									daysArrayVar.map((day) => {
 										return(
 											day >= 8 && day <= 14 ?
-											<td class="month-table__regular" style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : {backgroundColor: "red"}}>
-												<div class="month-table__date">
+											<td class="month-table__regular" style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : (isNotAvailable(day, num, yearVar) ? {backgroundColor: "red"} : null)}>
+											<div class="month-table__date">
 													<span>{day}</span>
 													<i></i>
 												</div>
@@ -235,8 +306,8 @@ const Calendar = () => {
 									daysArrayVar.map((day) => {
 										return(
 											day >= 15 && day <= 21 ?
-											<td class="month-table__regular" style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : {backgroundColor: "red"}}>
-												<div class="month-table__date">
+											<td class="month-table__regular" style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : (isNotAvailable(day, num, yearVar) ? {backgroundColor: "red"} : null)}>
+											<div class="month-table__date">
 													<span>{day}</span>
 													<i></i>
 												</div>
@@ -251,8 +322,8 @@ const Calendar = () => {
 									daysArrayVar.map((day) => {
 										return(
 											day >= 22 && day <= 28 ?
-											<td class="month-table__regular" style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : {backgroundColor: "red"}}>
-												<div class="month-table__date">
+											<td class="month-table__regular" style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : (isNotAvailable(day, num, yearVar) ? {backgroundColor: "red"} : null)}>
+											<div class="month-table__date">
 													<span>{day}</span>
 													<i></i>
 												</div>
@@ -267,8 +338,8 @@ const Calendar = () => {
 									daysArrayVar.map((day) => {
 										return(
 											day >= 28?
-											<td class="month-table__regular"  style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : {backgroundColor: "red"}}>
-												<div class="month-table__date">
+											<td class="month-table__regular" style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : (isNotAvailable(day, num, yearVar) ? {backgroundColor: "red"} : null)}>
+											<div class="month-table__date">
 													<span>{day}</span>
 													<i></i>
 												</div>
