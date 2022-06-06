@@ -83,7 +83,7 @@ public class DeletionRequestController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping(value = "/decline/{id}")
+    @PostMapping(value = "/decline/{id}")
     public ResponseEntity<Void> decline(@Valid @RequestBody DeletionRequestDTO dto){
         Optional<DeletionRequest> req = deletionRequestService.findOne(dto.getId());
         Optional<User> u = userService.findOne(req.get().getId());

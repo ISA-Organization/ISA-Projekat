@@ -1,0 +1,123 @@
+import React from "react";
+import '../../index.css';
+import Axios from "../../utils/Axios";
+import {Button, Card, CardGroup, Modal} from 'react-bootstrap';
+
+import {withParams, withNavigation} from '../../utils/routeconf';
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+
+class DeletionRequestList extends React.Component{
+    
+
+
+    constructor(props){
+        super(props)
+        let declineReason = "";
+        this.state = {
+            reqs: [],
+            declined: false,
+        }
+    }
+    componentDidMount(){
+        this.getReqs()
+    }
+
+    getUsers(){
+        let config = { params:{}}
+
+        Axios.get('/delete/request', config)
+            .then(res => {
+                console.log(res)
+                this.setState({req: res.data})
+            })
+            .catch( err =>{
+                 console.log(err)
+            })
+    }
+    approveRequest(id){
+        console.log(id) 
+        Axios.get('/delete/request/approve/' + id)
+        .then(res =>{
+            this.props.navigate('/users')
+            window.location.reload(); 
+        })
+        .catch(err =>{
+            alert("Failed!")
+            console.log(err)
+        })
+    }
+   
+    declineAccount(id, declineReason){
+        console.log(declineReason)
+        const config = { headers: {'Content-Type': 'application/json'} };
+
+        axios.put('http://localhost:8080/api/users/decline/' + id, declineReason, config)
+        .then(res => {
+           
+            this.props.navigate('/users')
+            window.location.reload();
+        }).catch(err => {
+            alert("Failed")
+            console.log(err)
+        })
+        
+    }
+    changeInputValue(e){
+        console.log(e.target.value)
+      this.declineReason = e.target.value;
+      console.log(this.declineReason)
+    }
+    renderUsers(){
+        return this.state.req.map((r) => {
+            return(
+                <div>
+                <li class="list-group-item" key={r.id}>
+                <Card style={{ width: '18rem' }}>
+                    <Card.Img variant="top" src="holder.js/100px180" />
+                        <Card.Body>
+                            <Card.Title>{r.reason + ' ' + r.requestedDate}</Card.Title>
+                               
+                            <Button variant="primary" class="mr-5" onClick={()=> this.approveRequest(r.id)}>Approve</Button>
+                            <Button variant="danger" onClick={()=> this.declineAccount(u.id, this.declineReason)}>Decline</Button>
+                         
+                           
+                        </Card.Body>
+                    </Card>
+                </li> 
+                <br></br>
+                <br></br>
+               
+                </div>
+                )
+        })
+    }
+
+    render(){
+        const superAdmin = window.localStorage['superAdmin']
+
+        return(
+            <div class="container py-5">
+                <div class="row text-center text-white mb-5">
+                    <div class="col-lg-7 mx-auto">
+                        <h1 class="display-4" style={{color: "black"}}>Accounts waiting for conformation</h1>
+                    </div>
+                </div>
+                <div class="row">
+                        <CardGroup>
+                            {this.renderUsers()}
+                            </CardGroup>
+                </div>
+                 {
+                    superAdmin === 'true' ?
+                <Button variant="primary" class="mr-5" onClick={() => this.AddNewAdmin()}> Add new admin</Button>
+                : null
+                }
+            </div>
+        )
+    }
+}
+
+
+export default withNavigation(withParams(DeletionRequestList));

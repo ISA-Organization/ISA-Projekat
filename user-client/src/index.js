@@ -30,7 +30,7 @@ import EditAdventure from './components/adventure/EditAdventure';
 import MakeReservationByOwner from './components/reservation/MakeReservationByOwner';
 
 import DeletionRequestForm from './components/deletionRequests/DeletionRequestForm';
-
+import DeletionRequestList from './components/admin/DeletionRequestList';
 class App extends React.Component{
 
   isAccountApproved(){
@@ -80,10 +80,16 @@ class App extends React.Component{
                 : null
               }
               {
-                (role === 'HOUSE_OWNER' || role == 'BOAT_OWNER')  && approved === 'true'  ?
+                (role === 'HOUSE_OWNER' || role == 'BOAT_OWNER' || role == 'INSTRUCTOR')  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/reservations">
                 Reservations
                 </Nav.Link>]
+                : null
+              }
+              {role === 'ADMIN' && approved === 'true' ?
+                <Nav.Link as={Link} to="/deletionrequests">
+                  Deletion Requests
+                </Nav.Link>
                 : null
               }
               
@@ -130,7 +136,7 @@ class App extends React.Component{
                 <Route path="/newReservation/:entityId" element={<MakeReservationByOwner/>}/>
 
                 <Route path="/delete/request" element={<DeletionRequestForm/>}/>
-
+                <Route path = "/deletionrequests" element={<DeletionRequestList/>}/>
               </Routes>
             </Container>
           </Router>
