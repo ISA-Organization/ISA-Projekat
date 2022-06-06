@@ -27,6 +27,7 @@ import EarningsInRange from './components/report/EarningsInRange';
 import Adventure from './components/adventure/Adventures';
 import AddAdventure from './components/adventure/AddAdventure';
 import EditAdventure from './components/adventure/EditAdventure';
+import ReportGraph from './components/graph/ReportGraph';
 
 
 class App extends React.Component{
@@ -125,6 +126,7 @@ class App extends React.Component{
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
                 <Route path="/adventures/add" element={<AddAdventure/>}/>
                 <Route path="/adventures/:id" element={<EditAdventure/>}/>
+                <Route path="/graphReport" element={<ReportGraph/>}/>
 
 
               </Routes>
