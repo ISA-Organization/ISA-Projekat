@@ -51,8 +51,7 @@ class MakeReservationByOwner extends React.Component{
             reservation: reservation,
             house: house,
             clients: [],
-            selectedClient: -1,
-            val: ''
+            selectedClient: selectedClient
         }
     }
     componentDidMount(){
@@ -107,7 +106,7 @@ class MakeReservationByOwner extends React.Component{
         this.state.reservation.numberOfDays = this.getDifferenceInDays(this.state.reservation.startDate, this.state.reservation.endDate)
         this.state.reservation.price = this.state.house.price * this.state.reservation.numberOfDays;
         this.state.reservation.entityId = this.state.house.id
-        this.state.reservation.clientId = this.state.selectedClient
+        this.state.reservation.clientId = this.state.selectedClient.id
         
 
         let reser = this.state.reservation
@@ -141,29 +140,35 @@ class MakeReservationByOwner extends React.Component{
 
     onChangeClient(e){
 
-        this.setState({selectedClient: e.target.value})
-        // console.log(event.target.value)
+        let control = e.target;
+
+        let name = control.name;
+        let value = control.value;
+
+        console.log(name)
+        let client = this.state.selectedClient;
+        client.id = value;
+        this.setState({ selectedClient: client });
     }
     render(){
         return(
             <div>
             <h1 style={{color: "black"}}>Add new reservation</h1>
             <br></br>
-            <Form.Group>
-            <Form.Label htmlFor="type">Client:</Form.Label>
-                    
-                    <Form.Control style={{width: "20%"}} as="select" onChange={(e)=> this.onChangeClient(e)}>
-                        <option></option>
-                        {
-                            this.state.clients.map((p) => {
-                                return (
-                                    <option key = {Math.random()} value={p.id}>{p.name} {p.surname}</option>
-                                )
-                            })
-                        }
-                    </Form.Control>
+             <Form.Group>    
+                <Form.Label htmlFor="type">Client:</Form.Label>
+                <Form.Control style={{width: "20%"}} as="select" name="id" value={this.state.selectedClient.id} onChange={(e)=> this.onChangeClient(e)}>
+                    <option value={-1}></option>
+                    {
+                        this.state.clients.map((p) => {
+                            return (
+                                <option key = {p.id} value={p.id}>{p.name} {p.surname}</option>
+                            )
+                        })
+                    }
+                </Form.Control>
+            </Form.Group>   
             <Form.Label htmlFor="startDate">Reservation start date:</Form.Label>
-            </Form.Group>
             <DatePicker name="startDate" selected={this.state.reservation.startDate} onChange={(e) => this.handleStartChange(e)}/>
             
                 <Form.Label htmlFor="endDate">Reservation start date:</Form.Label>

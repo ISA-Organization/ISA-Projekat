@@ -94,7 +94,7 @@ class SignIn extends React.Component {
                 <br></br>
                 <br></br>
                 <Form.Label htmlFor="type">Registration type</Form.Label>
-                    <Form.Control as="select" name="type" onChange={(e)=>this.onInputChange(e)}>
+                    <Form.Control as="select" name="type" value={this.state.user.type} onChange={(e)=>this.onInputChange(e)}>
                         <option></option>
                         {
                             this.state.registrationType.map((p) => {
