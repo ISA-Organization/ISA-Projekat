@@ -30,7 +30,8 @@ import EditAdventure from './components/adventure/EditAdventure';
 import MakeReservationByOwner from './components/reservation/MakeReservationByOwner'
 
 import DeletionRequestForm from './components/deletionRequests/DeletionRequestForm';
-import DeletionRequestList from './components/admin/DeletionRequestList';
+import DeleteRequests from './components/admin/DeleteRequests';
+import DenyDeleteRequestForm from './components/admin/DenyDeleteRequestForm';
 class App extends React.Component{
 
   isAccountApproved(){
@@ -131,12 +132,12 @@ class App extends React.Component{
                 <Route path="/earningsReport" element={<EarningsInRange/>}/>
                 <Route path="/adventures" element={<Adventure/>}/>
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
-                <Route path="/adventures/add" element={<AddAdventure/>}/>
                 <Route path="/adventures/:id" element={<EditAdventure/>}/>
                 <Route path="/newReservation/:entityId" element={<MakeReservationByOwner/>}/>
 
                 <Route path="/delete/request" element={<DeletionRequestForm/>}/>
-                <Route path = "/deletionrequests" element={<DeletionRequestList/>}/>
+                <Route path="/deletionrequests" element={<DeleteRequests/>}/>
+                <Route path='/delete/request/:id' element={<DenyDeleteRequestForm/>}/>
               </Routes>
             </Container>
           </Router>
