@@ -68,6 +68,10 @@ class ClientReservationView extends React.Component{
         console.log(id)
         this.props.navigate('/entity/rate/' + id)
     }
+    goToComplaint(id){
+        console.log(id)
+        this.props.navigate('/entity/complaint/' + id)
+    }
 
     renderReservations(){
         return this.state.reservations.map((h) =>{
@@ -81,7 +85,10 @@ class ClientReservationView extends React.Component{
                             <h6 class="font-weight-bold my-2">Price: ${h.price}</h6>
                             {
                                 isReservationOver(h) ? 
+                                <div>
+                                <button type="button" class="btn btn-outline-primary" onClick={() => this.goToComplaint(h.id)}>Have a complaint?</button>
                                 <button type="button" class="btn btn-outline-primary" onClick={() => this.goToEntityRating(h.id)}>Rate your stay</button>
+                                </div>
                                 : null
                             }
                          </div>
