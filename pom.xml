@@ -20,7 +20,7 @@
         <sonar.organization>isa-organization</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
-   
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -92,6 +92,7 @@
             <artifactId>spring-security-core</artifactId>
             <version>5.5.3</version>
         </dependency>
+
     </dependencies>
 
     <build>

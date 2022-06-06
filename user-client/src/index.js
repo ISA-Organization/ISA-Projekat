@@ -57,7 +57,7 @@ class App extends React.Component{
             </Navbar.Brand>
             <Nav className="mr-auto">
               {
-                role === 'ADMIN' && approved === 'true' ? 
+                role == 'ADMIN' && approved === 'true' ? 
                 [<Nav.Link as={Link} to="/users">
                   Users
                   </Nav.Link>]
@@ -65,32 +65,32 @@ class App extends React.Component{
                 :null
                  }
               {
-                role === 'HOUSE_OWNER'  && approved === 'true'  ?
+                role == 'HOUSE_OWNER'  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/houses">
                 Houses
                 </Nav.Link>]
                 : null
               }
               {
-                role === 'INSTRUCTOR' && approved ==='true'?
+                role == 'INSTRUCTOR' && approved ==='true'?
                 [<Nav.Link as={Link} to="/adventures">Adventures</Nav.Link>]
                 : null
               }
               {
-                role === 'BOAT_OWNER'  && approved === 'true'  ?
+                role == 'BOAT_OWNER'  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/boats">
                 Boats
                 </Nav.Link>]
                 : null
               }
               {
-                (role === 'HOUSE_OWNER' || role == 'BOAT_OWNER' || role == 'INSTRUCTOR')  && approved === 'true'  ?
+                (role == 'HOUSE_OWNER' || role == 'BOAT_OWNER' || role == 'INSTRUCTOR')  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/reservations">
                 Reservations
                 </Nav.Link>]
                 : null
               }
-              {role === 'ADMIN' && approved === 'true' ?
+              {role == 'ADMIN' && approved === 'true' ?
                 <Nav.Link as={Link} to="/deletionrequests">
                   Deletion Requests
                 </Nav.Link>
@@ -128,7 +128,7 @@ class App extends React.Component{
                 <Route path="/newadmin" element={<NewAdmin/>}/>
                 <Route path="/changepass" element={<FirstAdminLogin/>}/>
                 <Route path="/addNewTerm/:id" element={<AddAvailablePeriod/>}/>
-                <Route path="/clientProfileView/:id" element={<ClientProfileView/>}/>
+                <Route path="/clientProfileView/:id/:reservationId" element={<ClientProfileView/>}/>
                 
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
                 <Route path="/periodsForOwner/:entityId" element={<AllAvailablePeriodsForOwner/>}/>

@@ -37,8 +37,8 @@ class AllReservationsForOwner extends React.Component{
             })
     }
 
-   showClientProfile(id){
-        this.props.navigate('/clientProfileView/' + id)
+   showClientProfile(clientId, reservationId){
+        this.props.navigate('/clientProfileView/' + clientId + '/' + reservationId)
    }
    
 
@@ -52,7 +52,7 @@ class AllReservationsForOwner extends React.Component{
                         <p class="font-italic text-muted mb-0 small">Number of people: {h.numberOfPeople}</p>
                         <div class="d-flex align-items-center justify-content-between mt-1">
                             <h6 class="font-weight-bold my-2">Price: ${h.price}</h6>
-                            <button type="button" class="btn btn-outline-primary" onClick={() => this.showClientProfile(h.clientId)}>Show client info</button>
+                            <button type="button" class="btn btn-outline-primary" onClick={() => this.showClientProfile(h.clientId, h.id)}>Show client info</button>
                          </div>
                     </div>
                 </div> 
@@ -73,14 +73,6 @@ class AllReservationsForOwner extends React.Component{
                 </div>
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
-                        {/* <div className="form-inline">
-                            <Form.Label style={{marginRight: "2%"}}>Name:</Form.Label>
-                            <Form.Control name="name" placeholder="Search by name" style={{width: "25%", marginRight: "2%"}} onChange={(e)=>this.changeInputValue(e)}></Form.Control>
-                            <Form.Label style={{marginRight: "2%"}}>Max price:</Form.Label>
-                            <Form.Control name="price" placeholder="Search by price" style={{width: "25%"}} onChange={(e)=>this.changeInputValue(e)}></Form.Control>
-                            <Button onClick={()=> this.goToAddHouse()} style={{marginLeft: "7%"}}>Add new</Button>
-                        </div>
-                        <br></br> */}
                         <ul class="list-group shadow">
                             {this.renderReservations()}
                         </ul>
