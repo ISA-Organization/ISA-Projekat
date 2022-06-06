@@ -217,6 +217,17 @@ public class UserController {
         return new ResponseEntity<>(toUserDTO.convert(users), HttpStatus.OK);
     }
 
+    @GetMapping("/clients")
+    public ResponseEntity<List<UserDTO>> getClients(){
+        List<User> users = userService.findAllClients();
+        for(User u : users){
+            if(u.getIsDeleted() == true){
+                users.remove(u);
+            }
+        }
+        return new ResponseEntity<>(toUserDTO.convert(users), HttpStatus.OK);
+    }
+
     @GetMapping(path="/getOne/{id}")
     public ResponseEntity<UserDTO> getOne(@PathVariable Long id){
         Optional<User> h = userService.findOne(id);

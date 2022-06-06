@@ -126,7 +126,7 @@ class App extends React.Component{
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
                 <Route path="/adventures/add" element={<AddAdventure/>}/>
                 <Route path="/adventures/:id" element={<EditAdventure/>}/>
-                <Route path="/newReservation/:clientId/:entityId" element={<MakeReservationByOwner/>}/>
+                <Route path="/newReservation/:entityId" element={<MakeReservationByOwner/>}/>
 
 
               </Routes>

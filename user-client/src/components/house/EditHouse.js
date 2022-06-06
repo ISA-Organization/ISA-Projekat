@@ -94,16 +94,15 @@ class EditHouse extends React.Component{
     deleteHouse(){
 
         if(this.state.reservations.length === 0){
-            console.log("smes da brises")
-            // Axios.delete('/houses/' + this.state.house.id)
-            // .then(res =>{
-            //     alert("Successfully deleted!")
-            //     this.props.navigate('/houses')
-            // })
-            // .catch(err=>{
-            //     alert("Failed!")
-            //     console.log(err)
-            // })
+            Axios.delete('/houses/' + this.state.house.id)
+            .then(res =>{
+                alert("Successfully deleted!")
+                this.props.navigate('/houses')
+            })
+            .catch(err=>{
+                alert("Failed!")
+                console.log(err)
+            })
         }
         else{
             Swal.fire({

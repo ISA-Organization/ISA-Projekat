@@ -40,6 +40,10 @@ public class JpaUserService implements UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
+    @Override
+    public List<User> findAllClients() {
+        return userRepository.findAllByType(UserType.CLIENT);
+    }
 
     @Override
     public User save(User user) {

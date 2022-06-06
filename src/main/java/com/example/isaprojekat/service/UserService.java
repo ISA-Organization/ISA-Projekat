@@ -19,4 +19,6 @@ public interface UserService {
     Optional<User> findbyEmail(String email);
 
     boolean changePassword(Long id, UserChangePasswordDTO userPasswordChangeDto);
+
+    List<User> findAllClients();
 }

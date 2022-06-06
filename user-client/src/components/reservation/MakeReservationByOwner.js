@@ -5,10 +5,13 @@ import {withParams, withNavigation} from '../../utils/routeconf'
 import MapContainer from "../maps/MapContainer";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Swal from 'sweetalert2';
 
 class MakeReservationByOwner extends React.Component{
     constructor(props){
         super(props)
+
+        this.myRef = React.createRef();
 
         let reservation = {
             startDate: new Date(),
@@ -33,19 +36,44 @@ class MakeReservationByOwner extends React.Component{
             latitude: 0, 
             longitude: 0
         }
+        let selectedClient = {
+            id: 0,
+            address: '',
+             city: '',
+             email: '',
+             name: '',
+             phoneNumber:'',
+             surname:'',
+             approved : false,
+             type: ''
+        }
         this.state = {
             reservation: reservation,
-            house: house
+            house: house,
+            clients: [],
+            selectedClient: -1,
+            val: ''
         }
     }
     componentDidMount(){
-        //this.getHouseById()
+        this.getHouseById()
+        this.getClients()
     }
     getHouseById(){
 
         Axios.get('/houses/' + this.props.params.entityId)
             .then(res => {
                 this.setState({house: res.data})
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+    }
+    getClients(){
+
+        Axios.get('/users/clients')
+            .then(res => {
+                this.setState({clients: res.data})
             })
             .catch(err =>{
                 console.log(err)
@@ -79,7 +107,7 @@ class MakeReservationByOwner extends React.Component{
         this.state.reservation.numberOfDays = this.getDifferenceInDays(this.state.reservation.startDate, this.state.reservation.endDate)
         this.state.reservation.price = this.state.house.price * this.state.reservation.numberOfDays;
         this.state.reservation.entityId = this.state.house.id
-        this.state.reservation.clientId = this.state.user.id
+        this.state.reservation.clientId = this.state.selectedClient
         
 
         let reser = this.state.reservation
@@ -89,25 +117,53 @@ class MakeReservationByOwner extends React.Component{
 
         Axios.post('/reservations/book' , this.state.reservation)
         .then( res =>{
-            alert('Successfully made a reservation!')
-            this.props.navigate('')
+            Swal.fire({
+                icon: 'success',
+                title: 'Done',
+                text: 'Successfully made a reservation!'
+            });
+            this.props.navigate('/calendar/' + this.state.house.id )
 
 
         }).catch(err =>{
             console.log(err)
-            alert('Failed to reserve entity')
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Failed to reserve entity!'
+            });
         })
     }
     getDifferenceInDays(date1, date2){
         const diffInMs = Math.abs(date2 - date1);
         return Math.round(diffInMs / (1000 * 60 * 60 * 24));
     }
+
+    onChangeClient(e){
+
+        this.setState({selectedClient: e.target.value})
+        // console.log(event.target.value)
+    }
     render(){
         return(
             <div>
             <h1 style={{color: "black"}}>Add new reservation</h1>
             <br></br>
+            <Form.Group>
+            <Form.Label htmlFor="type">Client:</Form.Label>
+                    
+                    <Form.Control style={{width: "20%"}} as="select" onChange={(e)=> this.onChangeClient(e)}>
+                        <option></option>
+                        {
+                            this.state.clients.map((p) => {
+                                return (
+                                    <option key = {Math.random()} value={p.id}>{p.name} {p.surname}</option>
+                                )
+                            })
+                        }
+                    </Form.Control>
             <Form.Label htmlFor="startDate">Reservation start date:</Form.Label>
+            </Form.Group>
             <DatePicker name="startDate" selected={this.state.reservation.startDate} onChange={(e) => this.handleStartChange(e)}/>
             
                 <Form.Label htmlFor="endDate">Reservation start date:</Form.Label>
@@ -123,5 +179,5 @@ class MakeReservationByOwner extends React.Component{
     }
 }
 
-export default MakeReservationByOwner;
+export default withNavigation(withParams(MakeReservationByOwner));
     
