@@ -81,3 +81,7 @@ values(2, false,'2022-06-25', 5, 3, 300, '2022-06-20' , 5,2, 1);
 insert into reservations(id, cancelled, end_date, number_of_days, number_of_people, price, start_date, client_id, owner_id, renting_entity_id)
 values(3, false,'2022-06-16', 6, 3, 1200, '2022-06-20' , 5,6, 5);
 
+insert into reservations(id, cancelled, end_date, number_of_days, number_of_people, price, start_date, client_id, owner_id, renting_entity_id)
+values(4, false,'2021-06-25', 5, 3, 300, '2021-06-20' , 5,2, 1);
+insert into reservations(id, cancelled, end_date, number_of_days, number_of_people, price, start_date, client_id, owner_id, renting_entity_id)
+values(5, false,'2021-06-25', 5, 3, 300, '2021-06-20' , 5,2, 1);

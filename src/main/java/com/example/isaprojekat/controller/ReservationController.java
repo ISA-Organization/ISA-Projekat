@@ -74,6 +74,12 @@ public class ReservationController {
         return new ResponseEntity<>(toDTO.convert(reservations), HttpStatus.OK);
     }
 
+    @GetMapping(path="/byClient/{id}")
+    public ResponseEntity< List<ReservationDTO>> getMyReservationsClient(@PathVariable Long id) {
+        List<Reservation> reservations = reservationService.getMyReservationsClient(id);
+        return new ResponseEntity<>(toDTO.convert(reservations), HttpStatus.OK);
+    }
+
     @GetMapping(path="/byEntity/{id}")
     public ResponseEntity<List<ReservationDTO>> findAllByEntityId(@PathVariable Long id){
         List<Reservation> res = reservationService.findAllByEntityId(id);
