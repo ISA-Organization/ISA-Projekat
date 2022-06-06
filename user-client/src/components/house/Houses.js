@@ -73,6 +73,7 @@ class Houses extends React.Component{
 			this.setState({
 				user: result.data
 			});
+            window.localStorage.setItem['user_id'] = result.data.id
 		  }
 		  catch (error){
 			console.log(error);

@@ -1,8 +1,8 @@
 import React from 'react'
 import Axios from '../../utils/Axios'
-import { withParams } from '../../utils/routeconf'
+import { withParams, withNavigation } from '../../utils/routeconf'
 import {Form} from 'react-bootstrap'
-
+import Swal from 'sweetalert2'
 class ClientProfileView extends React.Component {
 
     constructor(props){
@@ -20,15 +20,34 @@ class ClientProfileView extends React.Component {
             isDeleted: false,
             approved: true
         }
+        let review ={
+            content: '',
+            ownerId: -1,
+            reservationId: -1,
+            isBadComment: false
+        }
+        let owner = {
+            id: 0,
+            address: '',
+             city: '',
+             email: '',
+             name: '',
+             phoneNumber:'',
+             surname:'',
+             approved : false,
+             type: null
+        }
         this.state ={
             client: client,
-            showComment: false
+            review: review,
+            owner: owner
 
         }
 
     }
     componentDidMount(){
         this.getClient()
+        this.getProfile()
     }
 
     getClient(id){
@@ -41,6 +60,57 @@ class ClientProfileView extends React.Component {
             .catch(err =>{
                 console.log(err)
             })
+    }
+    setPenalty(){
+
+        let review = this.state.review
+        review.isBadComment = !this.state.review.isBadComment
+        this.setState({review: review})
+        console.log(this.state.review)
+    }
+    changeInputValue(e){
+
+        let review = this.state.review
+        review.content = e.target.value
+        this.setState({review: review})
+        console.log(this.state.review)
+    }
+
+    addReview(){
+        let newReview = this.state.review
+        newReview.reservationId = this.props.params.reservationId
+        newReview.ownerId = this.state.owner.id
+
+        this.setState({review: newReview})
+        console.log(newReview)
+
+        Axios.post('/reviews', newReview)
+            .then(res => {
+                console.log(res.data)
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Done',
+                    text: 'Review added!' 
+                });
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+    }
+    getProfile(){
+        let config = {
+            headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+                }
+        Axios.get('/users/profile', config)
+                .then(res => {
+                    console.log(res.data)
+                    this.setState({owner : res.data})
+                })
+                .catch(
+                    err=>{
+                        console.log(err)
+                    }
+                )
     }
     render() {
         return(
@@ -58,14 +128,14 @@ class ClientProfileView extends React.Component {
                                     <br></br>
                                     <h5 class="user-name">{this.state.client.name} {this.state.client.surname}</h5>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" onChange={() => this.setSpecialOffer()}/>
+                                        <input class="form-check-input" type="checkbox" onChange={() => this.setPenalty()}/>
                                         <label class="form-check-label">I want a penalty</label>
                                     </div>
                                     <br></br>
                                     <Form.Label style={{marginRight: "2%"}}>Comment:</Form.Label>
                                     <Form.Control name="specialPrice" as="textarea" style={{width: "100%", marginRight: "2%"}} onChange={(e)=>this.changeInputValue(e)}></Form.Control>
                                     <br></br>
-                                    <button type="button" class="btn btn-outline-primary" onClick={()=>{this.goToAddComment(this.state.client.id)}}>Done</button>
+                                    <button type="button" class="btn btn-outline-primary" onClick={()=>{this.addReview()}}>Done</button>
                           
                                 </div>
                             </div>
@@ -127,4 +197,4 @@ class ClientProfileView extends React.Component {
     }
 }
 
-export default withParams(ClientProfileView);
+export default withNavigation(withParams(ClientProfileView));

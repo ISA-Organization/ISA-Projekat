@@ -24,7 +24,7 @@ public class DTOToEntityReview {
        r.setContent(dto.getContent());
        r.setBadComment(dto.isBadComment());
        r.setOwnerId(dto.getOwnerId());
-       r.setReservation(resService.findOne(dto.getReservationId()));
+       r.setReservation(resService.findOne(dto.getReservationId()).get());
 
         return r;
     }
