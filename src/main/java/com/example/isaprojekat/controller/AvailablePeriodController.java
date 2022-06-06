@@ -1,9 +1,11 @@
 package com.example.isaprojekat.controller;
 
 import com.example.isaprojekat.dto.AvailablePeriodDTO;
+import com.example.isaprojekat.dto.HouseDTO;
 import com.example.isaprojekat.dto.mapper.AvailablePeriodToDTO;
 import com.example.isaprojekat.dto.mapper.DTOToAvailablePeriod;
 import com.example.isaprojekat.model.AvailablePeriod;
+import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.model.RentingEntity;
 import com.example.isaprojekat.service.AvailablePeriodService;
 import com.example.isaprojekat.service.RentingEntityService;
@@ -49,5 +51,17 @@ public class AvailablePeriodController {
         periods.addAll(entity.get().getAvailablePeriods());
         List<AvailablePeriodDTO> dtos = toDTO.convert(periods);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<AvailablePeriodDTO> delete(@PathVariable Long id){
+        AvailablePeriod deleted = service.delete(id);
+
+        if(deleted != null) {
+            return new ResponseEntity<>(toDTO.convert(deleted), HttpStatus.NO_CONTENT);
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

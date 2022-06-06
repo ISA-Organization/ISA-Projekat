@@ -36,13 +36,13 @@ public class RentingEntity {
     @Enumerated(EnumType.STRING)
     private RentingEntityType rentingEntityType;
 
-    @OneToMany(mappedBy = "rentingEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "rentingEntity", fetch = FetchType.EAGER)
     private Set<Reservation> reservations = new HashSet<>();
 
-    @OneToMany(mappedBy = "rentingEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "rentingEntity", fetch = FetchType.EAGER)
     private Set<AdditionalContent> additionalContents = new HashSet<>();
 
-    @OneToMany(mappedBy = "rentingEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "rentingEntity", fetch = FetchType.EAGER)
     private Set<AvailablePeriod> availablePeriods = new HashSet<>();
 
     public RentingEntity(){}

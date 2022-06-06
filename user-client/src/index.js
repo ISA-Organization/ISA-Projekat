@@ -32,6 +32,7 @@ import MakeReservationByOwner from './components/reservation/MakeReservationByOw
 import DeletionRequestForm from './components/deletionRequests/DeletionRequestForm';
 import DeleteRequests from './components/admin/DeleteRequests';
 import DenyDeleteRequestForm from './components/admin/DenyDeleteRequestForm';
+import AllAvailablePeriodsForOwner from './components/available period/AllAvailablePeriodsForOwner';
 class App extends React.Component{
 
   isAccountApproved(){
@@ -128,6 +129,7 @@ class App extends React.Component{
                 <Route path="/clientProfileView/:id" element={<ClientProfileView/>}/>
                 
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
+                <Route path="/periodsForOwner/:entityId" element={<AllAvailablePeriodsForOwner/>}/>
                 <Route path="/reservationsForOwner/:entityId" element={<AllReservationsForOwner/>}/>
                 <Route path="/earningsReport" element={<EarningsInRange/>}/>
                 <Route path="/adventures" element={<Adventure/>}/>

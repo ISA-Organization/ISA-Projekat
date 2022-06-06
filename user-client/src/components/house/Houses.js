@@ -104,6 +104,10 @@ class Houses extends React.Component{
         this.props.navigate('/reservationsForOwner/'+ entityId)
     }
 
+    goToFreeTerms(entityId){
+        this.props.navigate('/periodsForOwner/'+ entityId)
+    }
+
     goToRangeSelect(){
         this.props.navigate('/earningsReport')
     }
@@ -133,6 +137,7 @@ class Houses extends React.Component{
                     </div><img src={require('../../images/homePage.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
                 </div> 
                 <button type="button" class="btn btn-outline-primary" onClick={() => this.goToReservations(h.id)}>Show reservations</button>
+                <button style={{marginLeft: "5%"}} type="button" class="btn btn-outline-primary" onClick={() => this.goToFreeTerms(h.id)}>Show free terms</button>
         
             </li> 
             )
