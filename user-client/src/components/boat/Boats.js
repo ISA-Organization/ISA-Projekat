@@ -99,6 +99,18 @@ class Boats extends React.Component{
         this.getBoats()
     }
 
+    goToReservations(entityId){
+        this.props.navigate('/reservationsForOwner/'+ entityId)
+    }
+
+    goToRangeSelect(){
+        this.props.navigate('/earningsReport')
+    }
+
+    goToAttendanceReports(){
+        this.props.navigate('/attendanceReport')
+    }
+
     renderBoats(){
         return this.state.boats.map((h) =>{
             return(
@@ -119,6 +131,8 @@ class Boats extends React.Component{
                         </div>
                     </div><img src={require('../../images/boat.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
                 </div> 
+                <button type="button" class="btn btn-outline-primary" onClick={() => this.goToReservations(h.id)}>Show reservations</button>
+        
             </li> 
             )
         })
@@ -142,6 +156,10 @@ class Boats extends React.Component{
                             <Form.Control name="price" placeholder="Search by price" style={{width: "25%"}} onChange={(e)=>this.changeInputValue(e)}></Form.Control>
                             <Button onClick={()=> this.goToAddBoat()} style={{marginLeft: "7%"}}>Add new</Button>
                         </div>
+                        <br></br>
+                        <button style={{marginLeft: "50%"}} type="button" class="btn btn-outline-secondary" onClick={()=> this.goToRangeSelect()}>Earnings report</button>
+                        <button style={{marginLeft: "5%"}} type="button" class="btn btn-outline-secondary" onClick={()=> this.goToAttendanceReports()}>Attendence report</button>
+                        <br></br>
                         <br></br>
                         <ul class="list-group shadow">
                             {this.renderBoats()}
