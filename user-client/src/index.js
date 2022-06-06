@@ -24,6 +24,10 @@ import HouseToRent from './components/client/HouseToRent';
 import AllReservationsForOwner from './components/reservation/AllReservationsForOwner'
 import ClientProfileView from './components/client/ClientProfileView';
 import EarningsInRange from './components/report/EarningsInRange';
+import Adventure from './components/adventure/Adventures';
+import AddAdventure from './components/adventure/AddAdventure';
+import EditAdventure from './components/adventure/EditAdventure';
+
 
 class App extends React.Component{
 
@@ -59,6 +63,11 @@ class App extends React.Component{
                 [<Nav.Link as={Link} to="/houses">
                 Houses
                 </Nav.Link>]
+                : null
+              }
+              {
+                role == 'INSTRUCTOR' && approved ==='true'?
+                [<Nav.Link as={Link} to="/adventures">Adventures</Nav.Link>]
                 : null
               }
               {
@@ -112,6 +121,11 @@ class App extends React.Component{
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
                 <Route path="/reservationsForOwner/:entityId" element={<AllReservationsForOwner/>}/>
                 <Route path="/earningsReport" element={<EarningsInRange/>}/>
+                <Route path="/adventures" element={<Adventure/>}/>
+                <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
+                <Route path="/adventures/add" element={<AddAdventure/>}/>
+                <Route path="/adventures/:id" element={<EditAdventure/>}/>
+
 
               </Routes>
             </Container>

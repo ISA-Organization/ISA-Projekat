@@ -62,6 +62,33 @@ public class JpaAdventureService implements AdventureService {
 
     @Override
     public List<Adventure> find(String name, String address, Double price, Long ownerId) {
-        return null;
-    }
+        if(price == null){
+            price = Double.MAX_VALUE;
+        }
+
+        if(name != null && address == null && ownerId == null){
+            return adventureRepository.findByNameContainingAndPriceLessThanEqual(name, price);
+        }
+        else if(name != null && address != null && ownerId == null){
+            return adventureRepository.findByNameAndAddressContainingAndPriceLessThanEqual(name, address, price);
+        }
+        else if (name ==null && address != null && ownerId == null){
+            return adventureRepository.findByAddressContainingAndPriceLessThanEqual(address, price);
+        }
+
+        else if(name != null && address == null && ownerId != null){
+            return adventureRepository.findByNameContainingAndPriceLessThanEqualAndInstructorId(name, price, ownerId);
+        }
+        else if(name != null && address != null && ownerId != null){
+            return adventureRepository.findByNameAndAddressContainingAndPriceLessThanEqualAndInstructorId(name, address, price, ownerId);
+        }
+        else if (name ==null && address != null && ownerId != null){
+            return adventureRepository.findByAddressContainingAndPriceLessThanEqualAndInstructorId(address, price, ownerId);
+        }
+        else if (name ==null && address == null && ownerId != null){
+            return adventureRepository.findByInstructorIdAndPriceLessThanEqual(ownerId, price);
+        }
+
+
+        return adventureRepository.findByPriceLessThanEqual(price);    }
 }

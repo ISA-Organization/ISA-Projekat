@@ -43,6 +43,7 @@ class AddAvailablePeriod extends React.Component{
             this.setState({specialPrice: 0})
         }
         Axios.post('/available/period', this.state)
+
             .then(res => {
                 alert("Successfully added!")
                 this.props.navigate('/calendar/' + this.props.params.id)
