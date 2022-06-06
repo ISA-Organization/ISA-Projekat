@@ -27,7 +27,7 @@ import EarningsInRange from './components/report/EarningsInRange';
 import Adventure from './components/adventure/Adventures';
 import AddAdventure from './components/adventure/AddAdventure';
 import EditAdventure from './components/adventure/EditAdventure';
-import ReportGraph from './components/graph/ReportGraph';
+import MakeReservationByOwner from './components/reservation/MakeReservationByOwner';
 
 
 class App extends React.Component{
@@ -52,7 +52,7 @@ class App extends React.Component{
             </Navbar.Brand>
             <Nav className="mr-auto">
               {
-                role == 'ADMIN' && approved === 'true' ? 
+                role === 'ADMIN' && approved === 'true' ? 
                 [<Nav.Link as={Link} to="/users">
                   Users
                   </Nav.Link>]
@@ -60,26 +60,26 @@ class App extends React.Component{
                 :null
                  }
               {
-                role == 'HOUSE_OWNER'  && approved === 'true'  ?
+                role === 'HOUSE_OWNER'  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/houses">
                 Houses
                 </Nav.Link>]
                 : null
               }
               {
-                role == 'INSTRUCTOR' && approved ==='true'?
+                role === 'INSTRUCTOR' && approved ==='true'?
                 [<Nav.Link as={Link} to="/adventures">Adventures</Nav.Link>]
                 : null
               }
               {
-                role == 'BOAT_OWNER'  && approved === 'true'  ?
+                role === 'BOAT_OWNER'  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/boats">
                 Boats
                 </Nav.Link>]
                 : null
               }
               {
-                (role == 'HOUSE_OWNER' || role == 'BOAT_OWNER')  && approved === 'true'  ?
+                (role === 'HOUSE_OWNER' || role == 'BOAT_OWNER')  && approved === 'true'  ?
                 [<Nav.Link as={Link} to="/reservations">
                 Reservations
                 </Nav.Link>]
@@ -126,7 +126,7 @@ class App extends React.Component{
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
                 <Route path="/adventures/add" element={<AddAdventure/>}/>
                 <Route path="/adventures/:id" element={<EditAdventure/>}/>
-                <Route path="/graphReport" element={<ReportGraph/>}/>
+                <Route path="/newReservation/:clientId/:entityId" element={<MakeReservationByOwner/>}/>
 
 
               </Routes>

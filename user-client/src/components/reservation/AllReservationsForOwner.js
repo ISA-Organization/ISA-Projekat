@@ -37,19 +37,11 @@ class AllReservationsForOwner extends React.Component{
             })
     }
 
-    getClient(id){
-        Axios.get('/users/getOne/'+ id)
-            .then(res => {
-                console.log(res.data)
-                return res.data.name
-            })
-            .catch(err =>{
-                console.log(err)
-            })
-    }
-
    showClientProfile(id){
         this.props.navigate('/clientProfileView/' + id)
+   }
+   goToAddNewReservation(clientId, entityId){
+        this.props.navigate('/newReservation/' + clientId + '/'+ entityId)
    }
 
     renderReservations(){
@@ -63,7 +55,7 @@ class AllReservationsForOwner extends React.Component{
                         <div class="d-flex align-items-center justify-content-between mt-1">
                             <h6 class="font-weight-bold my-2">Price: ${h.price}</h6>
                             <button type="button" class="btn btn-outline-primary" onClick={() => this.showClientProfile(h.clientId)}>Show client info</button>
-                            
+                            <button type="button" class="btn btn-outline-secondary" onClick={() => this.goToAddNewReservation(h.clientId, h.entityId)}>Make new reservation</button>
                         </div>
                     </div>
                 </div> 
