@@ -21,6 +21,7 @@ public class AvailablePeriod {
     private Date end;
     private double specialPrice;
     private boolean isSpecialOffer;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "renting_entity_id")
     private RentingEntity rentingEntity;
 }

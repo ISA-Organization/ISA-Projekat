@@ -88,6 +88,23 @@ class Boats extends React.Component{
         this.props.navigate('/boats/add')
     }
 
+    goToReservations(entityId){
+        this.props.navigate('/reservationsForOwner/'+ entityId)
+    }
+
+    goToFreeTerms(entityId){
+        this.props.navigate('/periodsForOwner/'+ entityId)
+    }
+
+    
+    goToRangeSelect(){
+        this.props.navigate('/earningsReport')
+    }
+
+    goToAttendanceReports(){
+        this.props.navigate('/attendanceReport')
+    }
+
     changeInputValue(e){
         const name = e.target.name
         const value = e.target.value
@@ -117,8 +134,11 @@ class Boats extends React.Component{
                                 <li class="list-inline-item m-0"><i class="fa fa-star-o text-gray"></i></li>
                             </ul>
                         </div>
-                    </div><img src={require('../../images/boat.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
+                    </div><img style={{width: "55%"}} src={require('../../images/boat.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
                 </div> 
+                <button style={{marginLeft: "45%"}} type="button" class="btn btn-outline-primary" onClick={() => this.goToReservations(h.id)}>Show reservations</button>
+                <button style={{marginLeft: "5%"}} type="button" class="btn btn-outline-primary" onClick={() => this.goToFreeTerms(h.id)}>Show free terms</button>
+        
             </li> 
             )
         })
@@ -142,6 +162,11 @@ class Boats extends React.Component{
                             <Form.Control name="price" placeholder="Search by price" style={{width: "25%"}} onChange={(e)=>this.changeInputValue(e)}></Form.Control>
                             <Button onClick={()=> this.goToAddBoat()} style={{marginLeft: "7%"}}>Add new</Button>
                         </div>
+                        <br></br>
+                        <button style={{marginLeft: "47%"}} type="button" class="btn btn-outline-secondary" onClick={()=> this.goToRangeSelect()}>Earnings report</button>
+                        <button style={{marginLeft: "5%"}} type="button" class="btn btn-outline-secondary" onClick={()=> this.goToAttendanceReports()}>Attendence report</button>
+                        
+                        <br></br>
                         <br></br>
                         <ul class="list-group shadow">
                             {this.renderBoats()}
