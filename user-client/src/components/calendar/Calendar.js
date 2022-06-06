@@ -3,7 +3,7 @@ import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from "react-dom";
 import { useParams, useNavigate } from "react-router-dom";
 import "../../calendar.css"
 import{ withNavigation, withParams} from '../../utils/routeconf';
-
+import Axios from '../../utils/Axios';
 function getDays(days){
     let total = []
     for(let i = 1; i <= days; i++){
@@ -19,6 +19,42 @@ function daysInMonth (month, year) {
 function getDayName(date = new Date(), locale = 'en-US') {
     return date.toLocaleDateString(locale, {weekday: 'long'});
   }
+
+
+
+function getAvailabilityDates(avialablePeriod){
+	var periods  =[]
+	for(let range of avialablePeriod){
+		console.log(range)
+		let startDate = range['start']
+		let endDate = range['end']
+		let syear = startDate.split('-')[0]
+		let smonth = startDate.split('-')[1]
+		let sday1 = startDate.split('-')[2]
+		let sday2 = sday1.split('T')[0]
+		//let formatedStartDate = sday2 + '-' + smonth + '-' + syear 
+		let formatedStartDate = new Date(syear, smonth, sday2)
+		let eyear = endDate.split('-')[0]
+		let emonth = endDate.split('-')[1]
+		let eday1 = endDate.split('-')[2]
+		let eday2 = eday1.split('T')[0]
+		//let formatedEndDate = eday2 + '-' + emonth + '-' + eyear
+		let formatedEndDate = new Date(eyear, emonth, eday2)
+		let formatedPeriod ={
+			startDate: formatedStartDate,
+			endDate: formatedEndDate
+
+		}
+
+		periods.push(formatedPeriod)
+		
+	}
+	console.log(periods)
+	return periods;
+	
+
+}
+
 
 function getDaysInWeek(firstDay){
     switch (firstDay) {
@@ -58,7 +94,8 @@ const Calendar = () => {
     const[daysArray, setDaysArray] = useState(getDays(numberOfDays));
     const[firstDay, setFirstDay] = useState(getDayName(new Date(year + '-' + (monthNum + 1) + '-' + '01')))
     const[daysInWeek, setDaysInWeek] = useState(getDaysInWeek(firstDay))
-
+	const[avialablePeriod, setAvailablePeriods] = useState([])
+	
     let num = monthNum;
     let name = monthNames[num];
     let days = daysInMonth(num + 1, year);
@@ -67,9 +104,23 @@ const Calendar = () => {
     let firstDayInMonth = getDayName(new Date(year + '-' + (num + 1) + '-' + '01'));
     let daysInWeekVar = getDaysInWeek(firstDayInMonth);
 
+	let availabilityPeriods = getAvailabilityDates(avialablePeriod)
+	useEffect(()=>{
+		Axios.get('/available/period/' + id)
+		.then(res => {
+			setAvailablePeriods(res.data);
+			console.log(res.data)
+			
+		}).catch(err =>{
+			console.log(err)
+		})
+	}, [])
+	
     useEffect(() =>{
         //console.log(firstDayInMonth)
     }, [num]) //componentDidMount
+
+	
 
 	const showPreviousMonth = () => {
 
@@ -107,7 +158,21 @@ const Calendar = () => {
 		
 	}
 
-
+	const isAvailable = (day, name, yearVar) =>{
+		let dateToCheck = new Date(yearVar,name, day);
+		let availability = []
+		console.log(dateToCheck)
+		for(let range of availabilityPeriods){
+			if(dateToCheck > range['startDate'] && dateToCheck < range['endDate']){
+				availability.push(true);
+			}
+		}
+		console.log(availability.length)
+		if(availability.length != 0){
+			return true;
+		}
+		return false;
+	}
     return(
         <div class="container">
 			<div class="wrapper">
@@ -138,7 +203,7 @@ const Calendar = () => {
 									daysArrayVar.map((day) => {
 										return(
 											day >= 1 && day <= 7 ?
-											<td class="month-table__regular">
+											<td class="month-table__regular" style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : {backgroundColor: "red"}}>
 												<div class="month-table__date">
 													<span>{day}</span>
 													<i></i>
@@ -154,7 +219,7 @@ const Calendar = () => {
 									daysArrayVar.map((day) => {
 										return(
 											day >= 8 && day <= 14 ?
-											<td class="month-table__regular">
+											<td class="month-table__regular" style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : {backgroundColor: "red"}}>
 												<div class="month-table__date">
 													<span>{day}</span>
 													<i></i>
@@ -170,7 +235,7 @@ const Calendar = () => {
 									daysArrayVar.map((day) => {
 										return(
 											day >= 15 && day <= 21 ?
-											<td class="month-table__regular">
+											<td class="month-table__regular" style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : {backgroundColor: "red"}}>
 												<div class="month-table__date">
 													<span>{day}</span>
 													<i></i>
@@ -186,7 +251,7 @@ const Calendar = () => {
 									daysArrayVar.map((day) => {
 										return(
 											day >= 22 && day <= 28 ?
-											<td class="month-table__regular">
+											<td class="month-table__regular" style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : {backgroundColor: "red"}}>
 												<div class="month-table__date">
 													<span>{day}</span>
 													<i></i>
@@ -202,7 +267,7 @@ const Calendar = () => {
 									daysArrayVar.map((day) => {
 										return(
 											day >= 28?
-											<td class="month-table__regular">
+											<td class="month-table__regular"  style={isAvailable(day, num, yearVar) ? {backgroundColor: "green"} : {backgroundColor: "red"}}>
 												<div class="month-table__date">
 													<span>{day}</span>
 													<i></i>
