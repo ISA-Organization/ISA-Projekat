@@ -23,6 +23,7 @@ import FirstAdminLogin from './components/admin/FirstAdminLogin';
 import HouseToRent from './components/client/HouseToRent';
 import AllReservationsForOwner from './components/reservation/AllReservationsForOwner'
 import ClientProfileView from './components/client/ClientProfileView';
+import EarningsInRange from './components/report/EarningsInRange';
 
 class App extends React.Component{
 
@@ -110,6 +111,7 @@ class App extends React.Component{
                 
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
                 <Route path="/reservationsForOwner/:entityId" element={<AllReservationsForOwner/>}/>
+                <Route path="/earningsReport" element={<EarningsInRange/>}/>
 
               </Routes>
             </Container>
