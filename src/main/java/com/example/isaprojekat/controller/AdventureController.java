@@ -65,6 +65,18 @@ public class AdventureController {
         return new ResponseEntity<>(adventureDTOS, HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<AdventureDTO> delete(@PathVariable Long id){
+        Adventure deleted = adventureService.delete(id);
+
+        if(deleted != null) {
+            return new ResponseEntity<>(toAdventureDTO.convert(deleted), HttpStatus.NO_CONTENT);
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AdventureDTO> save(@RequestBody @Validated AdventureDTO dto){
         if(dto.getId() != null) {
@@ -98,10 +110,5 @@ public class AdventureController {
 
     }
 
-    @DeleteMapping(value = {"/id"})
-    public ResponseEntity<Boolean> delete(@PathVariable Long id){
-        if(adventureService.delete(id))
-            return new ResponseEntity<>(true, HttpStatus.OK);
-        return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
-    }
+
 }
