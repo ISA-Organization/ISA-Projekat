@@ -134,9 +134,9 @@ class Houses extends React.Component{
                                 <li class="list-inline-item m-0"><i class="fa fa-star-o text-gray"></i></li>
                             </ul>
                         </div>
-                    </div><img src={require('../../images/homePage.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
+                        </div><img style={{width: "55%"}} src={require('../../images/homePage.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
                 </div> 
-                <button type="button" class="btn btn-outline-primary" onClick={() => this.goToReservations(h.id)}>Show reservations</button>
+                <button style={{marginLeft: "45%"}} type="button" class="btn btn-outline-primary" onClick={() => this.goToReservations(h.id)}>Show reservations</button>
                 <button style={{marginLeft: "5%"}} type="button" class="btn btn-outline-primary" onClick={() => this.goToFreeTerms(h.id)}>Show free terms</button>
         
             </li> 
@@ -163,7 +163,7 @@ class Houses extends React.Component{
                             <Button onClick={()=> this.goToAddHouse()} style={{marginLeft: "7%"}}>Add new</Button>
                         </div>
                         <br></br>
-                        <button style={{marginLeft: "50%"}} type="button" class="btn btn-outline-secondary" onClick={()=> this.goToRangeSelect()}>Earnings report</button>
+                        <button style={{marginLeft: "47%"}} type="button" class="btn btn-outline-secondary" onClick={()=> this.goToRangeSelect()}>Earnings report</button>
                         <button style={{marginLeft: "5%"}} type="button" class="btn btn-outline-secondary" onClick={()=> this.goToAttendanceReports()}>Attendence report</button>
                         
                         <br></br>
