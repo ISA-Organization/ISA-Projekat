@@ -78,6 +78,13 @@ public class ReservationController {
         return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
     }
 
+    @GetMapping(path="/inProgress/{id}")
+    public ResponseEntity<List<ReservationDTO>> findAllInProgressByClientId(@PathVariable Long id){
+        List<Reservation> res = reservationService.findAllInProgressByClientId(id);
+
+        return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
+    }
+
     @GetMapping(path="/upcoming/byEntity/{id}")
     public ResponseEntity<List<ReservationDTO>> findAllUpcomingByEntityId(@PathVariable Long id){
         List<Reservation> res = reservationService.findAllUpcomingByEntityId(id);

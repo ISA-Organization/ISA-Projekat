@@ -90,6 +90,18 @@ public class JpaReservationService implements ReservationService{
     }
 
     @Override
+    public List<Reservation> findAllInProgressByClientId(Long id) {
+        List<Reservation> res = reservationRepository.findAllByClientId(id);
+        List<Reservation> reservations = new ArrayList<>();
+        for(Reservation r : res){
+            if(LocalDate.now().isBefore(r.getEndDate()) && LocalDate.now().isAfter(r.getStartDate())){
+                reservations.add(r);
+            }
+        }
+        return reservations;
+    }
+
+    @Override
     public List<Reservation> getMyUpcomingReservations() {
         var loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
         Client client = clientService.findByEmail(loggedInUser).get();
