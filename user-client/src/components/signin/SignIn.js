@@ -4,6 +4,7 @@ import '../../index.css';
 import {withNavigation} from '../../utils/routeconf.js'
 import {login} from '../../services/auth';
 import Axios from '../../utils/Axios';
+import Swal from "sweetalert2";
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -26,6 +27,19 @@ class SignIn extends React.Component {
     let change = {};
     change[name] = value;
     this.setState(change);
+  }
+
+  goToLogin(email, pass){
+    if(email == '' || pass == ''){
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'All fields must be filled!' 
+    });
+    }
+    else{
+      login(email,pass)
+    }
   }
 
 
@@ -51,7 +65,7 @@ class SignIn extends React.Component {
             <br></br>
             <Form.Group mb={3}>
 
-            <Button variant="success" onClick={() => {login(this.state.email, this.state.password)}} style={{marginLeft:"65px", width: "200px", marginBottom: "10px"}}>Sign in</Button>
+            <Button variant="success" onClick={() => {this.goToLogin(this.state.email, this.state.password)}} style={{marginLeft:"65px", width: "200px", marginBottom: "10px"}}>Sign in</Button>
             </Form.Group>
 
             <Form.Group mb={3}>
