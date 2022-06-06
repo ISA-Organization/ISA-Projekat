@@ -116,6 +116,11 @@ public class JpaReservationService implements ReservationService{
     }
 
     @Override
+    public List<Reservation> findAllByOwnerId(Long id) {
+        return reservationRepository.findAllByOwnerId(id);
+    }
+
+    @Override
     public List<Reservation> findAllUpcomingByEntityId(Long id) {
         List<Reservation> list = reservationRepository.findAllByRentingEntityId(id);
         list.removeIf(res -> res.getStartDate().isBefore(ChronoLocalDate.from(LocalDateTime.now())));

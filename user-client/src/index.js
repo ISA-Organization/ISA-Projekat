@@ -33,6 +33,8 @@ import DeletionRequestForm from './components/deletionRequests/DeletionRequestFo
 import DeleteRequests from './components/admin/DeleteRequests';
 import DenyDeleteRequestForm from './components/admin/DenyDeleteRequestForm';
 import AllAvailablePeriodsForOwner from './components/available period/AllAvailablePeriodsForOwner';
+import WeeklyReportGraph from './components/graph/WeeklyReportGraph'
+
 class App extends React.Component{
 
   isAccountApproved(){
@@ -132,6 +134,7 @@ class App extends React.Component{
                 <Route path="/periodsForOwner/:entityId" element={<AllAvailablePeriodsForOwner/>}/>
                 <Route path="/reservationsForOwner/:entityId" element={<AllReservationsForOwner/>}/>
                 <Route path="/earningsReport" element={<EarningsInRange/>}/>
+                <Route path="/attendanceReport" element={<WeeklyReportGraph/>}/>
                 <Route path="/adventures" element={<Adventure/>}/>
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
                 <Route path="/adventures/:id" element={<EditAdventure/>}/>

@@ -81,6 +81,13 @@ public class ReservationController {
         return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
     }
 
+    @GetMapping(path="/byOwner/{id}")
+    public ResponseEntity<List<ReservationDTO>> findAllByOwnerId(@PathVariable Long id){
+        List<Reservation> res = reservationService.findAllByOwnerId(id);
+
+        return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
+    }
+
     @GetMapping(path="/inProgress/{id}")
     public ResponseEntity<List<ReservationDTO>> findAllInProgressByClientId(@PathVariable Long id){
         List<Reservation> res = reservationService.findAllInProgressByClientId(id);
@@ -96,6 +103,13 @@ public class ReservationController {
     }
     @PostMapping(path="/forRange", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ReservationDTO>> findAllForRange(@RequestBody DateRange obj){
+        List<Reservation> res = reservationService.findAllInDateRange(obj.getStart(), obj.getEnd());
+
+        return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
+    }
+
+    @GetMapping(path="/forLastWeek/{date}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ReservationDTO>> findAllForRange(@PathVariable LocalDate date){
         List<Reservation> res = reservationService.findAllInDateRange(obj.getStart(), obj.getEnd());
 
         return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
