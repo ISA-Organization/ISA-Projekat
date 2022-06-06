@@ -64,8 +64,8 @@ INSERT INTO additional_content (id, name, price, renting_entity_id) VALUES (4, '
 INSERT INTO renting_entity (id, name, address, description, price, renting_rules, renting_entity_type,latitude, longitude)
 VALUES (5, 'Sarani', 'Ribarsko ostrvo 10', 'bla', 200, 'bla', 'ADVENTURE', 45.232360, 19.836110);
 
-insert into adventures(id, instructor_id, fishing_equipment, cancellation_policy)
-VALUES (5, 6, 'Pecaljke na dubinu', 'Dva dana nakon rez');
+insert into adventures(id, instructor_id, fishing_equipment, cancellation_policy, max_number_of_people)
+VALUES (5, 6, 'Pecaljke na dubinu', 'Dva dana nakon rez', 10);
 
 insert into available_periods(id, end, is_special_offer, special_price, start, renting_entity_id)
 values(1, '2022-05-05', false, 0, '2022-04-05', 1);
@@ -78,4 +78,6 @@ values(1, false,'2022-06-13', 7, 3, 300, '2022-06-04' , 5,2, 1);
 
 insert into reservations(id, cancelled, end_date, number_of_days, number_of_people, price, start_date, client_id, owner_id, renting_entity_id)
 values(2, false,'2022-06-25', 5, 3, 300, '2022-06-20' , 5,2, 1);
+insert into reservations(id, cancelled, end_date, number_of_days, number_of_people, price, start_date, client_id, owner_id, renting_entity_id)
+values(3, false,'2022-06-16', 6, 3, 1200, '2022-06-20' , 5,6, 5);
 

@@ -16,8 +16,6 @@ class EditAdventure extends React.Component{
             name: "",
             address: "",
             description: "",
-            numberOfRooms: 0,
-            numberOfBeds: 0,
             rules: "",
             price: 0,
             latitude: 0, 

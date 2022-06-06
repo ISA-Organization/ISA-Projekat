@@ -119,6 +119,9 @@ public class JpaUserService implements UserService {
         }
 
     }
+    public void update(Optional<User> user){
+        userRepository.save(user.get());
+    }
 
     @Override
     public boolean changePassword(Long id, UserChangePasswordDTO userPasswordChangeDto) {

@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react'
 import '../index.css'
 import ClientEntityView from './client/ClientEntityView'
+import PasswordChange from './password change/PasswordChange';
 class Home extends React.Component {
 
   constructor(props){
@@ -55,14 +56,13 @@ class Home extends React.Component {
         : null
       }
     </div>
-       { role === 'ADMIN' && approved === 'false' ?
-       <div className="bg">
-       <h1 class="display-4">Looks like you need to change your password!
-        <a href='/changepass'>Click here!</a>
-        </h1>
-        </div>
-          : null
-       }
+    <div>
+      {
+        role === 'ADMIN' && approved === 'false' ?
+        <PasswordChange></PasswordChange> :null
+      }
+    </div>
+      
       </div>
     )
   }

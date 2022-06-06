@@ -21,4 +21,6 @@ public interface UserService {
     boolean changePassword(Long id, UserChangePasswordDTO userPasswordChangeDto);
 
     List<User> findAllClients();
+
+    void update(Optional<User> user);
 }

@@ -55,11 +55,13 @@ class PasswordChange extends React.Component{
      changePass(){
 
         this.state.info.email = this.state.user.email;
-
+        
         Axios.put('/users/pass/' + this.state.user.id, this.state.info)
             .then(res => {
                 alert("Successfully changed!")
-                this.props.navigate('/profile')
+                
+                    this.props.navigate('/profile')
+                
             })
             .catch(err =>{
                 alert("Failed!")

@@ -88,7 +88,8 @@ public class UserController {
         User user = toUser.convert(dto);
         user.setIsApproved(false);
         user.setIsDeleted(false);
-        user.setPassword(dto.getPassword());
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
+        user.setPassword(encodedPassword);
         return new ResponseEntity<>(toUserDTO.convert(userService.save(user)), HttpStatus.CREATED);
     }
 
@@ -284,7 +285,11 @@ public class UserController {
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
+        var user = userService.findbyEmail(reqBody.getEmail());
+        if(user.get().getType().equals(UserType.ADMIN) && user.get().getIsApproved() == false){
+            user.get().setIsApproved(true);
+            userService.update(user);
+        }
         if(result) {
             return new ResponseEntity<>(HttpStatus.OK);
         }else {

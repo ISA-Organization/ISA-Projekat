@@ -19,6 +19,8 @@ public class Adventure extends RentingEntity {
     private String fishingEquipment;
     @Column
     private String cancellationPolicy;
+    @Column
+    private int maxNumberOfPeople;
 
 
 }

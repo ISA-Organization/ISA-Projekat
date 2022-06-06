@@ -34,6 +34,20 @@ class MakeReservationByOwner extends React.Component{
             latitude: 0, 
             longitude: 0
         }
+        let adventure = {
+            name: "",
+            address: "",
+            description: "",
+            rules: "",
+            price: 0,
+            type: "ADVENTURE",
+            maxNumberOfPeople: 0,
+            adventureOwnerId: 0, 
+            fishingEquipment: '',
+            cancellationPolicy: '',
+            latitude: 45.267136, 
+            longitude: 19.833549
+        }
         
         let boat = {
             id: -1,
@@ -71,6 +85,7 @@ class MakeReservationByOwner extends React.Component{
             reservation: reservation,
             house: house,
             boat: boat,
+            adventure: adventure,
             clients: [],
             selectedClient: selectedClient,
             entityType: ''
@@ -91,6 +106,8 @@ class MakeReservationByOwner extends React.Component{
                         this.getHouseById()
                     case "BOAT":
                         this.getBoatById()
+                    case "ADVENTURE":
+                        this.getAdventureById();
                 }
             })
             .catch(err =>{
@@ -102,6 +119,17 @@ class MakeReservationByOwner extends React.Component{
         Axios.get('/houses/' + this.props.params.entityId)
             .then(res => {
                 this.setState({house: res.data})
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+    }
+    getAdventureById(){
+
+        Axios.get('/adventures/' + this.props.params.entityId)
+            .then(res => {
+                this.setState({adventure: res.data})
+                console.log(res.data)
             })
             .catch(err =>{
                 console.log(err)
@@ -171,6 +199,14 @@ class MakeReservationByOwner extends React.Component{
                 let reserv2 = this.state.reservation
                 reserv2.ownerId = this.state.boat.boatOwnerId
                 this.setState({reservation: reserv2})
+                break;
+            case "ADVENTURE":
+                console.log(this.state.adventure)
+                this.state.reservation.price = this.state.adventure.price * this.state.reservation.numberOfDays;
+                this.state.reservation.entityId = this.state.adventure.id;
+                let reserv3 = this.state.reservation
+                reserv3.ownerId = this.state.adventure.instructorId
+                this.setState({reservation: reserv3})
                 break;
                 
         }

@@ -51,7 +51,7 @@ public class DTOToAvailablePeriod {
                 period.setRentingEntity(boatService.findOne(dto.getRentingEntityId()).get());
                 break;
             case "ADVENTURE":
-                period.setRentingEntity(houseService.findOne(dto.getRentingEntityId()).get());
+                period.setRentingEntity(adventureService.findOne(dto.getRentingEntityId()).get());
                 break;
         }
         return period;

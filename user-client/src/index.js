@@ -143,6 +143,7 @@ class App extends React.Component{
                 <Route path="/delete/request" element={<DeletionRequestForm/>}/>
                 <Route path="/deletionrequests" element={<DeleteRequests/>}/>
                 <Route path='/delete/request/:id' element={<DenyDeleteRequestForm/>}/>
+                <Route path='/adventures/add' element={<AddAdventure/>}/>
               </Routes>
             </Container>
           </Router>
