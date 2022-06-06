@@ -108,6 +108,10 @@ class Houses extends React.Component{
         this.props.navigate('/earningsReport')
     }
 
+    goToAttendanceReports(){
+        this.props.navigate('/attendanceReport')
+    }
+
     renderHouses(){
         return this.state.houses.map((h) =>{
             return(
@@ -154,7 +158,9 @@ class Houses extends React.Component{
                             <Button onClick={()=> this.goToAddHouse()} style={{marginLeft: "7%"}}>Add new</Button>
                         </div>
                         <br></br>
-                        <button type="button" class="btn btn-outline-secondary" onClick={()=> this.goToRangeSelect()}>Report for earnings</button>
+                        <button style={{marginLeft: "50%"}} type="button" class="btn btn-outline-secondary" onClick={()=> this.goToRangeSelect()}>Earnings report</button>
+                        <button style={{marginLeft: "5%"}} type="button" class="btn btn-outline-secondary" onClick={()=> this.goToAttendanceReports()}>Attendence report</button>
+                        
                         <br></br>
                         <br></br>
                         <ul class="list-group shadow">
