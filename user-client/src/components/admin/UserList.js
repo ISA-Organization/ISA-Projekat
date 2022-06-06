@@ -144,6 +144,15 @@ class UserList extends React.Component{
       this.declineReason = e.target.value;
       console.log(this.declineReason)
     }
+    deleteUser(id){
+        Axios.delete('/users/' + id).then(
+            res => {
+                console.log('deleted')
+            }
+        ).catch(err => {
+            console.log(err)
+        })
+    }
     renderUsers(){
         const superAdmin = window.localStorage['superAdmin']
         return this.state.users.map((u) => {
@@ -158,7 +167,8 @@ class UserList extends React.Component{
                                     Grad: {u.city}, Ulica: {u.address}, Broj Telefona: {u.phoneNumber}, 
                                     Email: {u.email}
                                 </Card.Text>
-                           
+                            <Button variant="danger" class="mr-5" onClick={()=> this.deleteUser(u.id)}>Delete</Button>
+
                             {u.approved === false ?
                             <div>
                                  <textarea value={this.state.declineReason}  onChange={(e) => this.changeInputValue(e)}>

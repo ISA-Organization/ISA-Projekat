@@ -27,7 +27,7 @@ INSERT INTO admins (is_super_owner, id) VALUES (true, 1);
 INSERT INTO house_owners (id) VALUES (2);
 INSERT INTO boat_owners (id) VALUES (3);
 INSERT INTO house_owners (id) VALUES (4);
-INSERT INTO clients (id) values(5);
+INSERT INTO clients (id, penalty_num) values(5,0);
 insert into instructors (id) values(6);
 
 INSERT INTO renting_entity (id, name, address, description, price, renting_rules, renting_entity_type, latitude, longitude)

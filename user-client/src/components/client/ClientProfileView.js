@@ -83,7 +83,7 @@ class ClientProfileView extends React.Component {
 
         this.setState({review: newReview})
         console.log(newReview)
-
+        console.log(typeof(newReview.isBadComment))
         Axios.post('/reviews', newReview)
             .then(res => {
                 console.log(res.data)

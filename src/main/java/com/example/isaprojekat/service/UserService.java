@@ -23,4 +23,6 @@ public interface UserService {
     List<User> findAllClients();
 
     void update(Optional<User> user);
+
+    void removeSpecifiedUser(Optional<User> user);
 }

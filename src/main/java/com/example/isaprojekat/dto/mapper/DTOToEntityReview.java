@@ -22,7 +22,7 @@ public class DTOToEntityReview {
         RentingEntityReview r = new RentingEntityReview();
 
        r.setContent(dto.getContent());
-       r.setBadComment(dto.isBadComment());
+       r.setIsBadComment(dto.getIsBadComment());
        r.setOwnerId(dto.getOwnerId());
        r.setReservation(resService.findOne(dto.getReservationId()).get());
 

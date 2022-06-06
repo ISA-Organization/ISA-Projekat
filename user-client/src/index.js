@@ -41,6 +41,7 @@ import ComplaintsList from './components/admin/ComplaintsList';
 import EntityComplaint from './components/reservation/EntityComplaint';
 import ComplaintResponse from './components/admin/ComplaintResponse';
 import CreateLoyaltyProgram from './components/admin/CreateLoyaltyProgram';
+import PenaltyList from './components/admin/PenaltyList';
 class App extends React.Component{
 
   isAccountApproved(){
@@ -120,6 +121,12 @@ class App extends React.Component{
                 </Nav.Link>
                 : null
               }
+               {role === 'ADMIN' && approved === 'true' ?
+                <Nav.Link as={Link} to="/allcomments">
+                  See penalties
+                </Nav.Link>
+                : null
+              }
                 {role === 'CLIENT' && approved === 'true' ?
                 <Nav.Link as={Link} to="/client/reservationview">
                   Your reservations.
@@ -181,6 +188,8 @@ class App extends React.Component{
                 <Route path='/entity/complaint/:id' element={<EntityComplaint/>}/>
                 <Route path='/complaint/respond/:id' element={<ComplaintResponse/>}/>
                 <Route path='/newloyalty' element={<CreateLoyaltyProgram/>}/>
+                <Route path='/allcomments' element={<PenaltyList/>}/>
+
               </Routes>
             </Container>
           </Router>
