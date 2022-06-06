@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 
-class DeletionRequestList extends React.Component{
+class DeleteRequests extends React.Component{
     
 
 
@@ -21,16 +21,17 @@ class DeletionRequestList extends React.Component{
         }
     }
     componentDidMount(){
+        console.log('I have mounted')
         this.getReqs()
     }
 
-    getUsers(){
+     getReqs(){
         let config = { params:{}}
 
-        Axios.get('/delete/request', config)
+        Axios.get('/delete/request/all')
             .then(res => {
-                console.log(res)
-                this.setState({req: res.data})
+                console.log(res.data)
+                this.setState({reqs: res.data})
             })
             .catch( err =>{
                  console.log(err)
@@ -49,19 +50,11 @@ class DeletionRequestList extends React.Component{
         })
     }
    
-    declineAccount(id, declineReason){
-        console.log(declineReason)
-        const config = { headers: {'Content-Type': 'application/json'} };
+    declineAccount(id){
+        console.log(id);
+       this.props.navigate('/delete/request/' + id)
+       window.location.reload()
 
-        axios.put('http://localhost:8080/api/users/decline/' + id, declineReason, config)
-        .then(res => {
-           
-            this.props.navigate('/users')
-            window.location.reload();
-        }).catch(err => {
-            alert("Failed")
-            console.log(err)
-        })
         
     }
     changeInputValue(e){
@@ -69,18 +62,19 @@ class DeletionRequestList extends React.Component{
       this.declineReason = e.target.value;
       console.log(this.declineReason)
     }
-    renderUsers(){
-        return this.state.req.map((r) => {
+    renderReqs(){
+        console.log('Usao sam u render requests')
+        console.log(this.state.reqs)
+        return this.state.reqs.map((r) => {
             return(
                 <div>
                 <li class="list-group-item" key={r.id}>
                 <Card style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
                         <Card.Body>
                             <Card.Title>{r.reason + ' ' + r.requestedDate}</Card.Title>
                                
                             <Button variant="primary" class="mr-5" onClick={()=> this.approveRequest(r.id)}>Approve</Button>
-                            <Button variant="danger" onClick={()=> this.declineAccount(u.id, this.declineReason)}>Decline</Button>
+                            <Button variant="danger" onClick={()=> this.declineAccount(r.id)}>Decline</Button>
                          
                            
                         </Card.Body>
@@ -95,8 +89,7 @@ class DeletionRequestList extends React.Component{
     }
 
     render(){
-        const superAdmin = window.localStorage['superAdmin']
-
+        
         return(
             <div class="container py-5">
                 <div class="row text-center text-white mb-5">
@@ -106,18 +99,14 @@ class DeletionRequestList extends React.Component{
                 </div>
                 <div class="row">
                         <CardGroup>
-                            {this.renderUsers()}
+                            {this.renderReqs()}
                             </CardGroup>
                 </div>
-                 {
-                    superAdmin === 'true' ?
-                <Button variant="primary" class="mr-5" onClick={() => this.AddNewAdmin()}> Add new admin</Button>
-                : null
-                }
+               
             </div>
         )
     }
 }
 
 
-export default withNavigation(withParams(DeletionRequestList));
+export default withNavigation(withParams(DeleteRequests));
