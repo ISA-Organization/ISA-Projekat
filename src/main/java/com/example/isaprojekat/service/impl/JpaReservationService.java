@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.example.isaprojekat.repository.ReservationRepository;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+
+import java.time.*;
 import java.time.chrono.ChronoLocalDate;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
@@ -130,6 +130,28 @@ public class JpaReservationService implements ReservationService{
         List<Reservation> list = reservationRepository.findAllByRentingEntityId(id);
         list.removeIf(res -> res.getStartDate().isBefore(ChronoLocalDate.from(LocalDateTime.now())));
         return list;
+    }
+
+    @Override
+    public List<Reservation> findAllForLastWeek() {
+
+        final ZonedDateTime input = ZonedDateTime.now();
+        final ZonedDateTime startOfLastWeek = input.minusWeeks(1).with(DayOfWeek.MONDAY);
+        final ZonedDateTime endOfLastWeek = startOfLastWeek.plusDays(6);
+
+        LocalDate start = startOfLastWeek.toLocalDate();
+        LocalDate end = endOfLastWeek.toLocalDate();
+
+        List<Reservation> reservations = reservationRepository.findAll();
+        List<Reservation> res = new ArrayList<>();
+
+        for(Reservation r : reservations){
+            if((r.getStartDate().isAfter(start) && r.getStartDate().isBefore(end)) || r.getStartDate().equals(start)
+            || r.getStartDate().equals(end)){
+                res.add(r);
+            }
+        }
+        return res;
     }
 
     private Boolean isPeriodFree(RentingEntity entity, LocalDate start, LocalDate end){
