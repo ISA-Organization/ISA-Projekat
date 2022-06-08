@@ -37,15 +37,13 @@ export default class WeeklyReportGraph extends React.Component {
 
 	}
 
+
 	 async getReservations(){
 			
 			try{
 				let result = await Axios.get('/reservations/forLastWeek');
 				
 				this.setState({reservations: result.data})
-				let currState = this.state.currState
-				currState.datasets[0].data = [1,2,3,4,4,4,4]
-				this.setState({currState: currState})
 				
 			  }
 			  catch (error){
