@@ -21,7 +21,8 @@ class AddHouse extends React.Component{
             type: "HOUSE",
             houseOwnerId: 0, 
             latitude: 45.267136, 
-            longitude: 19.833549
+            longitude: 19.833549,
+            exteriorImage: ''
         }
         let user = {
             id: 0,
@@ -42,6 +43,17 @@ class AddHouse extends React.Component{
     }
 
     componentDidMount(){
+    }
+
+    decodeFileBase64(base64String){
+        return decodeURIComponent(
+            atob(base64String)
+            .split("")
+            .map(function (c){
+                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join("")
+            )
     }
 
     async addHouse(){
@@ -86,6 +98,32 @@ class AddHouse extends React.Component{
 
         this.setState({house: house})
     }
+    async uploadImage(e){
+        const file = e.target.files[0]
+        const base64 = await this.convertBase64(file)
+        
+        let house = this.state.house
+        house.exteriorImage = base64
+
+        this.setState({house: house})
+        console.log(this.decodeFileBase64(base64.substring(base64.indexOf(",") + 1)))
+    }
+
+    convertBase64(file){
+        return new Promise((resolve, reject)=>{
+            const fileReader = new FileReader();
+
+            fileReader.readAsDataURL(file);
+
+            fileReader.onload = ()=>{
+                resolve(fileReader.result);
+            }
+
+            fileReader.onerror = (err)=>{
+                reject(err);
+            }
+        })
+    }
 
     render(){
         return(
@@ -94,16 +132,11 @@ class AddHouse extends React.Component{
                 <Col md={4}>
                     <h1 style={{color: "black"}}>Add new house</h1>
                     <br></br>
-                    <Card style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                        <Card.Body>
-                            <Card.Title>Import picture</Card.Title>
-                            <Card.Text>
-                            Add profile picture here.
-                            </Card.Text>
-                            <Button variant="light">+</Button>
-                        </Card.Body>
-                    </Card>
+                    
+                    <form enctype="multipart/form-data">
+                    <input type="file" ame="image" accept="image/png, image/jpeg"  onChange={(e)=>{this.uploadImage(e)}}></input>
+                    {/* <img src={this.state.house.exteriorImage} style={ this.state.house.exteriorImage == '' ? null : {height: "200px", width: "90%"}}/> */}
+                    </form>
                     <MapContainer lat={this.state.house.latitude} lng={this.state.house.longitude}></MapContainer>
                 </Col>
                 <Col md={4}>

@@ -23,5 +23,6 @@ public class HouseDTO {
 
     private Double latitude;
     private Double longitude;
+    private String photos;
 
 }

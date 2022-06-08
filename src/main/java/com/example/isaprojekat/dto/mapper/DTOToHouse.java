@@ -37,6 +37,7 @@ public class DTOToHouse {
 
         house.setLatitude(dto.getLatitude());
         house.setLongitude(dto.getLongitude());
+        house.setExteriorImage(dto.getExteriorImage());
 
         return house;
     }
