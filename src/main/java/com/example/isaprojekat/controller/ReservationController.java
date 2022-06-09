@@ -114,10 +114,10 @@ public class ReservationController {
         return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
     }
 
-//    @GetMapping(path="/forLastWeek/{date}", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<List<ReservationDTO>> findAllForRange(@PathVariable LocalDate date){
-//        List<Reservation> res = reservationService.findAllInDateRange(obj.getStart(), obj.getEnd());
-//
-//        return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
-//    }
+    @GetMapping(path="/forLastWeek")
+    public ResponseEntity<List<ReservationDTO>> findAllForLastWeek(){
+        List<Reservation> res = reservationService.findAllForLastWeek();
+
+        return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
+    }
 }
