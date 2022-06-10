@@ -16,6 +16,8 @@ import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
+import static java.time.temporal.TemporalAdjusters.lastDayOfYear;
 
 @Service
 public class JpaReservationService implements ReservationService{
@@ -133,7 +135,7 @@ public class JpaReservationService implements ReservationService{
     }
 
     @Override
-    public List<Reservation> findAllForLastWeek() {
+    public List<Reservation> findAllForLastWeek(Long ownerId) {
 
         final ZonedDateTime input = ZonedDateTime.now();
         final ZonedDateTime startOfLastWeek = input.minusWeeks(1).with(DayOfWeek.MONDAY);
@@ -142,12 +144,46 @@ public class JpaReservationService implements ReservationService{
         LocalDate start = startOfLastWeek.toLocalDate();
         LocalDate end = endOfLastWeek.toLocalDate();
 
-        List<Reservation> reservations = reservationRepository.findAll();
+        List<Reservation> reservations = reservationRepository.findAllByOwnerId(ownerId);
         List<Reservation> res = new ArrayList<>();
 
         for(Reservation r : reservations){
             if((r.getStartDate().isAfter(start) && r.getStartDate().isBefore(end)) || r.getStartDate().equals(start)
             || r.getStartDate().equals(end)){
+                res.add(r);
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public List<Reservation> findAllForThisYear(Long ownerId) {
+        LocalDate now = LocalDate.now();
+        LocalDate firstDay = now.with(firstDayOfYear());
+        LocalDate lastDay = now.with(lastDayOfYear());
+
+        List<Reservation> reservations = reservationRepository.findAllByOwnerId(ownerId);
+        List<Reservation> res = new ArrayList<>();
+
+        for(Reservation r : reservations){
+            if((r.getStartDate().isAfter(firstDay) && r.getStartDate().isBefore(lastDay)) || r.getStartDate().equals(firstDay)
+                    || r.getStartDate().equals(lastDay)){
+                res.add(r);
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public List<Reservation> findAllForLastYears(Long ownerId) {
+        LocalDate firstDay = LocalDate.of(2020, 1, 1);
+        LocalDate lastDay = LocalDate.of(2022, 12, 1);
+        List<Reservation> reservations = reservationRepository.findAllByOwnerId(ownerId);
+        List<Reservation> res = new ArrayList<>();
+
+        for(Reservation r : reservations){
+            if((r.getStartDate().isAfter(firstDay) && r.getStartDate().isBefore(lastDay)) || r.getStartDate().equals(firstDay)
+                    || r.getStartDate().equals(lastDay)){
                 res.add(r);
             }
         }

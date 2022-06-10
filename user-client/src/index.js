@@ -167,7 +167,7 @@ class App extends React.Component{
                 <Route path="/periodsForOwner/:entityId" element={<AllAvailablePeriodsForOwner/>}/>
                 <Route path="/reservationsForOwner/:entityId" element={<AllReservationsForOwner/>}/>
                 <Route path="/earningsReport" element={<EarningsInRange/>}/>
-                <Route path="/attendanceReport" element={<ReportContainer/>}/>
+                <Route path="/attendanceReport/:userId" element={<ReportContainer/>}/>
                 <Route path="/adventures" element={<Adventure/>}/>
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
                 <Route path="/adventures/:id" element={<EditAdventure/>}/>

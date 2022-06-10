@@ -102,7 +102,7 @@ class Boats extends React.Component{
     }
 
     goToAttendanceReports(){
-        this.props.navigate('/attendanceReport')
+        this.props.navigate('/attendanceReport/' + + this.state.user.id)
     }
 
     changeInputValue(e){

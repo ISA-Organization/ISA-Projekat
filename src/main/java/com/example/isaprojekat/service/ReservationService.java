@@ -31,7 +31,11 @@ public interface ReservationService {
 
     List<Reservation> findAllInDateRange(LocalDate start, LocalDate end);
 
-    List<Reservation> findAllForLastWeek();
+    List<Reservation> findAllForLastWeek(Long ownerId);
+
+    List<Reservation> findAllForThisYear(Long ownerId);
+
+    List<Reservation> findAllForLastYears(Long ownerId);
 
     List<Reservation> findAllInProgressByClientId(Long id);
 
