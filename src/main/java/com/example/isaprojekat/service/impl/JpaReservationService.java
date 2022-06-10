@@ -174,6 +174,22 @@ public class JpaReservationService implements ReservationService{
         return res;
     }
 
+    @Override
+    public List<Reservation> findAllForLastYears(Long ownerId) {
+        LocalDate firstDay = LocalDate.of(2020, 1, 1);
+        LocalDate lastDay = LocalDate.of(2022, 12, 1);
+        List<Reservation> reservations = reservationRepository.findAllByOwnerId(ownerId);
+        List<Reservation> res = new ArrayList<>();
+
+        for(Reservation r : reservations){
+            if((r.getStartDate().isAfter(firstDay) && r.getStartDate().isBefore(lastDay)) || r.getStartDate().equals(firstDay)
+                    || r.getStartDate().equals(lastDay)){
+                res.add(r);
+            }
+        }
+        return res;
+    }
+
     private Boolean isPeriodFree(RentingEntity entity, LocalDate start, LocalDate end){
         if(availablePeriodService.isPeriodFree(entity, start, end)){
             List<Reservation> reservations = reservationRepository.findAllByRentingEntityId(entity.getId());

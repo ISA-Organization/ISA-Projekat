@@ -17,7 +17,7 @@ const MonthlyReportGraph = (props) => {
 		datasets: [
 		  {
 			label: 'Number of reservations',
-			backgroundColor: 'rgba(75,192,192,1)',
+			backgroundColor: 'rgba(0,128,128, 0.6)',
 			borderColor: 'rgba(0,0,0,1)',
 			borderWidth: 2,
 			data: [0,0,0,0,0,0,0, 0, 0, 0, 0, 0]

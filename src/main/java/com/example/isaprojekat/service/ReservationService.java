@@ -35,6 +35,8 @@ public interface ReservationService {
 
     List<Reservation> findAllForThisYear(Long ownerId);
 
+    List<Reservation> findAllForLastYears(Long ownerId);
+
     List<Reservation> findAllInProgressByClientId(Long id);
 
     List<Reservation> getMyReservationsClient(Long id);

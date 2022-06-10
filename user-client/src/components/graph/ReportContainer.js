@@ -5,6 +5,7 @@ import {Form} from 'react-bootstrap'
 import MonthlyReportGraph from './MonthlyReportGraph';
 import { withParams, withNavigation} from '../../utils/routeconf';
 import { useParams } from 'react-router-dom';
+import YearlyReportGraph from './YearlyReportGraph';
 
 
 const ReportContainer = () => {
@@ -12,6 +13,7 @@ const ReportContainer = () => {
 	let {userId} = useParams();
 	const [reservationsWeek, setReservationsWeek] = useState([])
 	const [reservationsThisYear, setReservationsThisYear] = useState([])
+	const [reservationsLastYears, setReservationsLastYears] = useState([])
 	const [criteria, setCriteria] = useState(['Weekly', 'Montly', 'Yearly'])
 	const [selectedCriteria, setSelectedCriteria] = useState('Weekly')
 
@@ -32,6 +34,18 @@ const ReportContainer = () => {
 		Axios.get('/reservations/forThisYear/' + userId)
 		.then(res => {
 			setReservationsThisYear(res.data);
+			
+		}).catch(err =>{
+			console.log(err)
+		})
+
+    }, []) //componentDidMount
+
+	useEffect(() =>{
+
+		Axios.get('/reservations/forLastYears/' + userId)
+		.then(res => {
+			setReservationsLastYears(res.data);
 			
 		}).catch(err =>{
 			console.log(err)
@@ -62,7 +76,7 @@ const ReportContainer = () => {
 			{
 				selectedCriteria === "Weekly" ? <WeeklyReportGraph reservations={reservationsWeek}></WeeklyReportGraph> : 
 				(
-					selectedCriteria === "Yearly" ? <p>year</p> : <MonthlyReportGraph reservations={reservationsThisYear}></MonthlyReportGraph>
+					selectedCriteria === "Yearly" ? <YearlyReportGraph reservations={reservationsLastYears}></YearlyReportGraph> : <MonthlyReportGraph reservations={reservationsThisYear}></MonthlyReportGraph>
 				)
 			}
       </div>

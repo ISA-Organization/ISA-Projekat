@@ -126,4 +126,11 @@ public class ReservationController {
 
         return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
     }
+
+    @GetMapping(path="/forLastYears/{ownerId}")
+    public ResponseEntity<List<ReservationDTO>> findAllForLastYears(@PathVariable Long ownerId){
+        List<Reservation> res = reservationService.findAllForLastYears(ownerId);
+
+        return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
+    }
 }
