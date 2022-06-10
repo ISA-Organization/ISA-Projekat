@@ -114,9 +114,15 @@ public class ReservationController {
         return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
     }
 
-    @GetMapping(path="/forLastWeek")
-    public ResponseEntity<List<ReservationDTO>> findAllForLastWeek(){
-        List<Reservation> res = reservationService.findAllForLastWeek();
+    @GetMapping(path="/forLastWeek/{ownerId}")
+    public ResponseEntity<List<ReservationDTO>> findAllForLastWeek(@PathVariable Long ownerId){
+        List<Reservation> res = reservationService.findAllForLastWeek(ownerId);
+
+        return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
+    }
+    @GetMapping(path="/forThisYear/{ownerId}")
+    public ResponseEntity<List<ReservationDTO>> findAllForThisYear(@PathVariable Long ownerId){
+        List<Reservation> res = reservationService.findAllForThisYear(ownerId);
 
         return new ResponseEntity<>(toDTO.convert(res), HttpStatus.OK);
     }
