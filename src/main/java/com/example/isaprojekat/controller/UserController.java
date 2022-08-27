@@ -77,7 +77,13 @@ public class UserController {
         user.setIsDeleted(false);
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
         user.setPassword(encodedPassword);
-        return new ResponseEntity<>(toUserDTO.convert(userService.save(user)), HttpStatus.CREATED);
+        User saved = userService.save(user);
+        if(user.getType().equals(UserType.CLIENT)){
+            emailSender.sendSimpleMessage(user.getEmail(),
+                    "Potvrda registracije",
+                    "Potvrdite registraciju: " + "http://localhost:8080/api/users/confirm?token=" + saved.getId());
+        }
+        return new ResponseEntity<>(toUserDTO.convert(saved), HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/newadmin")
@@ -100,6 +106,20 @@ public class UserController {
         userService.update(user);
 
         return new ResponseEntity<>(id,HttpStatus.OK);
+    }
+
+    @GetMapping("/confirm")
+    public ResponseEntity<UserDTO> confirmClient(@RequestParam Long token){
+        Optional<User> user = userService.findOne(token);
+
+        if(user.isPresent()) {
+            user.ifPresent(user1 -> user1.setIsApproved(true));
+            userService.update(user);
+            return new ResponseEntity<>(toUserDTO.convert(user.get()), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping(value = "approve/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

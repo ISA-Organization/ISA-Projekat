@@ -140,16 +140,22 @@ class HouseToRent extends React.Component{
         this.setState({reservation: reser})
         console.log(this.state)
 
-        Axios.post('/reservations/book' , this.state.reservation)
-        .then( res =>{
-            alert('Successfully made a reservation!')
-            this.props.navigate('')
+        if(this.state.house.numberOfBeds >= this.state.reservation.numberOfPeople){
+            Axios.post('/reservations/book' , this.state.reservation)
+            .then( res =>{
+                alert('Successfully made a reservation!')
+                this.props.navigate('')
+    
+    
+            }).catch(err =>{
+                console.log(err)
+                alert('Failed to reserve entity')
+            })
+        }
+        else{
+            alert('Exceeded max number of people')
+        }
 
-
-        }).catch(err =>{
-            console.log(err)
-            alert('Failed to reserve entity')
-        })
     }
     getDifferenceInDays(date1, date2){
         const diffInMs = Math.abs(date2 - date1);
@@ -171,20 +177,20 @@ class HouseToRent extends React.Component{
                     <br></br>
                     <br></br>
                     <Form.Label htmlFor="name">Name:</Form.Label>
-                    <Form.Control name="name" value={this.state.house.name} style={ {width: "100%"}} />
+                    <Form.Control disabled readonly name="name" value={this.state.house.name} style={ {width: "100%"}} />
                     <br></br>
                     <Form.Label htmlFor="address">Address:</Form.Label>
-                    <Form.Control name="address" value={this.state.house.address} style={ {width: "100%"}} />
+                    <Form.Control disabled readonly name="address" value={this.state.house.address} style={ {width: "100%"}} />
                     
                     <br></br>
                     <Form.Label htmlFor="numberOfRooms">Number of rooms:</Form.Label>
-                    <Form.Control  name="numberOfRooms" value={this.state.house.numberOfRooms} style={ {width: "50%"}} />
+                    <Form.Control disabled readonly name="numberOfRooms" value={this.state.house.numberOfRooms} style={ {width: "50%"}} />
                     <br></br>
                     <Form.Label htmlFor="numberOfBeds">Number of beds:</Form.Label>
-                    <Form.Control name="numberOfBeds" value={this.state.house.numberOfBeds} style={ {width: "50%"}} />
+                    <Form.Control disabled readonly name="numberOfBeds" value={this.state.house.numberOfBeds} style={ {width: "50%"}} />
                     <br></br>
                     <Form.Label htmlFor="price">Price:</Form.Label>
-                    <Form.Control name="price" value={this.state.house.price} style={ {width: "50%"}} />
+                    <Form.Control disabled readonly name="price" value={this.state.house.price} style={ {width: "50%"}} />
                     </Form.Group>
                 </Col>
                 <Col md={4}>
@@ -193,10 +199,10 @@ class HouseToRent extends React.Component{
                             <br></br>
                             <Form.Group>
                             <Form.Label htmlFor="description">Description:</Form.Label>
-                                <Form.Control as="textarea" name="description" value={this.state.house.description} style={ {width: "100%", height: "20%"}} />
+                                <Form.Control disabled readonly as="textarea" name="description" value={this.state.house.description} style={ {width: "100%", height: "20%"}} />
                                 <br></br>
                                 <Form.Label htmlFor="rules">House rules:</Form.Label>
-                                <Form.Control as="textarea" name="rules" value={this.state.house.rules} style={ {width: "100%", height: "20%"}} />
+                                <Form.Control disabled readonly as="textarea" name="rules" value={this.state.house.rules} style={ {width: "100%", height: "20%"}} />
                                 <br></br>
                                 <ul class="list-group list-group-light list-group-small" style={{width: "100%"}}>
                                 {
@@ -219,15 +225,10 @@ class HouseToRent extends React.Component{
                                     <DatePicker name="endDate" selected={this.state.reservation.endDate} onChange={(e) => this.handleEndChange(e)}></DatePicker>
                                     <Form.Label htmlFor="numberOfPeople">Number of people:</Form.Label>
                                 <Form.Control name="numberOfPeople" value={this.state.reservation.numberOfPeople} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
-                               <Button onClick={() => this.makeReservation(this.state.house.id)}>Make reservation</Button>
-                            </Form.Group>
-                            
-                    </Col >
-                    
-                
-                
-                        
-                            
+                                {this.state.user.type === 'CLIENT' ?
+                               [<Button onClick={() => this.makeReservation(this.state.house.id)}>Make reservation</Button>] : null}
+                            </Form.Group>      
+                    </Col >               
             </Row>
         )
     }

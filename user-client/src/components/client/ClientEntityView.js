@@ -132,12 +132,12 @@ class ClientEntityView extends React.Component{
         window.location.reload()
     }
     goToBoat(id){
-        this.props.navigate('/boats/' + id)
+        this.props.navigate('/boats/boattorent/' + id)
         window.location.reload()
 
     }
     goToAdventure(id){
-        this.props.navigate('/adventures/' + id)
+        this.props.navigate('/adventures/adventuretorent/' + id)
         window.location.reload()
     }
 
@@ -151,6 +151,8 @@ class ClientEntityView extends React.Component{
         this.setState({search: search})
         console.log(this.state.search)
         this.getHouses()
+        this.getBoats()
+        this.getAdventures()
     }
     renderBoats(){
         return this.state.boats.map((b) =>{
@@ -240,7 +242,6 @@ class ClientEntityView extends React.Component{
                             <Form.Control name="name" placeholder="Search by name" style={{width: "25%", marginRight: "2%"}} onChange={(e)=>this.changeInputValue(e)}></Form.Control>
                             <Form.Label style={{marginRight: "2%"}}>Max price:</Form.Label>
                             <Form.Control name="price" placeholder="Search by price" style={{width: "25%"}} onChange={(e)=>this.changeInputValue(e)}></Form.Control>
-                            <Button onClick={()=> this.goToAddHouse()} style={{marginLeft: "7%"}}>Add new</Button>
                         </div>
                         <br></br>
                         <div><h5>Houses:</h5></div>
@@ -251,7 +252,7 @@ class ClientEntityView extends React.Component{
                         <ul class="list-group shadow">
                             {this.renderBoats()}
                         </ul>
-                        <div><h5>Instructors:</h5></div>
+                        <div><h5>Adventures:</h5></div>
                         <ul class="list-group shadow">
                             {this.renderAdventures()}
                         </ul>

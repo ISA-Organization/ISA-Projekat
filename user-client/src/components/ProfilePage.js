@@ -4,6 +4,7 @@ import AdminProfile from "./admin/AdminProfile"
 import OwnerProfile from './owner/OwnerProfile';
 import Axios from '../utils/Axios';
 import InstructorProfile from "./instructor/InstructorProfile"
+import ClientProfile from './client/ClientProfile';
 class ProfilePage extends React.Component {
 
     renderIsApproved(){
@@ -31,6 +32,8 @@ class ProfilePage extends React.Component {
                 return <OwnerProfile/>;
             case 'BOAT_OWNER':
                     return <OwnerProfile/>;
+            case 'CLIENT':
+                    return <ClientProfile/>;      
             default:
                 return null;
         }

@@ -42,6 +42,8 @@ import EntityComplaint from './components/reservation/EntityComplaint';
 import ComplaintResponse from './components/admin/ComplaintResponse';
 import CreateLoyaltyProgram from './components/admin/CreateLoyaltyProgram';
 import PenaltyList from './components/admin/PenaltyList';
+import BoatToRent from './components/client/BoatToRent';
+import AdventureToRent from './components/client/AdventureToRent';
 class App extends React.Component{
 
   isAccountApproved(){
@@ -123,7 +125,7 @@ class App extends React.Component{
               }
                 {role === 'CLIENT' && approved === 'true' ?
                 <Nav.Link as={Link} to="/client/reservationview">
-                  Your reservations.
+                  Your reservations
                 </Nav.Link>
                 : null
               }
@@ -160,7 +162,7 @@ class App extends React.Component{
                 <Route path="/changepass" element={<FirstAdminLogin/>}/>
                 <Route path="/addNewTerm/:id" element={<AddAvailablePeriod/>}/>
                 <Route path="/clientProfileView/:id/:reservationId" element={<ClientProfileView/>}/>
-                
+                <Route path="/boats/boattorent/:id" element={<BoatToRent/>}/>
                 <Route path="/clientProfileView/:id" element={<ClientProfileView/>}/>
                 <Route path='/client/reservationview' element={<ClientReservationView/>}/>
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
@@ -171,6 +173,7 @@ class App extends React.Component{
                 <Route path="/adventures" element={<Adventure/>}/>
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
                 <Route path="/adventures/:id" element={<EditAdventure/>}/>
+                <Route path="/adventures/adventuretorent/:id" element={<AdventureToRent/>}/>
                 <Route path="/newReservation/:entityId" element={<MakeReservationByOwner/>}/>
                 <Route path="/entity/rate/:id" element={<EntityRating/>}/>
                 <Route path="/delete/request" element={<DeletionRequestForm/>}/>

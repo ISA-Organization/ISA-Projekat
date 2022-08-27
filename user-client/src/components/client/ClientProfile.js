@@ -1,109 +1,119 @@
 import React from 'react'
+import Axios from '../../utils/Axios'
+import {Form, Row, Col, Button} from 'react-bootstrap';
+import {withParams, withNavigation} from '../../utils/routeconf';
 
 class ClientProfile extends React.Component {
 
     constructor(props){
         super(props)
+        let user = {
+            id: 0,
+            address: '',
+             city: '',
+             email: '',
+             name: '',
+             phoneNumber:'',
+             surname:'',
+             approved : false,
+             type: null
+        }
+        this.state ={
+           user : user
+        }
+    }
+    componentDidMount(){
+        console.log(localStorage.getItem('jwt'))
+        this.getProfile()
+        
+    }
+    editUser(){
+        Axios.put('/users/' + this.state.user.id, this.state.user)
+                .then(res => {
+                    alert("Successfully edited")
+                })
+                .catch(err=>{
+                    alert("Failed to edit")
+                    console.log(err)
+                })
+    
+    }
+    getProfile(){
+        let config = {
+            headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
+                }
+        Axios.get('/users/profile', config)
+                .then(res => {
+                    console.log(res.data)
+                    this.setState({user : res.data})
+                })
+                .catch(
+                    err=>{
+                        console.log(err)
+                    }
+                )
+    }
+
+    changeInputValue(e){
+        const name = e.target.name
+        const value = e.target.value
+
+        let user = this.state.user
+        user[name] = value
+
+        this.setState({user: user})
+        console.log(user[name])
 
     }
-    render() {
-        return(
-            <div>
-                <div class="container">
-                    <div class="row gutters">
-                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="account-settings">
-                                <div class="user-profile">
-                                    <div class="user-avatar">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin"/>
-                                    </div>
-                                    <h5 class="user-name">Yuki Hayashi</h5>
-                                    <h6 class="user-email">yuki@Maxwell.com</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="row gutters">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <h6 class="mb-2 text-primary">Personal Details</h6>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="fullName">Full Name</label>
-                                        <input type="text" class="form-control" id="fullName" placeholder="Enter full name"/>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="eMail">Email</label>
-                                        <input type="email" class="form-control" id="eMail" placeholder="Enter email ID"/>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="phone">Phone</label>
-                                        <input type="text" class="form-control" id="phone" placeholder="Enter phone number"/>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="website">Website URL</label>
-                                        <input type="url" class="form-control" id="website" placeholder="Website url"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row gutters">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <h6 class="mt-3 mb-2 text-primary">Address</h6>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="Street">Street</label>
-                                        <input type="name" class="form-control" id="Street" placeholder="Enter Street"/>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="ciTy">City</label>
-                                        <input type="name" class="form-control" id="ciTy" placeholder="Enter City"/>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="sTate">State</label>
-                                        <input type="text" class="form-control" id="sTate" placeholder="Enter State"/>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="zIp">Zip Code</label>
-                                        <input type="text" class="form-control" id="zIp" placeholder="Zip Code"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row gutters">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <div class="text-right">
-                                        <button type="button" id="delete" name="delete" class="btn btn-danger">Delete</button>
-                                        <button type="button" id="submit" name="submit" class="btn btn-primary">Update</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            
-        )
+
+    sendDeleteRequest(userId){
+        this.props.navigate('/delete/request')
     }
+
+    changePassword(id){
+        this.props.navigate('/users/pass/' + id)
+    }
+
+
+  render() {
+    return(
+        <Row className="justify-content-center">
+        <Col md={4}>
+            <h1 style={{color: "black", width: "75%", textAlign: "right"}}>User profile</h1>
+            <button type="button" class="btn btn-outline-danger" onClick={() => { this.sendDeleteRequest(this.state.user.id)}} style={{marginTop: "5%", marginLeft: "15%", width: "50%"}}>Delete account</button>
+            <button type="button" class="btn btn-outline-primary" onClick={() => { this.changePassword(this.state.user.id)}} style={{marginTop: "5%", marginLeft: "15%", width: "50%"}}>Change password</button>
+       </Col>
+
+        <Col md={4}>
+            <Form.Group>
+                <br></br>
+            <Form.Label htmlFor="name">Name:</Form.Label>
+            <Form.Control name="name" value={this.state.user.name} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+            <br></br>
+            <Form.Label htmlFor="surname">Surname:</Form.Label>
+            <Form.Control name="surname" value={this.state.user.surname} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+            <br></br>
+            <Form.Label htmlFor="email">Email:</Form.Label>
+            <Form.Control name="email" value={this.state.user.email} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+            
+            <br></br>
+            <Form.Label htmlFor="address">Address:</Form.Label>
+            <Form.Control  name="address" value={this.state.user.address} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+            <br></br>
+            <Form.Label htmlFor="city">City:</Form.Label>
+            <Form.Control name="city" value={this.state.user.city} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+            <br></br>
+            <Form.Label htmlFor="price">Phone number:</Form.Label>
+            <Form.Control name="price" value={this.state.user.phoneNumber} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+
+            </Form.Group>
+        </Col>
+        <Col>
+            <button type="button" class="btn btn-primary" style={{marginTop: "160%"}} onClick={()=>{ this.editUser() }}>Edit</button>
+        </Col>       
+    </Row>
+    )
+  }
 }
 
-export default ClientProfile;
+export default withNavigation(withParams(ClientProfile));
