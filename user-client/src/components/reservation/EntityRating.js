@@ -80,10 +80,12 @@ class EntityRating extends React.Component{
     sendRequest(){
         this.state.rating.userId = this.state.user.id
         this.state.rating.entityId = this.props.params.id
+        console.log(this.state.rating)
         Axios.post('/ratings', this.state.rating)
         .then(res =>{
             this.setState({rating:res.data})
             console.log(res.data)
+            this.props.navigate('/client/reservationview')
         }).catch(err => {
             console.log(err)
         })
