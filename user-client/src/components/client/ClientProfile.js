@@ -18,15 +18,17 @@ class ClientProfile extends React.Component {
              approved : false,
              type: null
         }
+        let penalties = 0
         this.state ={
-           user : user
+           user : user,
+           penalties : penalties
         }
     }
     componentDidMount(){
         console.log(localStorage.getItem('jwt'))
-        this.getProfile()
-        
+        this.getProfile()     
     }
+
     editUser(){
         Axios.put('/users/' + this.state.user.id, this.state.user)
                 .then(res => {
@@ -46,12 +48,28 @@ class ClientProfile extends React.Component {
                 .then(res => {
                     console.log(res.data)
                     this.setState({user : res.data})
+                    this.getPenalties()
                 })
                 .catch(
                     err=>{
                         console.log(err)
                     }
                 )
+    }
+
+    getPenalties(){
+        var pen = 0
+        Axios.get('/users/getPenalties/' + this.state.user.id)
+                .then(res => {
+                    console.log(res.data)
+                    this.setState({penalties : res.data})
+                })
+                .catch(
+                    err=>{
+                        console.log(err)
+                    }
+                )
+        return pen
     }
 
     changeInputValue(e){
@@ -105,11 +123,12 @@ class ClientProfile extends React.Component {
             <br></br>
             <Form.Label htmlFor="price">Phone number:</Form.Label>
             <Form.Control name="price" value={this.state.user.phoneNumber} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
-
+            <br></br>
+            <Form.Label htmlFor="price">Penalties: {this.state.penalties}</Form.Label>
             </Form.Group>
         </Col>
         <Col>
-            <button type="button" class="btn btn-primary" style={{marginTop: "160%"}} onClick={()=>{ this.editUser() }}>Edit</button>
+            <button type="button" class="btn btn-primary" style={{marginTop: "180%"}} onClick={()=>{ this.editUser() }}>Edit</button>
         </Col>       
     </Row>
     )

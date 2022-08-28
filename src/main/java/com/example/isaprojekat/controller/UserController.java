@@ -6,12 +6,10 @@ import com.example.isaprojekat.dto.UserDTO;
 import com.example.isaprojekat.dto.UserRegistrationDTO;
 import com.example.isaprojekat.dto.mapper.DTOToUser;
 import com.example.isaprojekat.dto.mapper.UserToDTO;
-import com.example.isaprojekat.model.Admin;
-import com.example.isaprojekat.model.House;
-import com.example.isaprojekat.model.User;
-import com.example.isaprojekat.model.UserType;
+import com.example.isaprojekat.model.*;
 import com.example.isaprojekat.security.TokenUtils;
 import com.example.isaprojekat.service.AdminService;
+import com.example.isaprojekat.service.ClientService;
 import com.example.isaprojekat.service.UserService;
 import com.example.isaprojekat.service.impl.JpaEmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +56,8 @@ public class UserController {
     private TokenUtils tokenUtils;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private ClientService clientService;
 
     @Autowired
     private JpaEmailSender emailSender;
@@ -257,6 +257,12 @@ public class UserController {
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping(path="/getPenalties/{id}")
+    public ResponseEntity<Integer> getPenalties(@PathVariable Long id){
+        Optional<Client> client = clientService.findOne(id);
+        return new ResponseEntity<>(client.get().getPenaltyNum(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{email}")

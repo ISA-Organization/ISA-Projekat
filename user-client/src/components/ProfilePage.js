@@ -11,7 +11,7 @@ class ProfilePage extends React.Component {
         let config = {
           headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` }
               }
-        console.log('Brate salje se zahtev')
+        //console.log('Brate salje se zahtev')
         Axios.get('http://localhost:8080/api/users/approved', config)
         .then(res =>{
           localStorage.setItem('approved', res.data)
