@@ -75,13 +75,16 @@ class EntityComplaint extends React.Component{
     sendRequest(){
         this.state.complaint.userId = this.state.user.id
         this.state.complaint.rentingEntityId = this.props.params.id
+        console.log(this.props.params.id)
         Axios.post('/complaints', this.state.complaint)
         .then(res =>{
             this.setState({complaint:res.data})
             console.log(res.data)
+            this.props.navigate('/client/reservationview')
         }).catch(err => {
             console.log(err)
         })
+        
     }
     render(){
         return(
