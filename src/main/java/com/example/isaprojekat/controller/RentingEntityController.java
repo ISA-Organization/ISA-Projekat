@@ -32,4 +32,16 @@ public class RentingEntityController {
         }
     }
 
+    @GetMapping("name/{id}")
+    public ResponseEntity<String> getEntity(@PathVariable Long id){
+
+        Optional<RentingEntity> r = service.findOne(id);
+
+        if(r.isPresent()) {
+            return new ResponseEntity<>(r.get().getName(), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

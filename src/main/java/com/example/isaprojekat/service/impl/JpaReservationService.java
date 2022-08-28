@@ -58,7 +58,7 @@ public class JpaReservationService implements ReservationService{
     @Override
     public Boolean cancel(Long id) {
         Reservation reservation = reservationRepository.getById(id);
-        if(LocalDateTime.now().plusDays(3).isBefore(ChronoLocalDateTime.from(reservation.getStartDate()))){
+        if(LocalDateTime.now().plusDays(3).toLocalDate().isBefore(reservation.getStartDate())){
             //availablePeriodService.addFromCanceledReservation(reservation);
             reservation.setCancelled(true);
             reservationRepository.save(reservation);
@@ -106,13 +106,16 @@ public class JpaReservationService implements ReservationService{
     @Override
     public List<Reservation> getMyReservationsClient(Long id) {
         List<Reservation> reservations = reservationRepository.findAllByClientId(id);
-        return reservations;    }
+        reservations.removeIf(res -> res.getEndDate().isAfter(ChronoLocalDate.from(LocalDateTime.now())));
+        return reservations;
+    }
 
     @Override
     public List<Reservation> getMyUpcomingReservations() {
         var loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
         Client client = clientService.findByEmail(loggedInUser).get();
         List<Reservation> reservations = reservationRepository.findAllByClient(client);
+        reservations.removeIf(res -> res.isCancelled());
         reservations.removeIf(res -> res.getStartDate().isBefore(ChronoLocalDate.from(LocalDateTime.now())));
         return reservations;
     }

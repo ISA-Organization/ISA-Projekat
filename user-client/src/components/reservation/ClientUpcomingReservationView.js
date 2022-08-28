@@ -5,7 +5,7 @@ import {Button, Form} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf'
 import { wait } from "@testing-library/user-event/dist/utils";
 
-class ClientReservationView extends React.Component{
+class ClientUpcomingReservationView extends React.Component{
 
     constructor(props){
         super(props)
@@ -54,7 +54,7 @@ class ClientReservationView extends React.Component{
     getReservations(){
         let id = this.state.user.id;
         console.log(this.state.user)
-        Axios.get('/reservations/byClient/'+ id)
+        Axios.get('/reservations/upcoming/')
             .then(res => {
                 this.setState({reservations: res.data})
                 console.log(this.state.reservations)
@@ -72,6 +72,22 @@ class ClientReservationView extends React.Component{
         console.log(id)
         this.props.navigate('/entity/complaint/' + id)
     }
+    cancelReservation(reservation){
+        Axios.delete('/reservations/'+ reservation)
+        .then(res => {
+            Axios.get('/reservations/upcoming/')
+            .then(res => {
+                this.setState({reservations: res.data})
+                console.log(this.state.reservations)
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+    }
 
     renderReservations(){
         return this.state.reservations.map((h) =>{
@@ -83,10 +99,7 @@ class ClientReservationView extends React.Component{
                         <p class="font-italic text-muted mb-0 small">Number of people: {h.numberOfPeople}</p>
                         <div class="d-flex align-items-center justify-content-between mt-1">
                             <h6 class="font-weight-bold my-2">Price: ${h.price}</h6>
-                                <div>
-                                <button type="button" class="btn btn-outline-primary" onClick={() => this.goToComplaint(h.entityId)}>Have a complaint?</button>
-                                <button type="button" class="btn btn-outline-primary" onClick={() => this.goToEntityRating(h.entityId)}>Rate your stay</button>
-                                </div>
+                            <button type="button" class="btn btn-outline-primary" onClick={() => this.cancelReservation(h.id)}>Cancel</button>
                          </div>
                     </div>
                 </div> 
@@ -102,7 +115,7 @@ class ClientReservationView extends React.Component{
             <div class="container py-5">
                 <div class="row text-center text-white mb-5">
                     <div class="col-lg-7 mx-auto">
-                        <h1 class="display-4" style={{color: "black"}}>Reservations history</h1>
+                        <h1 class="display-4" style={{color: "black"}}>Upcoming reservations</h1>
                     </div>
                 </div>
                 <div class="row">
@@ -126,23 +139,5 @@ class ClientReservationView extends React.Component{
 }
 
 
-function isReservationOver(reservation){
-   
-        let syear = reservation['endDate'].split('-')[0]
-        let smonth = reservation['endDate'].split('-')[1]
-        let sday1 = reservation['endDate'].split('-')[2]
-        let endDate = new Date(syear, smonth, sday1)
-        console.log(endDate)
-        if(endDate < new Date()){
-            console.log('Jeste')
-            return true;
-        }else{
-            console.log('nije')
 
-            return false;
-        }
-    }
-
-
-
-export default withNavigation(withParams(ClientReservationView));
+export default withNavigation(withParams(ClientUpcomingReservationView));

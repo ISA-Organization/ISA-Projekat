@@ -285,12 +285,12 @@ class BoatToRent extends React.Component{
                                 <br></br>
                                
                                 <Form.Label htmlFor="startDate">Reservation start date:</Form.Label>
-                                <DatePicker name="startDate" selected={this.state.reservation.startDate} onChange={(e) => this.handleStartChange(e)}/>
+                                <DatePicker name="startDate" selected={this.state.reservation.startDate} minDate={new Date()} onChange={(e) => this.handleStartChange(e)}/>
                                 
                                     <Form.Label htmlFor="endDate">Reservation start date:</Form.Label>
                                     
                                     
-                                    <DatePicker name="endDate" selected={this.state.reservation.endDate} onChange={(e) => this.handleEndChange(e)}></DatePicker>
+                                    <DatePicker name="endDate" selected={this.state.reservation.endDate} minDate={this.state.reservation.startDate} onChange={(e) => this.handleEndChange(e)}></DatePicker>
                                     <Form.Label htmlFor="numberOfPeople">Number of people:</Form.Label>
                                 <Form.Control name="numberOfPeople" value={this.state.reservation.numberOfPeople} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 {this.state.user.type === 'CLIENT' ?

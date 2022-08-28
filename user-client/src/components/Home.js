@@ -51,9 +51,7 @@ class Home extends React.Component {
     </div>
     <div>
       {
-        role === 'CLIENT' ?
         <ClientEntityView/>
-        : null
       }
     </div>
     <div>

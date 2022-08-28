@@ -44,6 +44,7 @@ import CreateLoyaltyProgram from './components/admin/CreateLoyaltyProgram';
 import PenaltyList from './components/admin/PenaltyList';
 import BoatToRent from './components/client/BoatToRent';
 import AdventureToRent from './components/client/AdventureToRent';
+import ClientUpcomingReservationView from './components/reservation/ClientUpcomingReservationView';
 class App extends React.Component{
 
   isAccountApproved(){
@@ -123,9 +124,15 @@ class App extends React.Component{
                 </Nav.Link>
                 : null
               }
-                {role === 'CLIENT' && approved === 'true' ?
+              {role === 'CLIENT' && approved === 'true' ?
                 <Nav.Link as={Link} to="/client/reservationview">
                   Your reservations
+                </Nav.Link>
+                : null
+              }
+              {role === 'CLIENT' && approved === 'true' ?
+                <Nav.Link as={Link} to="/client/upcomingreservations">
+                  Upcoming reservations
                 </Nav.Link>
                 : null
               }
@@ -163,6 +170,7 @@ class App extends React.Component{
                 <Route path="/addNewTerm/:id" element={<AddAvailablePeriod/>}/>
                 <Route path="/clientProfileView/:id/:reservationId" element={<ClientProfileView/>}/>
                 <Route path="/boats/boattorent/:id" element={<BoatToRent/>}/>
+                <Route path='/client/upcomingreservations' element={<ClientUpcomingReservationView/>}/>
                 <Route path="/clientProfileView/:id" element={<ClientProfileView/>}/>
                 <Route path='/client/reservationview' element={<ClientReservationView/>}/>
                 <Route path="/houses/housetorent/:id" element={<HouseToRent/>}/>
