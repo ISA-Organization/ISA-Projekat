@@ -243,7 +243,7 @@ class BoatToRent extends React.Component{
                             <br></br>
                             <Form.Group>
                             <Form.Label htmlFor="engineNumber">Engine number:</Form.Label>
-                                <Form.Control name="engineNumber" value={this.state.boat.engineNumber} style={ {width: "100%", height: "20%"}} onChange={(e) => this.changeInputValue(e)}/>
+                                <Form.Control disabled readonly name="engineNumber" value={this.state.boat.engineNumber} style={ {width: "100%", height: "20%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 <br></br>
                                 <Form.Label htmlFor="enginePower">Engine power:</Form.Label>
                                 <Form.Control disabled readonly name="enginePower" value={this.state.boat.enginePower} style={ {width: "100%", height: "20%"}} onChange={(e) => this.changeInputValue(e)}/>

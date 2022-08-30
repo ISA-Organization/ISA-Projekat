@@ -5,7 +5,7 @@ import {Button, Form} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf'
 import { wait } from "@testing-library/user-event/dist/utils";
 
-class ClientUpcomingReservationView extends React.Component{
+class SpecialOffers extends React.Component{
 
     constructor(props){
         super(props)
@@ -26,7 +26,7 @@ class ClientUpcomingReservationView extends React.Component{
              type: ''
         }
         this.state = {
-             reservations: [],
+             specialOffers: [],
              user: user,
         }
     }
@@ -34,7 +34,7 @@ class ClientUpcomingReservationView extends React.Component{
    async componentDidMount(){
 
      await  this.getUser();
-        this.getReservations()
+        this.getSpecialOffers(this.props.params.id)
 
     }
     async getUser(){
@@ -51,56 +51,32 @@ class ClientUpcomingReservationView extends React.Component{
 			console.log(error);
 		  }
     }
-    getReservations(){
-        let id = this.state.user.id;
-        console.log(this.state.user)
-        Axios.get('/reservations/upcoming/')
+    getSpecialOffers(entityId){
+        Axios.get('/available/period/' + entityId)
             .then(res => {
-                this.setState({reservations: res.data})
-                console.log(this.state.reservations)
+                this.setState({specialOffers: res.data})
+                console.log(this.state.specialOffers)
             })
             .catch(err =>{
                 console.log(err)
             })
     }
 
-    goToEntityRating(id){
-        console.log(id)
-        this.props.navigate('/entity/rate/' + id)
-    }
-    goToComplaint(id){
-        console.log(id)
-        this.props.navigate('/entity/complaint/' + id)
-    }
-    cancelReservation(reservation){
-        Axios.delete('/reservations/'+ reservation)
-        .then(res => {
-            Axios.get('/reservations/upcoming/')
-            .then(res => {
-                this.setState({reservations: res.data})
-                console.log(this.state.reservations)
-            })
-            .catch(err =>{
-                console.log(err)
-            })
-        })
-        .catch(err =>{
-            console.log(err)
-            alert('Too late to cancel.')
-        })
+    makeReservation(offerId){
+
     }
 
-    renderReservations(){
-        return this.state.reservations.map((h) =>{
+    renderSpecialOffers(){
+        return this.state.specialOffers.map((h) =>{
             return(
                 <li class="list-group-item" key={h.id}>
                 <div class="media align-items-lg-center flex-column flex-lg-row p-3">
                     <div class="media-body order-2 order-lg-1">
-                        <h5 class="mt-0 font-weight-bold mb-2" style={{cursor:"pointer"}}><a>From {h.startDate} to {h.endDate}</a></h5>
-                        <p class="font-italic text-muted mb-0 small">Number of people: {h.numberOfPeople}</p>
+                        <h5 class="mt-0 font-weight-bold mb-2" style={{cursor:"pointer"}}><a>From {h.star} to {h.end}</a></h5>
+                        <p class="font-italic text-muted mb-0 small">Special prica: {h.specialPrice}</p>
                         <div class="d-flex align-items-center justify-content-between mt-1">
-                            <h6 class="font-weight-bold my-2">Price: ${h.price}</h6>
-                            <button type="button" class="btn btn-outline-primary" onClick={() => this.cancelReservation(h.id)}>Cancel</button>
+                            <h6 class="font-weight-bold my-2">Price: $</h6>
+                            <button type="button" class="btn btn-outline-primary" onClick={() => this.makeReservation(h.id)}>Make reservation</button>
                          </div>
                     </div>
                 </div> 
@@ -116,7 +92,7 @@ class ClientUpcomingReservationView extends React.Component{
             <div class="container py-5">
                 <div class="row text-center text-white mb-5">
                     <div class="col-lg-7 mx-auto">
-                        <h1 class="display-4" style={{color: "black"}}>Upcoming reservations</h1>
+                        <h1 class="display-4" style={{color: "black"}}>Special Offers</h1>
                     </div>
                 </div>
                 <div class="row">
@@ -130,7 +106,7 @@ class ClientUpcomingReservationView extends React.Component{
                         </div>
                         <br></br> */}
                         <ul class="list-group shadow">
-                            {this.renderReservations()}
+                            {this.renderSpecialOffers()}
                         </ul>
                     </div>
                 </div>
@@ -141,4 +117,4 @@ class ClientUpcomingReservationView extends React.Component{
 
 
 
-export default withNavigation(withParams(ClientUpcomingReservationView));
+export default withNavigation(withParams(SpecialOffers));

@@ -5,10 +5,10 @@ import com.example.isaprojekat.dto.DateRange;
 import com.example.isaprojekat.dto.ReservationDTO;
 import com.example.isaprojekat.dto.mapper.DTOToReservation;
 import com.example.isaprojekat.dto.mapper.ReservationToDTO;
-import com.example.isaprojekat.model.AdditionalContent;
-import com.example.isaprojekat.model.House;
-import com.example.isaprojekat.model.Reservation;
+import com.example.isaprojekat.model.*;
+import com.example.isaprojekat.service.ClientService;
 import com.example.isaprojekat.service.ReservationService;
+import com.example.isaprojekat.service.impl.JpaEmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,6 +30,10 @@ public class ReservationController {
     private DTOToReservation toReservation;
     @Autowired
     private ReservationToDTO toDTO;
+    @Autowired
+    private ClientService clientService;
+    @Autowired
+    private JpaEmailSender emailSender;
 
     //@PreAuthorize("hasAuthority('KORISNIK')")
     @PostMapping(path = "/book")
@@ -37,7 +41,16 @@ public class ReservationController {
         if(dto.getId() != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        Optional<Client> client = clientService.findOne(dto.getClientId());
+        if(client.get().getPenaltyNum() >= 3){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+
         Reservation reservation = reservationService.save(toReservation.convert(dto));
+        emailSender.sendSimpleMessage(client.get().getEmail(),"Successful reservation", "You have reserved: "
+                + reservation.getRentingEntity().getName() + "\nfrom: " + reservation.getStartDate() + "\nto: "
+                + reservation.getEndDate() + "\nfor: " + reservation.getNumberOfPeople() + " people.");
         return new ResponseEntity<>(toDTO.convert(reservation), HttpStatus.OK);
     }
 

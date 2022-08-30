@@ -194,7 +194,7 @@ public class JpaReservationService implements ReservationService{
     }
 
     private Boolean isPeriodFree(RentingEntity entity, LocalDate start, LocalDate end){
-        if(availablePeriodService.isPeriodFree(entity, start, end)){
+        //if(availablePeriodService.isPeriodFree(entity, start, end)){
             List<Reservation> reservations = reservationRepository.findAllByRentingEntityId(entity.getId());
             for(Reservation reservation : reservations){
 
@@ -202,18 +202,22 @@ public class JpaReservationService implements ReservationService{
                     continue;
                 }
 
-                if ((start.isAfter(reservation.getStartDate()) && start.isBefore(reservation.getEndDate())) ||
-                        (end.isAfter(reservation.getStartDate()) && end.isBefore(reservation.getEndDate()))){
+                if(start.isAfter(reservation.getStartDate()) && start.isBefore(reservation.getEndDate())){
                     return false;
                 }
-
+                if(end.isAfter(reservation.getStartDate()) && end.isBefore(reservation.getEndDate())){
+                    return false;
+                }
+                if(start.isEqual(reservation.getStartDate()) || end.isEqual(reservation.getEndDate())){
+                    return false;
+                }
                 if(start.isBefore(reservation.getStartDate()) && end.isAfter(reservation.getEndDate())){
                     return false;
                 }
             }
             return true;
-        }
-        return false;
+        //}
+        //return false;
     }
 
 }

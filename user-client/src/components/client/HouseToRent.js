@@ -128,6 +128,10 @@ class HouseToRent extends React.Component{
 		  }
     }
 
+    specialOffers(id){
+        this.props.navigate('/specialOffers/' + id);
+    }
+
     makeReservation(id){
         this.state.reservation.numberOfDays = this.getDifferenceInDays(this.state.reservation.startDate, this.state.reservation.endDate)
         this.state.reservation.price = this.state.house.price * this.state.reservation.numberOfDays;
@@ -227,6 +231,8 @@ class HouseToRent extends React.Component{
                                 <Form.Control name="numberOfPeople" value={this.state.reservation.numberOfPeople} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 {this.state.user.type === 'CLIENT' ?
                                [<Button onClick={() => this.makeReservation(this.state.house.id)}>Make reservation</Button>] : null}
+                               {this.state.user.type === 'CLIENT' ?
+                               [<Button onClick={() => this.specialOffers(this.state.house.id)}>Special offers</Button>] : null}
                             </Form.Group>      
                     </Col >               
             </Row>

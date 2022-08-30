@@ -112,7 +112,7 @@ class ClientProfile extends React.Component {
             <Form.Control name="surname" value={this.state.user.surname} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
             <br></br>
             <Form.Label htmlFor="email">Email:</Form.Label>
-            <Form.Control name="email" value={this.state.user.email} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+            <Form.Control name="email" disabled readonly value={this.state.user.email} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
             
             <br></br>
             <Form.Label htmlFor="address">Address:</Form.Label>

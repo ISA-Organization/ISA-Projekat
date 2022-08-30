@@ -215,26 +215,26 @@ class AdventureToRent extends React.Component{
                     <br></br>
                     <br></br>
                     <Form.Label htmlFor="name">Name:</Form.Label>
-                    <Form.Control name="name" value={this.state.adventure.name} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+                    <Form.Control disabled readonly name="name" value={this.state.adventure.name} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
                     <br></br>
                     <Form.Label htmlFor="address">Address:</Form.Label>
-                    <Form.Control name="address" value={this.state.adventure.address} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
+                    <Form.Control disabled readonly name="address" value={this.state.adventure.address} style={ {width: "100%"}} onChange={(e) => this.changeInputValue(e)}/>
                     
                     
                     <br></br>
                     <Form.Label htmlFor="price">Price:</Form.Label>
-                    <Form.Control name="price" value={this.state.adventure.price} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                    <Form.Control disabled readonly name="price" value={this.state.adventure.price} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
 
                       
                     <br></br>
                     <Form.Label htmlFor="fishingEquipment">Fishing equipment:</Form.Label>
-                    <Form.Control name="fishingEquipment" value={this.state.adventure.fishingEquipment} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                    <Form.Control disabled readonly name="fishingEquipment" value={this.state.adventure.fishingEquipment} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
                     <br></br>
                     <Form.Label htmlFor="maxNumberOfPeople">Max Number of People:</Form.Label>
-                    <Form.Control name="maxNumberOfPeople" value={this.state.adventure.maxNumberOfPeople} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                    <Form.Control disabled readonly name="maxNumberOfPeople" value={this.state.adventure.maxNumberOfPeople} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
                     <br></br>
                     <Form.Label htmlFor="cancellationPolicy">Cancellation policy:</Form.Label>
-                    <Form.Control name="cancellationPolicy" value={this.state.adventure.cancellationPolicy} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                    <Form.Control disabled readonly name="cancellationPolicy" value={this.state.adventure.cancellationPolicy} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
                     </Form.Group>
                 </Col>
                 <Col md={4}>
@@ -243,12 +243,11 @@ class AdventureToRent extends React.Component{
                             <br></br>
                             <Form.Group>
                             <Form.Label htmlFor="description">Description:</Form.Label>
-                                <Form.Control as="textarea" name="description" value={this.state.adventure.description} style={ {width: "100%", height: "20%"}} onChange={(e) => this.changeInputValue(e)}/>
+                                <Form.Control disabled readonly as="textarea" name="description" value={this.state.adventure.description} style={ {width: "100%", height: "20%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 <br></br>
                                 <Form.Label htmlFor="rules">Adventure rules:</Form.Label>
-                                <Form.Control as="textarea" name="rules" value={this.state.adventure.rules} style={ {width: "100%", height: "20%"}} onChange={(e) => this.changeInputValue(e)}/>
+                                <Form.Control disabled readonly as="textarea" name="rules" value={this.state.adventure.rules} style={ {width: "100%", height: "20%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 <br></br>
-                                <Form.Label htmlFor="additionalContent"><button type="button" class="btn btn-outline-light btn-sm" onClick={()=> this.goToAdditionalContent()}>+</button>     Additional content (price per day):</Form.Label>
                                 <ul class="list-group list-group-light list-group-small" style={{width: "100%"}}>
                                 {
                                     this.state.additionalContent.map((c) => {
