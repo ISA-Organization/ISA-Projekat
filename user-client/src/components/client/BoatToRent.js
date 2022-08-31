@@ -157,6 +157,10 @@ class BoatToRent extends React.Component{
          this.setState({reservation: reservation})
          console.log(reservation)
      }
+
+     specialOffers(id){
+        this.props.navigate('/boat/specialOffers/' + id);
+    }
  
      makeReservation(id){
          this.state.reservation.numberOfDays = this.getDifferenceInDays(this.state.reservation.startDate, this.state.reservation.endDate)
@@ -293,8 +297,12 @@ class BoatToRent extends React.Component{
                                     <DatePicker name="endDate" selected={this.state.reservation.endDate} minDate={this.state.reservation.startDate} onChange={(e) => this.handleEndChange(e)}></DatePicker>
                                     <Form.Label htmlFor="numberOfPeople">Number of people:</Form.Label>
                                 <Form.Control name="numberOfPeople" value={this.state.reservation.numberOfPeople} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                                <br></br>
+
                                 {this.state.user.type === 'CLIENT' ?
-                               [<Button onClick={() => this.makeReservation(this.state.boat.id)}>Make reservation</Button>] : null}                
+                                [<Button onClick={() => this.makeReservation(this.state.boat.id)}>Make reservation</Button>] : null} 
+                                {this.state.user.type === 'CLIENT' ?
+                                [<Button style={ {marginTop:"10%"}} onClick={() => this.specialOffers(this.state.boat.id)}>Special offers</Button>] : null}               
                             </Form.Group>
                             
                     </Col >

@@ -18,6 +18,7 @@ class AdventureToRent extends React.Component{
             name: "",
             address: "",
             description: "",
+            instructorId:"",
             fishingEquipment: "",
             rules: "",
             price: 0,
@@ -146,6 +147,10 @@ class AdventureToRent extends React.Component{
          this.setState({reservation: reservation})
          console.log(reservation)
      }
+
+     specialOffers(id){
+        this.props.navigate('/adventure/specialOffers/' + id);
+    }
  
      makeReservation(id){
          this.state.reservation.numberOfDays = this.getDifferenceInDays(this.state.reservation.startDate, this.state.reservation.endDate)
@@ -155,7 +160,7 @@ class AdventureToRent extends React.Component{
          
  
          let reser = this.state.reservation
-         reser.ownerId = this.state.adventure.boatOwnerId
+         reser.ownerId = this.state.adventure.instructorId
          this.setState({reservation: reser})
          console.log(this.state)
          if(this.state.adventure.maxNumberOfPeople >= this.state.reservation.numberOfPeople){
@@ -269,8 +274,12 @@ class AdventureToRent extends React.Component{
                                     <DatePicker name="endDate" selected={this.state.reservation.endDate} minDate={this.state.reservation.startDate} onChange={(e) => this.handleEndChange(e)}></DatePicker>
                                     <Form.Label htmlFor="numberOfPeople">Number of people:</Form.Label>
                                 <Form.Control name="numberOfPeople" value={this.state.reservation.numberOfPeople} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                                <br></br>
+                                
                                 {this.state.user.type === 'CLIENT' ?
-                               [<Button onClick={() => this.makeReservation(this.state.adventure.id)}>Make reservation</Button>] : null}
+                                [<Button onClick={() => this.makeReservation(this.state.adventure.id)}>Make reservation</Button>] : null}
+                                {this.state.user.type === 'CLIENT' ?
+                                [<Button style={ {marginLeft:"10%"}} onClick={() => this.specialOffers(this.state.adventure.id)}>Special offers</Button>] : null}
                                 </Form.Group>     
                     </Col >                
             </Row>

@@ -5,7 +5,7 @@ import {Button, Form} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf'
 import { wait } from "@testing-library/user-event/dist/utils";
 
-class SpecialOffers extends React.Component{
+class AdvnetureSpecialOffers extends React.Component{
 
     constructor(props){
         super(props)
@@ -14,6 +14,20 @@ class SpecialOffers extends React.Component{
         //     name: "",
         //     price: -1
         // }
+
+        let adventure = {
+            id: -1,
+            name: "",
+            address: "",
+            description: "",
+            instructorId:"",
+            fishingEquipment: "",
+            rules: "",
+            price: 0,
+            latitude: 0, 
+            longitude: 0,
+            pictures: []
+        }
         let user = {
             id: 0,
             address: '',
@@ -25,9 +39,22 @@ class SpecialOffers extends React.Component{
              approved : false,
              type: ''
         }
+        let reservation = {
+            startDate: new Date(),
+            endDate: new Date(),
+            numberOfPeople: 0,
+            numberOfDays: 0,
+            price: 0.0,
+            cancelled: false,
+            entityId: -1,
+            clientId: -1,
+            ownerId: -1
+        }
         this.state = {
              specialOffers: [],
              user: user,
+             adventure: adventure,
+             reservation: reservation
         }
     }
 
@@ -35,6 +62,7 @@ class SpecialOffers extends React.Component{
 
      await  this.getUser();
         this.getSpecialOffers(this.props.params.id)
+        this.getAdventureById(this.props.params.id)
 
     }
     async getUser(){
@@ -52,7 +80,7 @@ class SpecialOffers extends React.Component{
 		  }
     }
     getSpecialOffers(entityId){
-        Axios.get('/available/period/' + entityId)
+        Axios.get('/available/period/specialOffers/' + entityId)
             .then(res => {
                 this.setState({specialOffers: res.data})
                 console.log(this.state.specialOffers)
@@ -61,9 +89,53 @@ class SpecialOffers extends React.Component{
                 console.log(err)
             })
     }
+    getAdventureById(id){
 
-    makeReservation(offerId){
+        Axios.get('/adventures/' + id)
+            .then(res => {
+                console.log(res.data)
+                this.setState({adventure: res.data})
+                
+                console.log(this.state.adventure)
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+    }
 
+    makeReservation(s){
+        var selected = this.state.specialOffers.find(el => el.id = s.id)
+        console.log(selected)
+        this.state.reservation.startDate = new Date(selected.start)
+        this.state.reservation.endDate = new Date(selected.end)
+        this.state.reservation.numberOfDays = this.getDifferenceInDays(this.state.reservation.startDate, this.state.reservation.endDate)
+        this.state.reservation.price = selected.specialPrice
+        this.state.reservation.entityId = this.state.adventure.id
+        this.state.reservation.clientId = this.state.user.id
+        this.state.reservation.numberOfPeople = this.state.adventure.maxNumberOfPeople
+        
+        console.log(this.state.reservation)
+        let reser = this.state.reservation
+        reser.ownerId = this.state.adventure.instructorId
+        this.setState({reservation: reser})
+
+        Axios.post('/reservations/book' , this.state.reservation)
+            .then( res =>{
+                alert('Successfully made a reservation!')
+                this.props.navigate('/adventures/adventuretorent/' + this.state.adventure.id)
+    
+    
+            }).catch(err =>{
+                console.log(err)
+                alert('Failed to reserve entity')
+            })
+
+    }
+
+    getDifferenceInDays(date1, date2){
+        console.log(date1, date2)
+        const diffInMs = Math.abs(date2 - date1);
+        return Math.round(diffInMs / (1000 * 60 * 60 * 24));
     }
 
     renderSpecialOffers(){
@@ -72,11 +144,12 @@ class SpecialOffers extends React.Component{
                 <li class="list-group-item" key={h.id}>
                 <div class="media align-items-lg-center flex-column flex-lg-row p-3">
                     <div class="media-body order-2 order-lg-1">
-                        <h5 class="mt-0 font-weight-bold mb-2" style={{cursor:"pointer"}}><a>From {h.star} to {h.end}</a></h5>
-                        <p class="font-italic text-muted mb-0 small">Special prica: {h.specialPrice}</p>
+                        <h5 class="mt-0 font-weight-bold mb-2" style={{cursor:"pointer"}}><a>From {h.start} to {h.end}</a></h5>
+                        <h6 class="font-italic my-2">Number of people: {this.state.adventure.maxNumberOfPeople}</h6>
+                        <p class="font-italic text-muted mb-0 small">Regular price: {this.state.adventure.price}$</p>
                         <div class="d-flex align-items-center justify-content-between mt-1">
-                            <h6 class="font-weight-bold my-2">Price: $</h6>
-                            <button type="button" class="btn btn-outline-primary" onClick={() => this.makeReservation(h.id)}>Make reservation</button>
+                            <h5 class="font-weight-bold my-2">Special Price: {h.specialPrice}$</h5>
+                            <button type="button" class="btn btn-outline-primary" onClick={() => this.makeReservation(h)}>Make reservation</button>
                          </div>
                     </div>
                 </div> 
@@ -117,4 +190,4 @@ class SpecialOffers extends React.Component{
 
 
 
-export default withNavigation(withParams(SpecialOffers));
+export default withNavigation(withParams(AdvnetureSpecialOffers));

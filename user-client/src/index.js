@@ -45,7 +45,9 @@ import PenaltyList from './components/admin/PenaltyList';
 import BoatToRent from './components/client/BoatToRent';
 import AdventureToRent from './components/client/AdventureToRent';
 import ClientUpcomingReservationView from './components/reservation/ClientUpcomingReservationView';
-import SpecialOffers from './components/client/SpecialOffers';
+import HouseSpecialOffers from './components/client/HouseSpecialOffers';
+import BoatSpecialOffers from './components/client/BoatSpecialOffers';
+import AdventureSpecialOffers from './components/client/AdventureSpecialOffers';
 class App extends React.Component{
 
   isAccountApproved(){
@@ -169,7 +171,9 @@ class App extends React.Component{
                 <Route path="/newadmin" element={<NewAdmin/>}/>
                 <Route path="/changepass" element={<FirstAdminLogin/>}/>
                 <Route path="/addNewTerm/:id" element={<AddAvailablePeriod/>}/>
-                <Route path="/specialOffers/:id" element={<SpecialOffers/>}/>
+                <Route path="/house/specialOffers/:id/" element={<HouseSpecialOffers/>}/>
+                <Route path="/boat/specialOffers/:id/" element={<BoatSpecialOffers/>}/>
+                <Route path="/adventure/specialOffers/:id/" element={<AdventureSpecialOffers/>}/>
                 <Route path="/clientProfileView/:id/:reservationId" element={<ClientProfileView/>}/>
                 <Route path="/boats/boattorent/:id" element={<BoatToRent/>}/>
                 <Route path='/client/upcomingreservations' element={<ClientUpcomingReservationView/>}/>

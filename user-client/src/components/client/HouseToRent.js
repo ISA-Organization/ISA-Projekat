@@ -51,7 +51,8 @@ class HouseToRent extends React.Component{
             reservation: reservation,
              house: house,
              user: user,
-             additionalContent: []
+             additionalContent: [],
+             selected: []
         }
     }
 
@@ -129,7 +130,7 @@ class HouseToRent extends React.Component{
     }
 
     specialOffers(id){
-        this.props.navigate('/specialOffers/' + id);
+        this.props.navigate('/house/specialOffers/' + id);
     }
 
     makeReservation(id){
@@ -161,10 +162,12 @@ class HouseToRent extends React.Component{
         }
 
     }
+
     getDifferenceInDays(date1, date2){
         const diffInMs = Math.abs(date2 - date1);
         return Math.round(diffInMs / (1000 * 60 * 60 * 24));
     }
+
     render(){
         return(
             <Row className="justify-content-center">
@@ -213,7 +216,7 @@ class HouseToRent extends React.Component{
                                     this.state.additionalContent.map((c) => {
                                         return (
                                             // <ListGroup.Item width="100">{c.name} {c.price}$</ListGroup.Item>
-                                            <li class="list-group-item">{c.name} {c.price}$</li>
+                                            <li class="list-group-item list-group-item-action">{c.name} {c.price}$</li>
                                         )
                                     })
                                 }
@@ -222,17 +225,16 @@ class HouseToRent extends React.Component{
                                
                                 <Form.Label htmlFor="startDate">Reservation start date:</Form.Label>
                                 <DatePicker name="startDate" selected={this.state.reservation.startDate}  onChange={(e) => this.handleStartChange(e)}/>
-                                
-                                    <Form.Label htmlFor="endDate">Reservation start date:</Form.Label>
-                                    
-                                    
-                                    <DatePicker name="endDate" selected={this.state.reservation.endDate} minDate={this.state.reservation.startDate} onChange={(e) => this.handleEndChange(e)}></DatePicker>
-                                    <Form.Label htmlFor="numberOfPeople">Number of people:</Form.Label>
+                                <Form.Label htmlFor="endDate">Reservation start date:</Form.Label>
+                                <DatePicker name="endDate" selected={this.state.reservation.endDate} minDate={this.state.reservation.startDate} onChange={(e) => this.handleEndChange(e)}></DatePicker>
+                                <Form.Label htmlFor="numberOfPeople">Number of people:</Form.Label>
                                 <Form.Control name="numberOfPeople" value={this.state.reservation.numberOfPeople} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
+                                <br></br>
+
                                 {this.state.user.type === 'CLIENT' ?
-                               [<Button onClick={() => this.makeReservation(this.state.house.id)}>Make reservation</Button>] : null}
-                               {this.state.user.type === 'CLIENT' ?
-                               [<Button onClick={() => this.specialOffers(this.state.house.id)}>Special offers</Button>] : null}
+                                [<Button onClick={() => this.makeReservation(this.state.house.id)}>Make reservation</Button>] : null}
+                                {this.state.user.type === 'CLIENT' ?
+                                [<Button style={ {marginLeft:"10%"}} onClick={() => this.specialOffers(this.state.house.id)}>Special offers</Button>] : null}
                             </Form.Group>      
                     </Col >               
             </Row>
