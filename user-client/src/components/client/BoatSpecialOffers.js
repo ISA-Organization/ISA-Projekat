@@ -130,10 +130,9 @@ class BoatSpecialOffers extends React.Component{
 
         Axios.post('/reservations/book' , this.state.reservation)
             .then( res =>{
+                Axios.delete('/available/period/' + selected.id).then(res =>{console.log(res)}).catch(err =>{console.log(err)})
                 alert('Successfully made a reservation!')
                 this.props.navigate('/boats/boattorent/' + this.state.boat.id)
-    
-    
             }).catch(err =>{
                 console.log(err)
                 alert('Failed to reserve entity')
