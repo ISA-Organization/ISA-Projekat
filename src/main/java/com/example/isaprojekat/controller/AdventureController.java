@@ -2,15 +2,14 @@ package com.example.isaprojekat.controller;
 
 
 import com.example.isaprojekat.dto.AdventureDTO;
+import com.example.isaprojekat.dto.BoatDTO;
 import com.example.isaprojekat.dto.HouseDTO;
 import com.example.isaprojekat.dto.mapper.AdventureToDTO;
 import com.example.isaprojekat.dto.mapper.DTOToAdventure;
-import com.example.isaprojekat.model.Adventure;
-import com.example.isaprojekat.model.House;
-import com.example.isaprojekat.model.Instructor;
-import com.example.isaprojekat.model.Picture;
+import com.example.isaprojekat.model.*;
 import com.example.isaprojekat.repository.PictureRepository;
 import com.example.isaprojekat.service.AdventureService;
+import com.example.isaprojekat.service.ClientService;
 import com.example.isaprojekat.service.PictureService;
 import com.example.isaprojekat.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -42,6 +41,8 @@ public class AdventureController {
     PictureService pictureService;
     @Autowired
     PictureRepository pictureRepository;
+    @Autowired
+    private ClientService clientService;
 
     @GetMapping(value={"/{id}"})
     public ResponseEntity<AdventureDTO> get(@PathVariable Long id){
@@ -154,6 +155,23 @@ public class AdventureController {
         List<AdventureDTO> dtos = adventures.stream().map(adventure -> modelMapper.map(adventure, AdventureDTO.class)).collect(Collectors.toList());
         return new ResponseEntity<>(dtos, HttpStatus.OK);
 
+    }
+
+    @GetMapping("/subscribed/{id}")
+    public ResponseEntity<List<AdventureDTO>> getSubscribed(@PathVariable Long id){
+        Optional<Client> client = clientService.findOne(id);
+
+        Set<RentingEntity> subs = client.get().getSubscriptions();
+        List<Adventure> adventures = new ArrayList<>();
+        for (RentingEntity r : subs){
+            if(r.getRentingEntityType() == RentingEntityType.ADVENTURE){
+                Optional<Adventure> adventure = adventureService.findOne(r.getId());
+                adventures.add(adventure.get());
+            }
+        }
+        List<AdventureDTO> adventureDTOS = toAdventureDTO.convert(adventures);
+
+        return new ResponseEntity<>(adventureDTOS, HttpStatus.OK);
     }
 
 

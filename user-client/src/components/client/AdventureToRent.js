@@ -48,12 +48,14 @@ class AdventureToRent extends React.Component{
              approved : false,
              type: ''
         }
+        let subscribed = false;
 
         this.state = {
             adventure: adventure,
             user: user,
             additionalContent: [],
-            reservation: reservation
+            reservation: reservation,
+            subscribed: subscribed
         }
     }
 
@@ -95,6 +97,7 @@ class AdventureToRent extends React.Component{
 			this.setState({
 				user: result.data
 			});
+            this.check()
 		  }
 		  catch (error){
 			console.log(error);
@@ -150,6 +153,41 @@ class AdventureToRent extends React.Component{
 
      specialOffers(id){
         this.props.navigate('/adventure/specialOffers/' + id);
+    }
+
+    check(){
+        Axios.get('/subscriptions/check/' + this.state.user.id + '/' + this.props.params.id)
+            .then( res =>{
+                this.setState({subscribed: true})
+                console.log(this.state.subscribed)
+            }).catch(err =>{
+                console.log(err)
+                this.setState({subscribed: false})
+            })
+    }
+
+    subscribe(id){
+        Axios.get('/subscriptions/' + this.state.user.id + '/' + this.state.adventure.id)
+            .then( res =>{
+                alert('Successfully subscribed!')
+                this.setState({subscribed: true})
+                console.log(this.state.subscribed)
+            }).catch(err =>{
+                console.log(err)
+                alert('Failed to subscribe')
+            })
+    }
+
+    unsubscribe(id){
+        Axios.delete('/subscriptions/' + this.state.user.id + '/' + this.state.adventure.id)
+            .then( res =>{
+                alert('Successfully unsubscribed!')
+                this.setState({subscribed: false})
+                console.log(this.state.subscribed)
+            }).catch(err =>{
+                console.log(err)
+                alert('Failed to unsubscribe')
+            })
     }
  
      makeReservation(id){
@@ -212,6 +250,11 @@ class AdventureToRent extends React.Component{
                         }
                     </Carousel>                    
                     <MapContainer lat={this.state.adventure.latitude} lng={this.state.adventure.longitude}></MapContainer>
+                    <br></br>
+                    {this.state.user.type === 'CLIENT' && !this.state.subscribed ?
+                    [<Button onClick={() => this.subscribe(this.state.adventure.id)}>Subscribe</Button>] : null}
+                    {this.state.user.type === 'CLIENT' && this.state.subscribed ?
+                    [<button class="btn btn-danger" onClick={() => this.unsubscribe(this.state.adventure.id)}>Unsubscribe</button>] : null}
                 </Col>
 
                 <Col md={4}>

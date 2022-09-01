@@ -45,6 +45,7 @@ class HouseToRent extends React.Component{
              approved : false,
              type: ''
         }
+        let subscribed = false;
 
         this.state = {
    
@@ -52,7 +53,8 @@ class HouseToRent extends React.Component{
              house: house,
              user: user,
              additionalContent: [],
-             selected: []
+             selected: [],
+             subscribed : subscribed
         }
     }
 
@@ -123,6 +125,7 @@ class HouseToRent extends React.Component{
 			this.setState({
 				user: result.data
 			});
+            this.check()
 		  }
 		  catch (error){
 			console.log(error);
@@ -131,6 +134,41 @@ class HouseToRent extends React.Component{
 
     specialOffers(id){
         this.props.navigate('/house/specialOffers/' + id);
+    }
+
+    check(){
+        Axios.get('/subscriptions/check/' + this.state.user.id + '/' + this.props.params.id)
+            .then( res =>{
+                this.setState({subscribed: true})
+                console.log(this.state.subscribed)
+            }).catch(err =>{
+                console.log(err)
+                this.setState({subscribed: false})
+            })
+    }
+
+    subscribe(id){
+        Axios.get('/subscriptions/' + this.state.user.id + '/' + this.state.house.id)
+            .then( res =>{
+                alert('Successfully subscribed!')
+                this.setState({subscribed: true})
+                console.log(this.state.subscribed)
+            }).catch(err =>{
+                console.log(err)
+                alert('Failed to subscribe')
+            })
+    }
+
+    unsubscribe(id){
+        Axios.delete('/subscriptions/' + this.state.user.id + '/' + this.state.house.id)
+            .then( res =>{
+                alert('Successfully unsubscribed!')
+                this.setState({subscribed: false})
+                console.log(this.state.subscribed)
+            }).catch(err =>{
+                console.log(err)
+                alert('Failed to unsubscribe')
+            })
     }
 
     makeReservation(id){
@@ -176,6 +214,11 @@ class HouseToRent extends React.Component{
                     <br></br>
                     <img style={{width: "90%", height:"30%", borderRadius: "8px"}} src={require('../../images/homePage.jpg')} alt="Image placeholder"/>
                     <MapContainer lat={this.state.house.latitude} lng={this.state.house.longitude}></MapContainer>
+                    <br></br>
+                    {this.state.user.type === 'CLIENT' && !this.state.subscribed ?
+                    [<Button onClick={() => this.subscribe(this.state.house.id)}>Subscribe</Button>] : null}
+                    {this.state.user.type === 'CLIENT' && this.state.subscribed ?
+                    [<button class="btn btn-danger" onClick={() => this.unsubscribe(this.state.house.id)}>Unsubscribe</button>] : null}
                 </Col>
 
                 <Col md={4}>
@@ -224,7 +267,7 @@ class HouseToRent extends React.Component{
                                 <br></br>
                                
                                 <Form.Label htmlFor="startDate">Reservation start date:</Form.Label>
-                                <DatePicker name="startDate" selected={this.state.reservation.startDate}  onChange={(e) => this.handleStartChange(e)}/>
+                                <DatePicker name="startDate" selected={this.state.reservation.startDate} minDate={new Date()} onChange={(e) => this.handleStartChange(e)}/>
                                 <Form.Label htmlFor="endDate">Reservation start date:</Form.Label>
                                 <DatePicker name="endDate" selected={this.state.reservation.endDate} minDate={this.state.reservation.startDate} onChange={(e) => this.handleEndChange(e)}></DatePicker>
                                 <Form.Label htmlFor="numberOfPeople">Number of people:</Form.Label>

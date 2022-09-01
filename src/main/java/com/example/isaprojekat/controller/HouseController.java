@@ -1,14 +1,14 @@
 package com.example.isaprojekat.controller;
 
 import com.example.isaprojekat.dto.AvailablePeriodDTO;
+import com.example.isaprojekat.dto.BoatDTO;
 import com.example.isaprojekat.dto.HouseDTO;
 import com.example.isaprojekat.dto.mapper.AvailablePeriodToDTO;
 import com.example.isaprojekat.dto.mapper.DTOToHouse;
 import com.example.isaprojekat.dto.mapper.HouseToDTO;
-import com.example.isaprojekat.model.AvailablePeriod;
-import com.example.isaprojekat.model.House;
-import com.example.isaprojekat.model.Picture;
+import com.example.isaprojekat.model.*;
 import com.example.isaprojekat.repository.PictureRepository;
+import com.example.isaprojekat.service.ClientService;
 import com.example.isaprojekat.service.HouseService;
 import com.example.isaprojekat.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,9 @@ public class HouseController {
     PictureService pictureService;
     @Autowired
     PictureRepository pictureRepository;
+    @Autowired
+    private ClientService clientService;
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HouseDTO> create(@Valid @RequestBody HouseDTO dto){
         if(dto.getId() != null) {
@@ -146,6 +149,23 @@ public class HouseController {
             }
             dto.setPictures(pictureBase64);
         }
+        return new ResponseEntity<>(houseDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping("/subscribed/{id}")
+    public ResponseEntity<List<HouseDTO>> getSubscribed(@PathVariable Long id){
+        Optional<Client> client = clientService.findOne(id);
+
+        Set<RentingEntity> subs = client.get().getSubscriptions();
+        List<House> houses = new ArrayList<>();
+        for (RentingEntity r : subs){
+            if(r.getRentingEntityType() == RentingEntityType.HOUSE){
+                Optional<House> house = houseService.findOne(r.getId());
+                houses.add(house.get());
+            }
+        }
+        List<HouseDTO> houseDTOS = toHouseDTO.convert(houses);
+
         return new ResponseEntity<>(houseDTOS, HttpStatus.OK);
     }
 }

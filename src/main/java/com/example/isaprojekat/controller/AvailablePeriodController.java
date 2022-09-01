@@ -69,7 +69,7 @@ public class AvailablePeriodController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(value="/{id}")
     public ResponseEntity<AvailablePeriodDTO> delete(@PathVariable Long id){
         AvailablePeriod deleted = service.delete(id);
 

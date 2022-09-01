@@ -20,11 +20,19 @@ public class Client extends  User{
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private Set<Reservation> reservations = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(
+            name= "subscriptions",
+            joinColumns = {@JoinColumn(name = "client_id")},
+            inverseJoinColumns = {@JoinColumn(name = "entityId")})
+    private Set<RentingEntity> subscriptions = new HashSet<>();
+
 
     public Client(Long id, String firstName, String surname, String address, String city, String phoneNumber, String email, String password,
                   Boolean is_approved, Boolean isDeleted, int penaltyNum) {
         super(id, firstName, surname, address, city, phoneNumber, email, password, is_approved, UserType.CLIENT, isDeleted);
         this.reservations = new HashSet<>();
+        this.subscriptions = new HashSet<>();
         this.penaltyNum = penaltyNum;
     }
 }

@@ -1,14 +1,12 @@
 package com.example.isaprojekat.controller;
 
 import com.example.isaprojekat.dto.BoatDTO;
-import com.example.isaprojekat.dto.HouseDTO;
 import com.example.isaprojekat.dto.mapper.BoatToDTO;
 import com.example.isaprojekat.dto.mapper.DTOToBoat;
-import com.example.isaprojekat.model.Boat;
-import com.example.isaprojekat.model.House;
-import com.example.isaprojekat.model.Picture;
+import com.example.isaprojekat.model.*;
 import com.example.isaprojekat.repository.PictureRepository;
 import com.example.isaprojekat.service.BoatService;
+import com.example.isaprojekat.service.ClientService;
 import com.example.isaprojekat.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/api/boats", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -35,6 +30,8 @@ public class BoatController {
     PictureService pictureService;
     @Autowired
     PictureRepository pictureRepository;
+    @Autowired
+    private ClientService clientService;
 
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -118,6 +115,23 @@ public class BoatController {
             }
             dto.setPictures(pictureBase64);
         }
+
+        return new ResponseEntity<>(boatDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping("/subscribed/{id}")
+    public ResponseEntity<List<BoatDTO>> getSubscribed(@PathVariable Long id){
+        Optional<Client> client = clientService.findOne(id);
+
+        Set<RentingEntity> subs = client.get().getSubscriptions();
+        List<Boat> boats = new ArrayList<>();
+        for (RentingEntity r : subs){
+            if(r.getRentingEntityType() == RentingEntityType.BOAT){
+                Optional<Boat> boat = boatService.findOne(r.getId());
+                boats.add(boat.get());
+            }
+        }
+        List<BoatDTO> boatDTOS = toDTO.convert(boats);
 
         return new ResponseEntity<>(boatDTOS, HttpStatus.OK);
     }

@@ -3,14 +3,9 @@ import Axios from '../../utils/Axios'
 import {Button, Form} from 'react-bootstrap';
 import {withParams, withNavigation} from '../../utils/routeconf'
 
-class ClientEntityView extends React.Component{
+class SubscriptionsView extends React.Component{
     constructor(props){
         super(props)
-
-        let search = {
-            name: "",
-            price: -1
-        }
 
         let user = {
             id: 0,
@@ -28,7 +23,6 @@ class ClientEntityView extends React.Component{
              houses: [],
              boats: [],
              adventures: [],
-             search: search,
              user: user
         }
     }
@@ -42,20 +36,8 @@ class ClientEntityView extends React.Component{
 
     }
     async getAdventures(){
-        let config = { params: {
-        } }
-    
-  
-      if (this.state.search.name != "") {
-          config.params.name = this.state.search.name;
-        }
-    
-        if (this.state.search.price != -1) {
-          config.params.price = this.state.search.price;
-        }
-        config.params.ownerId = null;
 
-      Axios.get('/adventures', config)
+      Axios.get('/adventures/subscribed/' + this.state.user.id)
           .then(res => {
               this.setState({adventures: res.data})
               console.log(this.state.adventures)
@@ -65,20 +47,7 @@ class ClientEntityView extends React.Component{
           })
     }
     async getBoats(){
-        let config = { params: {
-        } }
-    
-  
-      if (this.state.search.name != "") {
-          config.params.name = this.state.search.name;
-        }
-    
-        if (this.state.search.price != -1) {
-          config.params.price = this.state.search.price;
-        }
-        config.params.ownerId = null;
-
-      Axios.get('/boats', config)
+      Axios.get('/boats/subscribed/' + this.state.user.id)
           .then(res => {
               this.setState({boats: res.data})
               console.log(this.state.boats)
@@ -103,21 +72,7 @@ class ClientEntityView extends React.Component{
     }
 
     getHouses(){
-
-        let config = { params: {
-          } }
-      
-    
-        if (this.state.search.name != "") {
-            config.params.name = this.state.search.name;
-          }
-      
-          if (this.state.search.price != -1) {
-            config.params.price = this.state.search.price;
-          }
-          config.params.ownerId = null;
-
-        Axios.get('/houses', config)
+        Axios.get('/houses/subscribed/' + this.state.user.id)
             .then(res => {
                 this.setState({houses: res.data})
                 console.log(this.state.houses)
@@ -141,19 +96,6 @@ class ClientEntityView extends React.Component{
         window.location.reload()
     }
 
-    changeInputValue(e){
-        const name = e.target.name
-        const value = e.target.value
-  
-        let search = this.state.search
-  
-        search[name] = value
-        this.setState({search: search})
-        console.log(this.state.search)
-        this.getHouses()
-        this.getBoats()
-        this.getAdventures()
-    }
     renderBoats(){
         return this.state.boats.map((b) =>{
             return(
@@ -232,17 +174,11 @@ class ClientEntityView extends React.Component{
             <div class="container py-5">
                 <div class="row text-center text-white mb-5">
                     <div class="col-lg-7 mx-auto">
-                        <h1 class="display-4" style={{color: "black"}}>Available entities</h1>
+                        <h1 class="display-4" style={{color: "black"}}>Your subscriptions</h1>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
-                        <div className="form-inline">
-                            <Form.Label style={{marginRight: "2%"}}>Name:</Form.Label>
-                            <Form.Control name="name" placeholder="Search by name" style={{width: "25%", marginRight: "2%"}} onChange={(e)=>this.changeInputValue(e)}></Form.Control>
-                            <Form.Label style={{marginRight: "2%"}}>Max price:</Form.Label>
-                            <Form.Control name="price" placeholder="Search by price" style={{width: "25%"}} onChange={(e)=>this.changeInputValue(e)}></Form.Control>
-                        </div>
                         <br></br>
                         <div><h5>Houses:</h5></div>
                         <ul class="list-group shadow">
@@ -265,4 +201,4 @@ class ClientEntityView extends React.Component{
     }
 }
 
-export default withNavigation(withParams(ClientEntityView));
+export default withNavigation(withParams(SubscriptionsView));

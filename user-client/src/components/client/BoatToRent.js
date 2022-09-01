@@ -57,20 +57,21 @@ class BoatToRent extends React.Component{
              approved : false,
              type: ''
         }
-
+        let subscribed = false;
 
         this.state = {
              boat: boat,
              user: user,
              additionalContent: [],
-             reservation: reservation
+             reservation: reservation,
+             subscribed: subscribed
         }
     }
     setToImage(image){
             return "data:image/png;base64," + image;
-          }
-    componentDidMount(){
+    }
 
+    componentDidMount(){
          this.getBoatById(this.props.params.id)
          this.getAdditionalContentByBoatId(this.props.params.id)
          this.getClientId()
@@ -107,6 +108,7 @@ class BoatToRent extends React.Component{
 			this.setState({
 				user: result.data
 			});
+            this.check()
 		  }
 		  catch (error){
 			console.log(error);
@@ -160,6 +162,41 @@ class BoatToRent extends React.Component{
 
      specialOffers(id){
         this.props.navigate('/boat/specialOffers/' + id);
+    }
+
+    check(){
+        Axios.get('/subscriptions/check/' + this.state.user.id + '/' + this.props.params.id)
+            .then( res =>{
+                this.setState({subscribed: true})
+                console.log(this.state.subscribed)
+            }).catch(err =>{
+                console.log(err)
+                this.setState({subscribed: false})
+            })
+    }
+
+    subscribe(id){
+        Axios.get('/subscriptions/' + this.state.user.id + '/' + this.state.boat.id)
+            .then( res =>{
+                alert('Successfully subscribed!')
+                this.setState({subscribed: true})
+                console.log(this.state.subscribed)
+            }).catch(err =>{
+                console.log(err)
+                alert('Failed to subscribe')
+            })
+    }
+
+    unsubscribe(id){
+        Axios.delete('/subscriptions/' + this.state.user.id + '/' + this.state.boat.id)
+            .then( res =>{
+                alert('Successfully unsubscribed!')
+                this.setState({subscribed: false})
+                console.log(this.state.subscribed)
+            }).catch(err =>{
+                console.log(err)
+                alert('Failed to unsubscribe')
+            })
     }
  
      makeReservation(id){
@@ -215,7 +252,12 @@ class BoatToRent extends React.Component{
                             })
                         }
                     </Carousel>
-                                       <MapContainer lat={this.state.boat.latitude} lng={this.state.boat.longitude}></MapContainer>
+                    <MapContainer lat={this.state.boat.latitude} lng={this.state.boat.longitude}></MapContainer>
+                    <br></br>
+                    {this.state.user.type === 'CLIENT' && !this.state.subscribed ?
+                    [<Button onClick={() => this.subscribe(this.state.boat.id)}>Subscribe</Button>] : null}
+                    {this.state.user.type === 'CLIENT' && this.state.subscribed ?
+                    [<button class="btn btn-danger" onClick={() => this.unsubscribe(this.state.boat.id)}>Unsubscribe</button>] : null}
                 </Col>
 
                 <Col md={3}>

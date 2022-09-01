@@ -48,6 +48,7 @@ import ClientUpcomingReservationView from './components/reservation/ClientUpcomi
 import HouseSpecialOffers from './components/client/HouseSpecialOffers';
 import BoatSpecialOffers from './components/client/BoatSpecialOffers';
 import AdventureSpecialOffers from './components/client/AdventureSpecialOffers';
+import SubsciptionsView from './components/client/SubsciptionsView';
 class App extends React.Component{
 
   isAccountApproved(){
@@ -128,6 +129,12 @@ class App extends React.Component{
                 : null
               }
               {role === 'CLIENT' && approved === 'true' ?
+                <Nav.Link as={Link} to="/client/subscriptions">
+                  Subscriptions
+                </Nav.Link>
+                : null
+              }
+              {role === 'CLIENT' && approved === 'true' ?
                 <Nav.Link as={Link} to="/client/reservationview">
                   Your reservations
                 </Nav.Link>
@@ -176,6 +183,7 @@ class App extends React.Component{
                 <Route path="/adventure/specialOffers/:id/" element={<AdventureSpecialOffers/>}/>
                 <Route path="/clientProfileView/:id/:reservationId" element={<ClientProfileView/>}/>
                 <Route path="/boats/boattorent/:id" element={<BoatToRent/>}/>
+                <Route path='/client/subscriptions' element={<SubsciptionsView/>}/>
                 <Route path='/client/upcomingreservations' element={<ClientUpcomingReservationView/>}/>
                 <Route path="/clientProfileView/:id" element={<ClientProfileView/>}/>
                 <Route path='/client/reservationview' element={<ClientReservationView/>}/>
