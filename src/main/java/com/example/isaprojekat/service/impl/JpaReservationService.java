@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.example.isaprojekat.repository.ReservationRepository;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.*;
 import java.time.chrono.ChronoLocalDate;
@@ -42,6 +45,7 @@ public class JpaReservationService implements ReservationService{
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     public Reservation save(Reservation reservation) {
         if(isPeriodFree(reservation.getRentingEntity(), reservation.getStartDate(), reservation.getEndDate())){
             return reservationRepository.save(reservation);

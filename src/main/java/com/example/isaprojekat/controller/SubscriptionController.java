@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,7 +29,7 @@ public class SubscriptionController {
     @Autowired
     private RentingEntityService entityService;
 
-
+    @PreAuthorize("hasAuthority('CLIENT')")
     @GetMapping("/{id}/{entityId}")
     public ResponseEntity<Client> subscribe(@PathVariable Long id, @PathVariable Long entityId){
         Optional<Client> client = clientService.findOne(id);
@@ -44,6 +45,7 @@ public class SubscriptionController {
         }
     }
 
+    @PreAuthorize("hasAuthority('CLIENT')")
     @DeleteMapping("/{id}/{entityId}")
     public ResponseEntity<Client> unsubscribe(@PathVariable Long id, @PathVariable Long entityId){
         Optional<Client> client = clientService.findOne(id);
@@ -59,6 +61,7 @@ public class SubscriptionController {
         }
     }
 
+    @PreAuthorize("hasAuthority('CLIENT')")
     @GetMapping("/check/{id}/{entityId}")
     public ResponseEntity<Client> check(@PathVariable Long id, @PathVariable Long entityId){
         Optional<Client> client = clientService.findOne(id);

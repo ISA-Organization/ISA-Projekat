@@ -35,27 +35,29 @@ public class ReservationController {
     @Autowired
     private JpaEmailSender emailSender;
 
-    //@PreAuthorize("hasAuthority('KORISNIK')")
+    @PreAuthorize("hasAuthority('CLIENT')")
     @PostMapping(path = "/book")
     public ResponseEntity<ReservationDTO> create(@RequestBody ReservationDTO dto){
         if(dto.getId() != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
         Optional<Client> client = clientService.findOne(dto.getClientId());
         if(client.get().getPenaltyNum() >= 3){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-
         Reservation reservation = reservationService.save(toReservation.convert(dto));
+
         emailSender.sendSimpleMessage(client.get().getEmail(),"Successful reservation", "You have reserved: "
                 + reservation.getRentingEntity().getName() + "\nfrom: " + reservation.getStartDate() + "\nto: "
                 + reservation.getEndDate() + "\nfor: " + reservation.getNumberOfPeople() + " people.");
+
         return new ResponseEntity<>(toDTO.convert(reservation), HttpStatus.OK);
     }
 
 
-    //@PreAuthorize("hasAuthority('KORISNIK')")
+    @PreAuthorize("hasAuthority('CLIENT')")
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<?> cancel(@PathVariable Long id) {
         if(reservationService.cancel(id))
@@ -63,7 +65,7 @@ public class ReservationController {
         return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
     }
 
-    //@PreAuthorize("hasAuthority('KORISNIK')")
+
     @GetMapping(path = "/{id}")
     public ResponseEntity<ReservationDTO> getOne(@PathVariable Long id) {
         Optional<Reservation> h = reservationService.findOne(id);
@@ -75,7 +77,7 @@ public class ReservationController {
         }
     }
 
-    //@PreAuthorize("hasAuthority('KORISNIK')")
+    @PreAuthorize("hasAuthority('CLIENT')")
     @GetMapping(path = "/upcoming")
     public ResponseEntity< List<ReservationDTO>> getMyUpcomingReservations() {
         List<Reservation> reservations = reservationService.getMyUpcomingReservations();
@@ -87,6 +89,7 @@ public class ReservationController {
         return new ResponseEntity<>(toDTO.convert(reservations), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('CLIENT')")
     @GetMapping(path="/byClient/{id}")
     public ResponseEntity< List<ReservationDTO>> getMyReservationsClient(@PathVariable Long id) {
         List<Reservation> reservations = reservationService.getMyReservationsClient(id);

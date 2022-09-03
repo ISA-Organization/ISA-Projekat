@@ -39,6 +39,9 @@ public class User {
     @Column
     private Boolean isDeleted;
 
+    @Version
+    private  int version;
+
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private Set<Reservation> reservations = new HashSet<>();
 

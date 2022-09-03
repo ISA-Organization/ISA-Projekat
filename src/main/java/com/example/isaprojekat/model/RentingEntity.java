@@ -48,6 +48,9 @@ public class RentingEntity {
     @OneToMany(mappedBy = "rentingEntity", fetch = FetchType.EAGER)
     private Set<AvailablePeriod> availablePeriods = new HashSet<>();
 
+    @Version
+    private  int version;
+
     public RentingEntity(){}
 
     public RentingEntity(Long id, String name, String description, String rentingRules, String address,

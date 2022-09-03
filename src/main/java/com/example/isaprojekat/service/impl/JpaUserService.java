@@ -7,6 +7,9 @@ import com.example.isaprojekat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -52,6 +55,7 @@ public class JpaUserService implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     public Boolean delete(Long id) {
         var deleted = deleteByUserType(id);
         if(!deleted){
@@ -141,6 +145,7 @@ public class JpaUserService implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     public boolean changePassword(Long id, UserChangePasswordDTO userPasswordChangeDto) {
         Optional<User> result = userRepository.findById(id);
 
