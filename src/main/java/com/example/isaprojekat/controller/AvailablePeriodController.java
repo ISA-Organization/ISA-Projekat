@@ -9,7 +9,9 @@ import com.example.isaprojekat.model.AvailablePeriod;
 import com.example.isaprojekat.model.House;
 import com.example.isaprojekat.model.RentingEntity;
 import com.example.isaprojekat.service.AvailablePeriodService;
+import com.example.isaprojekat.service.ClientService;
 import com.example.isaprojekat.service.RentingEntityService;
+import com.example.isaprojekat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,6 +36,8 @@ public class AvailablePeriodController {
     private DTOToAvailablePeriod toAvailablePeriod;
     @Autowired
     private AvailablePeriodToDTO toDTO;
+    @Autowired
+    private ClientService clientService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AvailablePeriodDTO> create(@Valid @RequestBody AvailablePeriodDTO dto){
@@ -42,6 +46,10 @@ public class AvailablePeriodController {
         }
 
         AvailablePeriod saved = service.save(toAvailablePeriod.convert(dto));
+
+        if(saved.isSpecialOffer()){
+            clientService.sendSubscribers(saved);
+        }
 
         return new ResponseEntity<>(toDTO.convert(saved), HttpStatus.CREATED);
     }
