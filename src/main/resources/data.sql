@@ -78,6 +78,9 @@ values(1, '2022-05-05', false, 0, '2022-04-05', 1);
 insert into available_periods(id, end, is_special_offer, special_price, start, renting_entity_id)
 values(2, '2022-08-05', false, 0, '2022-07-02', 1);
 
+insert into available_periods(id, end, is_special_offer, special_price, start, renting_entity_id)
+values(3, '2022-09-18', true, 50, '2022-09-19', 1);
+
 insert into reservations(id, cancelled, end_date, number_of_days, number_of_people, price, start_date, client_id, owner_id, renting_entity_id)
 values(1, false,'2022-06-01', 3, 3, 300, '2022-05-30' , 5,2, 1);
 
@@ -90,3 +93,6 @@ insert into reservations(id, cancelled, end_date, number_of_days, number_of_peop
 values(4, false,'2021-06-25', 5, 3, 300, '2021-06-20' , 5,2, 1);
 insert into reservations(id, cancelled, end_date, number_of_days, number_of_people, price, start_date, client_id, owner_id, renting_entity_id)
 values(5, false,'2021-06-25', 5, 3, 300, '2021-06-20' , 5,2, 1);
+
+insert into reservations(id, cancelled, end_date, number_of_days, number_of_people, price, start_date, client_id, owner_id, renting_entity_id)
+values(6, false,'2022-08-25', 4, 2, 300, '2022-08-29' , 7, 2, 1);

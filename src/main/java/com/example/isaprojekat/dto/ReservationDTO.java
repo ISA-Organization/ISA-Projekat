@@ -21,6 +21,7 @@ public class ReservationDTO {
     private Integer numberOfDays;
     private Boolean cancelled;
     private Long entityId;
+    private String entityName;
     private Long clientId;
     private Long ownerId;
 }

@@ -309,8 +309,8 @@ class BoatToRent extends React.Component{
                                 </Form.Group>
                         </Col>
                         <Col md={3}>
+                        <br></br>
                             <Form.Group>
-                                <button type="button" class="btn btn-outline-light" style={{marginLeft: "40%"}} onClick={() => this.goToCalendar(this.state.boat.id)}>View calendar</button>
                                 <Form.Label htmlFor="description" style={{marginTop: "5%"}}>Description:</Form.Label>
                                 <Form.Control disabled readonly as="textarea" name="description" value={this.state.boat.description} style={ {width: "100%", height: "20%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 <br></br>

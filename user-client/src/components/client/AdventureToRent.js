@@ -286,7 +286,7 @@ class AdventureToRent extends React.Component{
                     </Form.Group>
                 </Col>
                 <Col md={4}>
-                            <button type="button" class="btn btn-outline-light" style={{marginLeft: "60%", marginTop: "5%"}} onClick={() => this.goToCalendar(this.state.adventure.id)}>View calendar</button>
+                            <br></br>
                             <br></br>
                             <br></br>
                             <Form.Group>

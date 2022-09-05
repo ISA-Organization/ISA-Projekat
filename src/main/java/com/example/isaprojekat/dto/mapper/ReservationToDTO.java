@@ -22,6 +22,7 @@ public class ReservationToDTO {
         dto.setEntityId(r.getRentingEntity().getId());
         dto.setCancelled(r.isCancelled());
         dto.setOwnerId(r.getOwner().getId());
+        dto.setEntityName(r.getRentingEntity().getName());
 
         return dto;
     }

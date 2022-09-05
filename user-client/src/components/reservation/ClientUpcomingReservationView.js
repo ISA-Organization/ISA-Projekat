@@ -97,6 +97,7 @@ class ClientUpcomingReservationView extends React.Component{
                 <div class="media align-items-lg-center flex-column flex-lg-row p-3">
                     <div class="media-body order-2 order-lg-1">
                         <h5 class="mt-0 font-weight-bold mb-2" style={{cursor:"pointer"}}><a>From {h.startDate} to {h.endDate}</a></h5>
+                        <h6 class="font-weight-bold my-2">Name: {h.entityName}</h6>
                         <p class="font-italic text-muted mb-0 small">Number of people: {h.numberOfPeople}</p>
                         <div class="d-flex align-items-center justify-content-between mt-1">
                             <h6 class="font-weight-bold my-2">Price: ${h.price}</h6>
