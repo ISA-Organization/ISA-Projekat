@@ -341,9 +341,9 @@ class BoatToRent extends React.Component{
                                 <Form.Control name="numberOfPeople" value={this.state.reservation.numberOfPeople} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 <br></br>
 
-                                {this.state.user.type === 'CLIENT' ?
+                                {this.state.user.type === 'CLIENT' && this.state.user.approved === true  ?
                                 [<Button onClick={() => this.makeReservation(this.state.boat.id)}>Make reservation</Button>] : null} 
-                                {this.state.user.type === 'CLIENT' ?
+                                {this.state.user.type === 'CLIENT' && this.state.user.approved === true  ?
                                 [<Button style={ {marginTop:"10%"}} onClick={() => this.specialOffers(this.state.boat.id)}>Special offers</Button>] : null}               
                             </Form.Group>
                             

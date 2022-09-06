@@ -74,6 +74,7 @@ class DeletionRequestForm extends React.Component{
         Axios.post('/delete/request', this.state.req)
         .then(res => {
             this.setState({req: res.data})
+            this.props.navigate('/profile')
         }).catch(err => {
             alert('Failed')
             console.log(err)

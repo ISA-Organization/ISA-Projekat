@@ -319,9 +319,9 @@ class AdventureToRent extends React.Component{
                                 <Form.Control name="numberOfPeople" value={this.state.reservation.numberOfPeople} style={ {width: "50%"}} onChange={(e) => this.changeInputValue(e)}/>
                                 <br></br>
                                 
-                                {this.state.user.type === 'CLIENT' ?
+                                {this.state.user.type === 'CLIENT' && this.state.user.approved === true  ?
                                 [<Button onClick={() => this.makeReservation(this.state.adventure.id)}>Make reservation</Button>] : null}
-                                {this.state.user.type === 'CLIENT' ?
+                                {this.state.user.type === 'CLIENT' && this.state.user.approved === true  ?
                                 [<Button style={ {marginLeft:"10%"}} onClick={() => this.specialOffers(this.state.adventure.id)}>Special offers</Button>] : null}
                                 </Form.Group>     
                     </Col >                
