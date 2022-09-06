@@ -172,7 +172,7 @@ class ClientEntityView extends React.Component{
                                 <li class="list-inline-item m-0"><i class="fa fa-star-o text-gray"></i></li>
                             </ul>
                         </div>
-                    </div><img src={require('../../images/homePage.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
+                    </div><img src={require('../../images/boat.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
                 </div> 
             </li> 
             )
@@ -221,7 +221,7 @@ class ClientEntityView extends React.Component{
                                 <li class="list-inline-item m-0"><i class="fa fa-star-o text-gray"></i></li>
                             </ul>
                         </div>
-                    </div><img src={require('../../images/homePage.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
+                    </div><img src={require('../../images/adventure.jpg')} alt="Image placeholder" width="300" class="ml-lg-5 order-1 order-lg-2"/>
                 </div> 
             </li> 
             )
