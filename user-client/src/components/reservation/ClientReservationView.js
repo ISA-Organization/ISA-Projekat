@@ -25,9 +25,15 @@ class ClientReservationView extends React.Component{
              approved : false,
              type: ''
         }
+
+        let sortName = false
+        let sortDate = false
+
         this.state = {
              reservations: [],
              user: user,
+             sortName: sortName,
+             sortDate: sortDate
         }
     }
 
@@ -73,28 +79,96 @@ class ClientReservationView extends React.Component{
         this.props.navigate('/entity/complaint/' + id)
     }
 
+    sortByName(){
+        if(this.state.sortName === true){
+            this.setState({sortName: false})  
+            console.log(this.state.sortName)
+        }else {
+            this.setState({sortName: true})
+            this.setState({sortDate: false})
+            console.log(this.state.sortName)
+        }  
+    }
+
+    sortByDate(){
+        if(this.state.sortDate === true){
+            this.setState({sortDate: false})  
+            console.log(this.state.sortDate)
+        }else {
+            this.setState({sortDate: true})
+            this.setState({sortName: false})
+            console.log(this.state.sortDate)
+        }
+    }
+
     renderReservations(){
-        return this.state.reservations.map((h) =>{
-            return(
-                <li class="list-group-item" key={h.id}>
-                <div class="media align-items-lg-center flex-column flex-lg-row p-3">
-                    <div class="media-body order-2 order-lg-1">
-                        <h5 class="mt-0 font-weight-bold mb-2" style={{cursor:"pointer"}}><a>From {h.startDate} to {h.endDate}</a></h5>
-                        <h6 class="font-weight-bold my-2">Name: {h.entityName}</h6>
-                        <p class="font-italic text-muted mb-0 small">Number of people: {h.numberOfPeople}</p>
-                        <div class="d-flex align-items-center justify-content-between mt-1">
-                            <h6 class="font-weight-bold my-2">Price: ${h.price}</h6>
-                                <div>
-                                <button type="button" class="btn btn-outline-primary" onClick={() => this.goToComplaint(h.entityId)}>Have a complaint?</button>
-                                <button type="button" class="btn btn-outline-primary" onClick={() => this.goToEntityRating(h.entityId)}>Rate your stay</button>
-                                </div>
-                         </div>
-                    </div>
-                </div> 
-        
-            </li> 
-            )
-        })
+        if(this.state.sortName == true){
+            return this.state.reservations.sort((a, b) => (a.entityName > b.entityName) ? 1 : -1).map((h) =>{
+                return(
+                    <li class="list-group-item" key={h.id}>
+                    <div class="media align-items-lg-center flex-column flex-lg-row p-3">
+                        <div class="media-body order-2 order-lg-1">
+                            <h5 class="mt-0 font-weight-bold mb-2" style={{cursor:"pointer"}}><a>From {h.startDate} to {h.endDate}</a></h5>
+                            <h6 class="font-weight-bold my-2">Name: {h.entityName}</h6>
+                            <p class="font-italic text-muted mb-0 small">Number of people: {h.numberOfPeople}</p>
+                            <div class="d-flex align-items-center justify-content-between mt-1">
+                                <h6 class="font-weight-bold my-2">Price: ${h.price}</h6>
+                                    <div>
+                                    <button type="button" class="btn btn-outline-primary" onClick={() => this.goToComplaint(h.entityId)}>Have a complaint?</button>
+                                    <button type="button" class="btn btn-outline-primary" onClick={() => this.goToEntityRating(h.entityId)}>Rate your stay</button>
+                                    </div>
+                             </div>
+                        </div>
+                    </div> 
+            
+                </li> 
+                )
+            })
+        } else if(this.state.sortDate == true){
+            return this.state.reservations.sort((a, b) => (a.startDate > b.startDate) ? 1 : -1).map((h) =>{
+                return(
+                    <li class="list-group-item" key={h.id}>
+                    <div class="media align-items-lg-center flex-column flex-lg-row p-3">
+                        <div class="media-body order-2 order-lg-1">
+                            <h5 class="mt-0 font-weight-bold mb-2" style={{cursor:"pointer"}}><a>From {h.startDate} to {h.endDate}</a></h5>
+                            <h6 class="font-weight-bold my-2">Name: {h.entityName}</h6>
+                            <p class="font-italic text-muted mb-0 small">Number of people: {h.numberOfPeople}</p>
+                            <div class="d-flex align-items-center justify-content-between mt-1">
+                                <h6 class="font-weight-bold my-2">Price: ${h.price}</h6>
+                                    <div>
+                                    <button type="button" class="btn btn-outline-primary" onClick={() => this.goToComplaint(h.entityId)}>Have a complaint?</button>
+                                    <button type="button" class="btn btn-outline-primary" onClick={() => this.goToEntityRating(h.entityId)}>Rate your stay</button>
+                                    </div>
+                             </div>
+                        </div>
+                    </div> 
+            
+                </li> 
+                )
+            })
+        } else{
+            return this.state.reservations.map((h) =>{
+                return(
+                    <li class="list-group-item" key={h.id}>
+                    <div class="media align-items-lg-center flex-column flex-lg-row p-3">
+                        <div class="media-body order-2 order-lg-1">
+                            <h5 class="mt-0 font-weight-bold mb-2" style={{cursor:"pointer"}}><a>From {h.startDate} to {h.endDate}</a></h5>
+                            <h6 class="font-weight-bold my-2">Name: {h.entityName}</h6>
+                            <p class="font-italic text-muted mb-0 small">Number of people: {h.numberOfPeople}</p>
+                            <div class="d-flex align-items-center justify-content-between mt-1">
+                                <h6 class="font-weight-bold my-2">Price: ${h.price}</h6>
+                                    <div>
+                                    <button type="button" class="btn btn-outline-primary" onClick={() => this.goToComplaint(h.entityId)}>Have a complaint?</button>
+                                    <button type="button" class="btn btn-outline-primary" onClick={() => this.goToEntityRating(h.entityId)}>Rate your stay</button>
+                                    </div>
+                             </div>
+                        </div>
+                    </div> 
+            
+                </li> 
+                )
+            })
+        }    
     }
 
 
@@ -104,6 +178,10 @@ class ClientReservationView extends React.Component{
                 <div class="row text-center text-white mb-5">
                     <div class="col-lg-7 mx-auto">
                         <h1 class="display-4" style={{color: "black"}}>Reservations history</h1>
+                        <br></br>
+                        <p style={ {marginLeft:"10%", color: "black"}}>Sort by:</p>
+                        <Button style={ {marginLeft:"10%"}} onClick={() => this.sortByName()}>Name</Button>
+                        <Button style={ {marginLeft:"10%"}} onClick={() => this.sortByDate()}>Date</Button>
                     </div>
                 </div>
                 <div class="row">
